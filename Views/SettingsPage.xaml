@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TastyMealPlanner.ViewModels"
+             x:Class="TastyMealPlanner.Views.SettingsPage"
+             x:DataType="vm:SettingsViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="0" Padding="0">
+
+            <!-- Appearance Section -->
+            <Label Text="Appearance"
+                   Style="{StaticResource SectionTitleLabel}"
+                   SemanticProperties.HeadingLevel="Level2" />
+
+            <Frame Style="{StaticResource CardFrame}" Margin="12,0">
+                <VerticalStackLayout Spacing="12">
+
+                    <!-- Dark Mode Toggle -->
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="Dark Mode"
+                                   FontSize="16" FontAttributes="Bold"
+                                   TextColor="{StaticResource TextPrimaryLight}"
+                                   SemanticProperties.Description="Toggle dark mode" />
+                            <Label Text="Switch between light and dark appearance"
+                                   FontSize="12"
+                                   TextColor="{StaticResource TextSecondaryLight}" />
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1"
+                                IsToggled="{Binding IsDarkMode}"
+                                OnColor="{StaticResource Primary}"
+                                SemanticProperties.Description="Dark mode switch" />
+                    </Grid>
+
+                    <BoxView HeightRequest="1" Color="{StaticResource BorderLight}" />
+
+                    <!-- Font Size Picker -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Font Size"
+                               FontSize="16" FontAttributes="Bold"
+                               TextColor="{StaticResource TextPrimaryLight}"
+                               SemanticProperties.Description="Choose font size" />
+                        <Label Text="Adjust the app text size for better readability"
+                               FontSize="12"
+                               TextColor="{StaticResource TextSecondaryLight}" />
+                        <Picker ItemsSource="{Binding FontSizeOptions}"
+                                SelectedItem="{Binding SelectedFontSize}"
+                                Title="Select Font Size"
+                                TextColor="{StaticResource TextPrimaryLight}"
+                                TitleColor="{StaticResource TextSecondaryLight}"
+                                SemanticProperties.Description="Font size picker" />
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Accessibility Section -->
+            <Label Text="Accessibility"
+                   Style="{StaticResource SectionTitleLabel}"
+                   SemanticProperties.HeadingLevel="Level2" />
+
+            <Frame Style="{StaticResource CardFrame}" Margin="12,0">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="This app follows WCAG 2.1 guidelines to ensure accessibility for all users."
+                           FontSize="13"
+                           TextColor="{StaticResource TextSecondaryLight}" />
+
+                    <Label FontSize="13" TextColor="{StaticResource TextPrimaryLight}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="&#x2022; " />
+                                <Span Text="All images include descriptive alt text for screen readers." />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label FontSize="13" TextColor="{StaticResource TextPrimaryLight}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="&#x2022; " />
+                                <Span Text="Semantic heading levels are defined for navigation." />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label FontSize="13" TextColor="{StaticResource TextPrimaryLight}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="&#x2022; " />
+                                <Span Text="Touch targets meet minimum size requirements (44pt)." />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label FontSize="13" TextColor="{StaticResource TextPrimaryLight}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="&#x2022; " />
+                                <Span Text="High contrast colour ratios for text readability." />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label FontSize="13" TextColor="{StaticResource TextPrimaryLight}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="&#x2022; " />
+                                <Span Text="Text-to-speech support for recipe instructions." />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- About Section -->
+            <Label Text="About"
+                   Style="{StaticResource SectionTitleLabel}"
+                   SemanticProperties.HeadingLevel="Level2" />
+
+            <Frame Style="{StaticResource CardFrame}" Margin="12,0,12,30">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Tasty Meal Planner"
+                           FontSize="18" FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}" />
+                    <Label Text="Version 1.0"
+                           FontSize="13"
+                           TextColor="{StaticResource TextSecondaryLight}" />
+                    <Label Text="A mobile meal planning application built with .NET MAUI for organising weekly meals, discovering recipes, and managing shopping lists."
+                           FontSize="13"
+                           TextColor="{StaticResource TextPrimaryLight}" />
+
+                    <Button Text="More Information"
+                            Style="{StaticResource SecondaryButton}"
+                            Command="{Binding AboutCommand}"
+                            Margin="0,8,0,0"
+                            SemanticProperties.Description="View more information about the app" />
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

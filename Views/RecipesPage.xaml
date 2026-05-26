@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TastyMealPlanner.ViewModels"
+             xmlns:models="clr-namespace:TastyMealPlanner.Models"
+             x:Class="TastyMealPlanner.Views.RecipesPage"
+             x:DataType="vm:RecipesViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="0">
+
+        <!-- Search Bar -->
+        <SearchBar Grid.Row="0"
+                   Placeholder="Search recipes or ingredients..."
+                   Text="{Binding SearchText}"
+                   Style="{StaticResource SearchBarStyle}"
+                   Margin="8,8,8,0"
+                   SemanticProperties.Description="Search for recipes by name or ingredient" />
+
+        <!-- Category Chips -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Categories}"
+                        Margin="8,8,8,0"
+                        HeightRequest="40">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="6" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:FoodCategory">
+                    <Frame Style="{StaticResource CategoryChip}"
+                           BackgroundColor="{Binding ., Converter={StaticResource CategoryToColor}}">
+                        <Label Text="{Binding .}"
+                               FontSize="12" FontAttributes="Bold"
+                               TextColor="White"
+                               VerticalTextAlignment="Center" />
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RecipesViewModel}}, Path=SelectCategoryCommand}"
+                                CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Recipe List -->
+        <CollectionView Grid.Row="2"
+                        ItemsSource="{Binding Recipes}"
+                        Margin="8,8,8,0">
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="8">
+                    <Label Text="&#x1F50D;" FontSize="40" HorizontalTextAlignment="Center" />
+                    <Label Text="No recipes found"
+                           FontSize="16" HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource TextSecondaryLight}" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical"
+                                 Span="2"
+                                 HorizontalItemSpacing="8"
+                                 VerticalItemSpacing="8" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Recipe">
+                    <Frame Style="{StaticResource CardFrame}" Padding="0" Margin="0">
+                        <VerticalStackLayout>
+                            <!-- Card Image Placeholder -->
+                            <BoxView HeightRequest="120"
+                                     Color="{Binding Category, Converter={StaticResource CategoryToColor}}"
+                                     CornerRadius="12,12,0,0" />
+
+                            <VerticalStackLayout Padding="10" Spacing="4">
+                                <Label Text="{Binding Name}"
+                                       FontSize="14" FontAttributes="Bold"
+                                       TextColor="{StaticResource TextPrimaryLight}"
+                                       LineBreakMode="TailTruncation" MaxLines="2" />
+
+                                <!-- Category Badge -->
+                                <Frame BackgroundColor="{Binding Category, Converter={StaticResource CategoryToColor}}"
+                                       CornerRadius="4" Padding="6,2" HasShadow="False"
+                                       HorizontalOptions="Start">
+                                    <Label Text="{Binding Category}"
+                                           FontSize="10" TextColor="White" />
+                                </Frame>
+
+                                <HorizontalStackLayout Spacing="12">
+                                    <Label FontSize="11" TextColor="{StaticResource TextSecondaryLight}">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0} cal">
+                                                <Binding Path="Calories" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                    <Label FontSize="11" TextColor="{StaticResource TextSecondaryLight}">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0} min">
+                                                <Binding Path="PrepTimeMinutes" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RecipesViewModel}}, Path=NavigateToRecipeCommand}"
+                                CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>

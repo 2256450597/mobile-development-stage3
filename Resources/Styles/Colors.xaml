@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Primary palette - warm orange/food theme -->
+    <Color x:Key="Primary">#FF6B35</Color>
+    <Color x:Key="PrimaryDark">#E55A2B</Color>
+    <Color x:Key="PrimaryLight">#FF8A5C</Color>
+
+    <!-- Secondary palette -->
+    <Color x:Key="Secondary">#4CAF50</Color>
+    <Color x:Key="SecondaryDark">#388E3C</Color>
+    <Color x:Key="SecondaryLight">#81C784</Color>
+
+    <!-- Accent -->
+    <Color x:Key="Accent">#2196F3</Color>
+    <Color x:Key="AccentDark">#1976D2</Color>
+
+    <!-- Neutrals - Light theme -->
+    <Color x:Key="White">#FFFFFF</Color>
+    <Color x:Key="BackgroundLight">#FFF8F5</Color>
+    <Color x:Key="SurfaceLight">#FFFFFF</Color>
+    <Color x:Key="CardLight">#FFFFFF</Color>
+    <Color x:Key="TextPrimaryLight">#212121</Color>
+    <Color x:Key="TextSecondaryLight">#757575</Color>
+    <Color x:Key="BorderLight">#E0E0E0</Color>
+
+    <!-- Neutrals - Dark theme -->
+    <Color x:Key="BackgroundDark">#1A1A2E</Color>
+    <Color x:Key="SurfaceDark">#16213E</Color>
+    <Color x:Key="CardDark">#1F2B47</Color>
+    <Color x:Key="TextPrimaryDark">#FFFFFF</Color>
+    <Color x:Key="TextSecondaryDark">#B0B0B0</Color>
+    <Color x:Key="BorderDark">#2A3A5E</Color>
+
+    <!-- Semantic colors -->
+    <Color x:Key="Success">#4CAF50</Color>
+    <Color x:Key="Warning">#FF9800</Color>
+    <Color x:Key="Error">#F44336</Color>
+    <Color x:Key="Info">#2196F3</Color>
+
+    <!-- Category colors -->
+    <Color x:Key="BreakfastColor">#FF9800</Color>
+    <Color x:Key="LunchColor">#4CAF50</Color>
+    <Color x:Key="DinnerColor">#E91E63</Color>
+    <Color x:Key="DessertColor">#9C27B0</Color>
+    <Color x:Key="SnackColor">#FF5722</Color>
+    <Color x:Key="DrinkColor">#2196F3</Color>
+
+    <!-- App shell -->
+    <Color x:Key="ShellBackground">#FFFFFF</Color>
+    <Color x:Key="ShellForeground">#FF6B35</Color>
+    <Color x:Key="ShellUnselected">#9E9E9E</Color>
+
+</ResourceDictionary>

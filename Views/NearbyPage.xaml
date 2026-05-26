@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TastyMealPlanner.ViewModels"
+             x:Class="TastyMealPlanner.Views.NearbyPage"
+             x:DataType="vm:NearbyViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="20">
+
+        <!-- Info Card -->
+        <Frame Grid.Row="0" Style="{StaticResource CardFrame}" Margin="0">
+            <VerticalStackLayout Spacing="8">
+                <Label Text="&#x1F4CD; Your Location"
+                       FontSize="18" FontAttributes="Bold"
+                       TextColor="{StaticResource TextPrimaryLight}" />
+                <Label Text="{Binding LocationInfo}"
+                       FontSize="14"
+                       TextColor="{StaticResource TextSecondaryLight}" />
+
+                <ActivityIndicator IsRunning="{Binding IsLocating}"
+                                   IsVisible="{Binding IsLocating}"
+                                   Color="{StaticResource Primary}"
+                                   HorizontalOptions="Start" />
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Map Placeholder -->
+        <Frame Grid.Row="1"
+               BackgroundColor="#E8F5E9"
+               CornerRadius="16"
+               Margin="0,16">
+            <VerticalStackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center" Spacing="12">
+                <Label Text="&#x1F5FA;"
+                       FontSize="50"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="Map will appear here"
+                       FontSize="16"
+                       TextColor="{StaticResource TextSecondaryLight}"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="Showing grocery stores and markets near your location"
+                       FontSize="12"
+                       TextColor="{StaticResource TextSecondaryLight}"
+                       HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Refresh Location Button -->
+        <Button Grid.Row="2"
+                Text="&#x1F4CD; Refresh Location"
+                Style="{StaticResource PrimaryButton}"
+                Command="{Binding RefreshLocationCommand}"
+                HeightRequest="50"
+                FontSize="16"
+                CornerRadius="25"
+                Margin="30,0,30,20"
+                IsEnabled="{Binding IsLocating, Converter={StaticResource InverseBool}}"
+                SemanticProperties.Description="Refresh your current location" />
+
+    </Grid>
+
+</ContentPage>

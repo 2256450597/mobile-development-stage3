@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TastyMealPlanner.ViewModels"
+             xmlns:models="clr-namespace:TastyMealPlanner.Models"
+             x:Class="TastyMealPlanner.Views.HomePage"
+             x:DataType="vm:HomeViewModel"
+             Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+
+            <!-- Header Banner -->
+            <Grid BackgroundColor="{StaticResource Primary}"
+                  Padding="20,50,20,30">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0"
+                       Text="Tasty Meal Planner"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       SemanticProperties.Description="Tasty Meal Planner application title" />
+
+                <Label Grid.Row="1"
+                       Text="Plan, cook, and enjoy your meals!"
+                       FontSize="14"
+                       TextColor="#FFCCBB"
+                       Margin="0,4,0,0" />
+            </Grid>
+
+            <!-- Quick Actions -->
+            <Grid ColumnDefinitions="*,*,*,*"
+                  ColumnSpacing="10"
+                  Margin="16,-20,16,0">
+                <Grid.Shadow>
+                    <Shadow Color="Black" Offset="0,4" Radius="8" Opacity="0.15" />
+                </Grid.Shadow>
+
+                <Frame Grid.Column="0" BackgroundColor="White" CornerRadius="16"
+                       Padding="8" HasShadow="False">
+                    <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                        <Button Text="&#x1F4F7;" Style="{StaticResource IconButton}"
+                                BackgroundColor="#FFF0E6"
+                                Command="{Binding NavigateToCameraCommand}"
+                                SemanticProperties.Description="Open camera" />
+                        <Label Text="Camera" FontSize="10"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{StaticResource TextSecondaryLight}" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame Grid.Column="1" BackgroundColor="White" CornerRadius="16"
+                       Padding="8" HasShadow="False">
+                    <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                        <Button Text="&#x1F4CD;" Style="{StaticResource IconButton}"
+                                BackgroundColor="#E3F2FD"
+                                Command="{Binding NavigateToNearbyCommand}"
+                                SemanticProperties.Description="Find nearby stores" />
+                        <Label Text="Nearby" FontSize="10"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{StaticResource TextSecondaryLight}" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame Grid.Column="2" BackgroundColor="White" CornerRadius="16"
+                       Padding="8" HasShadow="False">
+                    <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                        <Button Text="&#x1F3B2;" Style="{StaticResource IconButton}"
+                                BackgroundColor="#E8F5E9"
+                                Command="{Binding SurpriseMeCommand}"
+                                SemanticProperties.Description="Get a random recipe suggestion" />
+                        <Label Text="Surprise" FontSize="10"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{StaticResource TextSecondaryLight}" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame Grid.Column="3" BackgroundColor="White" CornerRadius="16"
+                       Padding="8" HasShadow="False">
+                    <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                        <Button Text="&#x1F4D6;" Style="{StaticResource IconButton}"
+                                BackgroundColor="#F3E5F5"
+                                Command="{Binding NavigateToRecipesCommand}"
+                                SemanticProperties.Description="Browse all recipes" />
+                        <Label Text="Recipes" FontSize="10"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{StaticResource TextSecondaryLight}" />
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+
+            <!-- Today's Meals Section -->
+            <Label Text="Today's Meals"
+                   Style="{StaticResource SectionTitleLabel}"
+                   SemanticProperties.HeadingLevel="Level2" />
+
+            <CollectionView ItemsSource="{Binding TodayMeals}"
+                            EmptyView="No meals planned for today. Tap Surprise Me to get inspired!"
+                            Margin="16,0">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:MealPlanEntry">
+                        <Frame Style="{StaticResource CardFrame}" Margin="0,4">
+                            <Grid ColumnDefinitions="60,*,Auto" ColumnSpacing="12">
+                                <!-- Meal Type Badge -->
+                                <Frame Grid.Column="0"
+                                       CornerRadius="8"
+                                       Padding="4,8"
+                                       HasShadow="False"
+                                       BackgroundColor="{StaticResource PrimaryLight}">
+                                    <Label Text="{Binding MealType}"
+                                           FontSize="11"
+                                           FontAttributes="Bold"
+                                           TextColor="White"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center" />
+                                </Frame>
+
+                                <!-- Recipe Info -->
+                                <VerticalStackLayout Grid.Column="1"
+                                                     VerticalOptions="Center" Spacing="2">
+                                    <Label Text="{Binding Recipe.Name}"
+                                           FontSize="15" FontAttributes="Bold"
+                                           TextColor="{StaticResource TextPrimaryLight}" />
+                                    <Label FontSize="12"
+                                           TextColor="{StaticResource TextSecondaryLight}">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0} cal | {1} min">
+                                                <Binding Path="Recipe.Calories" />
+                                                <Binding Path="Recipe.PrepTimeMinutes" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                </VerticalStackLayout>
+
+                                <!-- Arrow -->
+                                <Label Grid.Column="2" Text="&#x276F;"
+                                       FontSize="18" VerticalTextAlignment="Center"
+                                       TextColor="{StaticResource TextSecondaryLight}" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Upcoming / Explore Section -->
+            <Label Text="Explore Recipes"
+                   Style="{StaticResource SectionTitleLabel}"
+                   SemanticProperties.HeadingLevel="Level2" />
+
+            <CollectionView ItemsSource="{Binding UpcomingRecipes}"
+                            Margin="16,0,16,24"
+                            HeightRequest="200">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="12" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Recipe">
+                        <Frame Style="{StaticResource CardFrame}"
+                               WidthRequest="160" Padding="0">
+                            <VerticalStackLayout>
+                                <!-- Placeholder image -->
+                                <BoxView HeightRequest="100"
+                                         Color="{Binding Category, Converter={StaticResource CategoryToColor}}"
+                                         CornerRadius="12,12,0,0" />
+                                <VerticalStackLayout Padding="10" Spacing="2">
+                                    <Label Text="{Binding Name}"
+                                           FontSize="13" FontAttributes="Bold"
+                                           TextColor="{StaticResource TextPrimaryLight}"
+                                           LineBreakMode="TailTruncation" MaxLines="2" />
+                                    <Label Text="{Binding Difficulty}"
+                                           FontSize="11"
+                                           TextColor="{Binding Difficulty, Converter={StaticResource DifficultyToColor}}" />
+                                    <Label FontSize="11"
+                                           TextColor="{StaticResource TextSecondaryLight}">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0} cal">
+                                                <Binding Path="Calories" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}}, Path=NavigateToRecipeDetailCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TastyMealPlanner.ViewModels"
+             xmlns:models="clr-namespace:TastyMealPlanner.Models"
+             x:Class="TastyMealPlanner.Views.MealPlanPage"
+             x:DataType="vm:MealPlanViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,*" Padding="0">
+
+        <!-- Week header info -->
+        <HorizontalStackLayout Grid.Row="0" Padding="16,12" Spacing="8">
+            <Label Text="This Week"
+                   Style="{StaticResource SubtitleLabel}"
+                   VerticalTextAlignment="Center" />
+            <Label Text="{Binding WeekPlan.Count, StringFormat='({0} days)'}"
+                   FontSize="12" VerticalTextAlignment="Center"
+                   TextColor="{StaticResource TextSecondaryLight}" />
+        </HorizontalStackLayout>
+
+        <!-- Weekly Plan -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding WeekPlan}"
+                        Margin="8,0,8,16">
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center"
+                                     VerticalOptions="Center" Spacing="8">
+                    <Label Text="&#x1F4C5;" FontSize="40"
+                           HorizontalTextAlignment="Center" />
+                    <Label Text="No meals planned yet"
+                           FontSize="16" HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource TextSecondaryLight}" />
+                    <Label Text="Browse recipes to add meals to your plan"
+                           FontSize="12" HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource TextSecondaryLight}" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:DayPlanGroup">
+                    <VerticalStackLayout Margin="0,4">
+                        <!-- Day Header -->
+                        <Frame BackgroundColor="{StaticResource Primary}"
+                               CornerRadius="8" Padding="12,8"
+                               HasShadow="False" Margin="0,0,0,4">
+                            <Label Text="{Binding DayName}"
+                                   FontSize="14" FontAttributes="Bold"
+                                   TextColor="White" />
+                        </Frame>
+
+                        <!-- Meals for this day -->
+                        <CollectionView ItemsSource="{Binding Entries}"
+                                        HeightRequest="120">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Horizontal"
+                                                   ItemSpacing="8" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.EmptyView>
+                                <Label Text="No meals planned"
+                                       FontSize="12" Margin="8,0"
+                                       TextColor="{StaticResource TextSecondaryLight}"
+                                       VerticalTextAlignment="Center" />
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:MealPlanEntry">
+                                    <Frame Style="{StaticResource CardFrame}"
+                                           WidthRequest="160" Padding="10">
+                                        <VerticalStackLayout Spacing="4">
+                                            <Frame BackgroundColor="{StaticResource PrimaryLight}"
+                                                   CornerRadius="4" Padding="4,2"
+                                                   HasShadow="False"
+                                                   HorizontalOptions="Start">
+                                                <Label Text="{Binding MealType}"
+                                                       FontSize="10"
+                                                       TextColor="White" />
+                                            </Frame>
+                                            <Label Text="{Binding Recipe.Name}"
+                                                   FontSize="12" FontAttributes="Bold"
+                                                   TextColor="{StaticResource TextPrimaryLight}"
+                                                   LineBreakMode="TailTruncation" />
+                                            <Label Text="{Binding Recipe.Calories, StringFormat='{0} cal'}"
+                                                   FontSize="10"
+                                                   TextColor="{StaticResource TextSecondaryLight}" />
+                                        </VerticalStackLayout>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MealPlanViewModel}}, Path=RemoveMealCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>

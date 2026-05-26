@@ -1,0 +1,18 @@
+using TastyMealPlanner.Models;
+
+namespace TastyMealPlanner.Services;
+
+public interface IDataService
+{
+    List<Recipe> GetAllRecipes();
+    List<Recipe> GetRecipesByCategory(FoodCategory category);
+    Recipe? GetRecipeById(string id);
+    List<MealPlanEntry> GetMealPlanForWeek(DateTime weekStart);
+    List<ShoppingItem> GetShoppingList();
+    void AddToMealPlan(MealPlanEntry entry);
+    void RemoveFromMealPlan(string entryId);
+    void AddShoppingItem(ShoppingItem item);
+    void ToggleShoppingItem(string itemId);
+    void ClearCheckedShoppingItems();
+    List<Recipe> SearchRecipes(string query);
+}

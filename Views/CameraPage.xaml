@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TastyMealPlanner.ViewModels"
+             x:Class="TastyMealPlanner.Views.CameraPage"
+             x:DataType="vm:CameraViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="*,Auto" Padding="20">
+
+        <!-- Camera Preview Placeholder -->
+        <Frame Grid.Row="0"
+               BackgroundColor="#1A1A2E"
+               CornerRadius="16"
+               Margin="0,20">
+            <VerticalStackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center" Spacing="16">
+                <Label Text="&#x1F4F7;"
+                       FontSize="60"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="Camera view will appear here"
+                       FontSize="16"
+                       TextColor="White"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="Take photos of your meals, ingredients, or recipes"
+                       FontSize="12"
+                       TextColor="#AAAAAA"
+                       HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Capture Button -->
+        <Button Grid.Row="1"
+                Text="&#x1F4F8; Take Photo"
+                Style="{StaticResource PrimaryButton}"
+                Command="{Binding TakePhotoCommand}"
+                HeightRequest="56"
+                FontSize="18"
+                CornerRadius="28"
+                Margin="40,16,40,32"
+                SemanticProperties.Description="Capture a photo with the device camera" />
+
+    </Grid>
+
+</ContentPage>
