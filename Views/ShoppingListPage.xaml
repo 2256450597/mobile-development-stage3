@@ -12,29 +12,38 @@
         <!-- Add Item Section -->
         <Frame Grid.Row="0" Margin="12,12,12,8"
                Style="{StaticResource CardFrame}">
-            <Grid ColumnDefinitions="*,120,Auto" ColumnSpacing="8">
-                <Entry Grid.Column="0"
-                       Placeholder="Item name"
-                       Text="{Binding NewItemName}"
-                       Style="{StaticResource FormEntry}"
-                       SemanticProperties.Description="Enter shopping item name"
-                       ReturnType="Next" />
+            <VerticalStackLayout Spacing="6">
+                <Grid ColumnDefinitions="*,120,Auto" ColumnSpacing="8">
+                    <Entry Grid.Column="0"
+                           Placeholder="Item name"
+                           Text="{Binding NewItemName}"
+                           Style="{StaticResource FormEntry}"
+                           SemanticProperties.Description="Enter shopping item name"
+                           ReturnType="Next" />
 
-                <Entry Grid.Column="1"
-                       Placeholder="Qty"
-                       Text="{Binding NewItemQuantity}"
-                       Style="{StaticResource FormEntry}"
-                       SemanticProperties.Description="Enter quantity"
-                       ReturnType="Done" />
+                    <Entry Grid.Column="1"
+                           Placeholder="Qty"
+                           Text="{Binding NewItemQuantity}"
+                           Style="{StaticResource FormEntry}"
+                           SemanticProperties.Description="Enter quantity"
+                           ReturnType="Done" />
 
-                <Button Grid.Column="2"
-                        Text="+"
-                        Style="{StaticResource PrimaryButton}"
-                        Command="{Binding AddItemCommand}"
-                        SemanticProperties.Description="Add item to shopping list"
-                        HeightRequest="44" WidthRequest="44"
-                        Padding="0" />
-            </Grid>
+                    <Button Grid.Column="2"
+                            Text="+"
+                            Style="{StaticResource PrimaryButton}"
+                            Command="{Binding AddItemCommand}"
+                            SemanticProperties.Description="Add item to shopping list"
+                            HeightRequest="44" WidthRequest="44"
+                            Padding="0" />
+                </Grid>
+
+                <!-- Validation Error -->
+                <Label Text="{Binding ValidationError}"
+                       TextColor="{StaticResource Error}"
+                       FontSize="12"
+                       IsVisible="{Binding ValidationError, Converter={StaticResource StringNotEmpty}}"
+                       Margin="4,0,0,0" />
+            </VerticalStackLayout>
         </Frame>
 
         <!-- Shopping List -->

@@ -9,6 +9,7 @@
     <converters:InverseBoolConverter x:Key="InverseBool" />
     <converters:CategoryToColorConverter x:Key="CategoryToColor" />
     <converters:DifficultyToColorConverter x:Key="DifficultyToColor" />
+    <converters:StringNotEmptyConverter x:Key="StringNotEmpty" />
     <converters:FontScaleConverter x:Key="FontScaleSmall"
                                    SmallFontScale="0.85" MediumFontScale="1.0" LargeFontScale="1.3" />
     <converters:FontScaleConverter x:Key="FontScaleMedium"

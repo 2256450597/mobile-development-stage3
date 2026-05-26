@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using TastyMealPlanner.Helpers;
 using TastyMealPlanner.Models;
 using TastyMealPlanner.Services;
 
@@ -16,14 +17,29 @@ public class ShoppingListViewModel : BaseViewModel
     public string NewItemName
     {
         get => _newItemName;
-        set => SetProperty(ref _newItemName, value);
+        set
+        {
+            if (SetProperty(ref _newItemName, value))
+                ValidationError = null;
+        }
     }
 
     private string _newItemQuantity = string.Empty;
     public string NewItemQuantity
     {
         get => _newItemQuantity;
-        set => SetProperty(ref _newItemQuantity, value);
+        set
+        {
+            if (SetProperty(ref _newItemQuantity, value))
+                ValidationError = null;
+        }
+    }
+
+    private string? _validationError;
+    public string? ValidationError
+    {
+        get => _validationError;
+        set => SetProperty(ref _validationError, value);
     }
 
     public ICommand AddItemCommand { get; }
@@ -46,11 +62,26 @@ public class ShoppingListViewModel : BaseViewModel
             }
         });
 
-        ClearCheckedCommand = new Command(() =>
+        ClearCheckedCommand = new Command(async () =>
         {
             _haptic.PerformLongPress();
-            _dataService.ClearCheckedShoppingItems();
-            LoadItems();
+
+            var checkedItems = Items.Count(i => i.IsChecked);
+            if (checkedItems == 0)
+            {
+                ValidationError = "No items are checked to clear.";
+                return;
+            }
+
+            bool confirm = await Shell.Current.DisplayAlert(
+                "Clear Items", $"Remove {checkedItems} purchased item(s)?", "Yes", "No");
+
+            if (confirm)
+            {
+                _dataService.ClearCheckedShoppingItems();
+                LoadItems();
+                ValidationError = null;
+            }
         });
 
         LoadItems();
@@ -58,7 +89,13 @@ public class ShoppingListViewModel : BaseViewModel
 
     private void OnAddItem()
     {
-        if (string.IsNullOrWhiteSpace(NewItemName)) return;
+        var (isValid, error) = ValidationHelper.ValidateShoppingItem(NewItemName, NewItemQuantity);
+        if (!isValid)
+        {
+            _haptic.PerformLongPress();
+            ValidationError = error;
+            return;
+        }
 
         _haptic.PerformClick();
         _dataService.AddShoppingItem(new ShoppingItem
@@ -69,6 +106,7 @@ public class ShoppingListViewModel : BaseViewModel
 
         NewItemName = string.Empty;
         NewItemQuantity = string.Empty;
+        ValidationError = null;
         LoadItems();
     }
 

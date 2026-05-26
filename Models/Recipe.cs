@@ -1,5 +1,8 @@
 namespace TastyMealPlanner.Models;
 
+/// <summary>
+/// Represents a complete recipe with ingredients, instructions, and nutritional information.
+/// </summary>
 public class Recipe
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();
