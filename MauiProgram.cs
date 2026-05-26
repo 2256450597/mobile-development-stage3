@@ -25,6 +25,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<ITextToSpeechService, TextToSpeechService>();
         builder.Services.AddSingleton<IAccelerometerService, AccelerometerService>();
         builder.Services.AddSingleton<IHapticService, HapticService>();
+        builder.Services.AddSingleton<ThemeService>();
 
         // ViewModels
         builder.Services.AddSingleton<HomeViewModel>();
@@ -50,6 +51,11 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
 
-        return builder.Build();
+        var app = builder.Build();
+
+        // Force ThemeService initialization on startup to apply saved theme
+        app.Services.GetRequiredService<ThemeService>();
+
+        return app;
     }
 }

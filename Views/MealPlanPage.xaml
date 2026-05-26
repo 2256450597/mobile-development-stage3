@@ -16,7 +16,7 @@
                    VerticalTextAlignment="Center" />
             <Label Text="{Binding WeekPlan.Count, StringFormat='({0} days)'}"
                    FontSize="12" VerticalTextAlignment="Center"
-                   TextColor="{StaticResource TextSecondaryLight}" />
+                   TextColor="{StaticResource TextSecondary}" />
         </HorizontalStackLayout>
 
         <!-- Weekly Plan -->
@@ -31,10 +31,10 @@
                            HorizontalTextAlignment="Center" />
                     <Label Text="No meals planned yet"
                            FontSize="16" HorizontalTextAlignment="Center"
-                           TextColor="{StaticResource TextSecondaryLight}" />
+                           TextColor="{StaticResource TextSecondary}" />
                     <Label Text="Browse recipes to add meals to your plan"
                            FontSize="12" HorizontalTextAlignment="Center"
-                           TextColor="{StaticResource TextSecondaryLight}" />
+                           TextColor="{StaticResource TextSecondary}" />
                 </VerticalStackLayout>
             </CollectionView.EmptyView>
 
@@ -60,7 +60,7 @@
                             <CollectionView.EmptyView>
                                 <Label Text="No meals planned"
                                        FontSize="12" Margin="8,0"
-                                       TextColor="{StaticResource TextSecondaryLight}"
+                                       TextColor="{StaticResource TextSecondary}"
                                        VerticalTextAlignment="Center" />
                             </CollectionView.EmptyView>
                             <CollectionView.ItemTemplate>
@@ -78,11 +78,11 @@
                                             </Frame>
                                             <Label Text="{Binding Recipe.Name}"
                                                    FontSize="12" FontAttributes="Bold"
-                                                   TextColor="{StaticResource TextPrimaryLight}"
+                                                   TextColor="{StaticResource TextPrimary}"
                                                    LineBreakMode="TailTruncation" />
                                             <Label Text="{Binding Recipe.Calories, StringFormat='{0} cal'}"
                                                    FontSize="10"
-                                                   TextColor="{StaticResource TextSecondaryLight}" />
+                                                   TextColor="{StaticResource TextSecondary}" />
                                         </VerticalStackLayout>
                                         <Frame.GestureRecognizers>
                                             <TapGestureRecognizer

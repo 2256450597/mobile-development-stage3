@@ -22,11 +22,11 @@
                         <VerticalStackLayout Grid.Column="0" Spacing="2">
                             <Label Text="Dark Mode"
                                    FontSize="16" FontAttributes="Bold"
-                                   TextColor="{StaticResource TextPrimaryLight}"
+                                   TextColor="{StaticResource TextPrimary}"
                                    SemanticProperties.Description="Toggle dark mode" />
                             <Label Text="Switch between light and dark appearance"
                                    FontSize="12"
-                                   TextColor="{StaticResource TextSecondaryLight}" />
+                                   TextColor="{StaticResource TextSecondary}" />
                         </VerticalStackLayout>
                         <Switch Grid.Column="1"
                                 IsToggled="{Binding IsDarkMode}"
@@ -34,22 +34,22 @@
                                 SemanticProperties.Description="Dark mode switch" />
                     </Grid>
 
-                    <BoxView HeightRequest="1" Color="{StaticResource BorderLight}" />
+                    <BoxView HeightRequest="1" Color="{StaticResource BorderColor}" />
 
                     <!-- Font Size Picker -->
                     <VerticalStackLayout Spacing="6">
                         <Label Text="Font Size"
                                FontSize="16" FontAttributes="Bold"
-                               TextColor="{StaticResource TextPrimaryLight}"
+                               TextColor="{StaticResource TextPrimary}"
                                SemanticProperties.Description="Choose font size" />
                         <Label Text="Adjust the app text size for better readability"
                                FontSize="12"
-                               TextColor="{StaticResource TextSecondaryLight}" />
+                               TextColor="{StaticResource TextSecondary}" />
                         <Picker ItemsSource="{Binding FontSizeOptions}"
                                 SelectedItem="{Binding SelectedFontSize}"
                                 Title="Select Font Size"
-                                TextColor="{StaticResource TextPrimaryLight}"
-                                TitleColor="{StaticResource TextSecondaryLight}"
+                                TextColor="{StaticResource TextPrimary}"
+                                TitleColor="{StaticResource TextSecondary}"
                                 SemanticProperties.Description="Font size picker" />
                     </VerticalStackLayout>
 
@@ -65,9 +65,9 @@
                 <VerticalStackLayout Spacing="12">
                     <Label Text="This app follows WCAG 2.1 guidelines to ensure accessibility for all users."
                            FontSize="13"
-                           TextColor="{StaticResource TextSecondaryLight}" />
+                           TextColor="{StaticResource TextSecondary}" />
 
-                    <Label FontSize="13" TextColor="{StaticResource TextPrimaryLight}">
+                    <Label FontSize="13" TextColor="{StaticResource TextPrimary}">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="&#x2022; " />
@@ -75,7 +75,7 @@
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
-                    <Label FontSize="13" TextColor="{StaticResource TextPrimaryLight}">
+                    <Label FontSize="13" TextColor="{StaticResource TextPrimary}">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="&#x2022; " />
@@ -83,7 +83,7 @@
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
-                    <Label FontSize="13" TextColor="{StaticResource TextPrimaryLight}">
+                    <Label FontSize="13" TextColor="{StaticResource TextPrimary}">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="&#x2022; " />
@@ -91,7 +91,7 @@
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
-                    <Label FontSize="13" TextColor="{StaticResource TextPrimaryLight}">
+                    <Label FontSize="13" TextColor="{StaticResource TextPrimary}">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="&#x2022; " />
@@ -99,7 +99,7 @@
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
-                    <Label FontSize="13" TextColor="{StaticResource TextPrimaryLight}">
+                    <Label FontSize="13" TextColor="{StaticResource TextPrimary}">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="&#x2022; " />
@@ -122,16 +122,16 @@
                     <VerticalStackLayout Spacing="4">
                         <Label Text="Text-to-Speech Speed"
                                FontSize="16" FontAttributes="Bold"
-                               TextColor="{StaticResource TextPrimaryLight}" />
+                               TextColor="{StaticResource TextPrimary}" />
                         <Label Text="Adjust how fast recipes are read aloud"
                                FontSize="12"
-                               TextColor="{StaticResource TextSecondaryLight}" />
+                               TextColor="{StaticResource TextSecondary}" />
                         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
                             <Slider Grid.Column="0"
                                     Minimum="0.5" Maximum="2.0"
                                     Value="{Binding TtsSpeed}"
                                     MinimumTrackColor="{StaticResource Primary}"
-                                    MaximumTrackColor="{StaticResource BorderLight}"
+                                    MaximumTrackColor="{StaticResource BorderColor}"
                                     ThumbColor="{StaticResource Primary}" />
                             <Label Grid.Column="1"
                                    Text="{Binding TtsSpeed, StringFormat='{0:F1}x'}"
@@ -142,22 +142,22 @@
                         </Grid>
                     </VerticalStackLayout>
 
-                    <BoxView HeightRequest="1" Color="{StaticResource BorderLight}" />
+                    <BoxView HeightRequest="1" Color="{StaticResource BorderColor}" />
 
                     <!-- TTS Pitch -->
                     <VerticalStackLayout Spacing="4">
                         <Label Text="Text-to-Speech Pitch"
                                FontSize="16" FontAttributes="Bold"
-                               TextColor="{StaticResource TextPrimaryLight}" />
+                               TextColor="{StaticResource TextPrimary}" />
                         <Label Text="Adjust the voice pitch for reading"
                                FontSize="12"
-                               TextColor="{StaticResource TextSecondaryLight}" />
+                               TextColor="{StaticResource TextSecondary}" />
                         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
                             <Slider Grid.Column="0"
                                     Minimum="0.5" Maximum="2.0"
                                     Value="{Binding TtsPitch}"
                                     MinimumTrackColor="{StaticResource Accent}"
-                                    MaximumTrackColor="{StaticResource BorderLight}"
+                                    MaximumTrackColor="{StaticResource BorderColor}"
                                     ThumbColor="{StaticResource Accent}" />
                             <Label Grid.Column="1"
                                    Text="{Binding TtsPitch, StringFormat='{0:F1}x'}"
@@ -190,10 +190,10 @@
                            TextColor="{StaticResource Primary}" />
                     <Label Text="Version 1.0"
                            FontSize="13"
-                           TextColor="{StaticResource TextSecondaryLight}" />
+                           TextColor="{StaticResource TextSecondary}" />
                     <Label Text="A mobile meal planning application built with .NET MAUI for organising weekly meals, discovering recipes, and managing shopping lists."
                            FontSize="13"
-                           TextColor="{StaticResource TextPrimaryLight}" />
+                           TextColor="{StaticResource TextPrimary}" />
 
                     <Button Text="More Information"
                             Style="{StaticResource SecondaryButton}"

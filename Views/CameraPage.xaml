@@ -51,7 +51,7 @@
                     <HorizontalStackLayout Spacing="8">
                         <Label Text="{Binding StatusMessage}"
                                FontSize="13"
-                               TextColor="{StaticResource TextPrimaryLight}"
+                               TextColor="{StaticResource TextPrimary}"
                                VerticalTextAlignment="Center" />
                     </HorizontalStackLayout>
                 </Frame>
@@ -59,7 +59,7 @@
                 <!-- Camera Info -->
                 <Label Text="{Binding HasCamera, StringFormat='Camera available: {0}'}"
                        FontSize="11"
-                       TextColor="{StaticResource TextSecondaryLight}"
+                       TextColor="{StaticResource TextSecondary}"
                        HorizontalTextAlignment="Center" />
 
             </VerticalStackLayout>

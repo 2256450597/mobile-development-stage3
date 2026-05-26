@@ -15,13 +15,13 @@
                     <Label Text="&#x1F4CD;" FontSize="20" VerticalTextAlignment="Center" />
                     <Label Text="Your Location"
                            FontSize="18" FontAttributes="Bold"
-                           TextColor="{StaticResource TextPrimaryLight}"
+                           TextColor="{StaticResource TextPrimary}"
                            VerticalTextAlignment="Center" />
                 </HorizontalStackLayout>
 
                 <Label Text="{Binding LocationInfo}"
                        FontSize="13"
-                       TextColor="{StaticResource TextSecondaryLight}" />
+                       TextColor="{StaticResource TextSecondary}" />
 
                 <ActivityIndicator IsRunning="{Binding IsLocating}"
                                    IsVisible="{Binding IsLocating}"
@@ -69,7 +69,7 @@
                                      Padding="0,20">
                     <Label Text="No stores found"
                            FontSize="14" HorizontalTextAlignment="Center"
-                           TextColor="{StaticResource TextSecondaryLight}" />
+                           TextColor="{StaticResource TextSecondary}" />
                 </VerticalStackLayout>
             </CollectionView.EmptyView>
 
@@ -94,10 +94,10 @@
                                                  VerticalOptions="Center" Spacing="2">
                                 <Label Text="{Binding Name}"
                                        FontSize="14" FontAttributes="Bold"
-                                       TextColor="{StaticResource TextPrimaryLight}" />
+                                       TextColor="{StaticResource TextPrimary}" />
                                 <Label Text="{Binding Address}"
                                        FontSize="12"
-                                       TextColor="{StaticResource TextSecondaryLight}" />
+                                       TextColor="{StaticResource TextSecondary}" />
                             </VerticalStackLayout>
 
                             <!-- Distance -->

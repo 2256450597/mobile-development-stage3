@@ -53,7 +53,7 @@
                     <Label Text="&#x1F50D;" FontSize="40" HorizontalTextAlignment="Center" />
                     <Label Text="No recipes found"
                            FontSize="16" HorizontalTextAlignment="Center"
-                           TextColor="{StaticResource TextSecondaryLight}" />
+                           TextColor="{StaticResource TextSecondary}" />
                 </VerticalStackLayout>
             </CollectionView.EmptyView>
 
@@ -76,7 +76,7 @@
                             <VerticalStackLayout Padding="10" Spacing="4">
                                 <Label Text="{Binding Name}"
                                        FontSize="14" FontAttributes="Bold"
-                                       TextColor="{StaticResource TextPrimaryLight}"
+                                       TextColor="{StaticResource TextPrimary}"
                                        LineBreakMode="TailTruncation" MaxLines="2" />
 
                                 <!-- Category Badge -->
@@ -88,14 +88,14 @@
                                 </Frame>
 
                                 <HorizontalStackLayout Spacing="12">
-                                    <Label FontSize="11" TextColor="{StaticResource TextSecondaryLight}">
+                                    <Label FontSize="11" TextColor="{StaticResource TextSecondary}">
                                         <Label.Text>
                                             <MultiBinding StringFormat="{}{0} cal">
                                                 <Binding Path="Calories" />
                                             </MultiBinding>
                                         </Label.Text>
                                     </Label>
-                                    <Label FontSize="11" TextColor="{StaticResource TextSecondaryLight}">
+                                    <Label FontSize="11" TextColor="{StaticResource TextSecondary}">
                                         <Label.Text>
                                             <MultiBinding StringFormat="{}{0} min">
                                                 <Binding Path="PrepTimeMinutes" />

@@ -17,7 +17,7 @@
 
                 <!-- Recipe Header Info -->
                 <VerticalStackLayout Padding="20" Spacing="8"
-                                     BackgroundColor="{StaticResource SurfaceLight}">
+                                     BackgroundColor="{StaticResource SurfaceBackground}">
                     <Label Text="{Binding Recipe.Name}"
                            Style="{StaticResource TitleLabel}"
                            SemanticProperties.HeadingLevel="Level1" />
@@ -31,35 +31,35 @@
                             <Label Text="{Binding Recipe.Calories}" FontSize="16"
                                    FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                             <Label Text="Calories" FontSize="11"
-                                   TextColor="{StaticResource TextSecondaryLight}" />
+                                   TextColor="{StaticResource TextSecondary}" />
                         </VerticalStackLayout>
 
-                        <BoxView WidthRequest="1" Color="{StaticResource BorderLight}" />
+                        <BoxView WidthRequest="1" Color="{StaticResource BorderColor}" />
 
                         <VerticalStackLayout Spacing="2">
                             <Label Text="{Binding Recipe.PrepTimeMinutes}" FontSize="16"
                                    FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                             <Label Text="Prep (min)" FontSize="11"
-                                   TextColor="{StaticResource TextSecondaryLight}" />
+                                   TextColor="{StaticResource TextSecondary}" />
                         </VerticalStackLayout>
 
-                        <BoxView WidthRequest="1" Color="{StaticResource BorderLight}" />
+                        <BoxView WidthRequest="1" Color="{StaticResource BorderColor}" />
 
                         <VerticalStackLayout Spacing="2">
                             <Label Text="{Binding Recipe.Servings}" FontSize="16"
                                    FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                             <Label Text="Servings" FontSize="11"
-                                   TextColor="{StaticResource TextSecondaryLight}" />
+                                   TextColor="{StaticResource TextSecondary}" />
                         </VerticalStackLayout>
 
-                        <BoxView WidthRequest="1" Color="{StaticResource BorderLight}" />
+                        <BoxView WidthRequest="1" Color="{StaticResource BorderColor}" />
 
                         <VerticalStackLayout Spacing="2">
                             <Label Text="{Binding Recipe.Difficulty}" FontSize="16"
                                    FontAttributes="Bold"
                                    TextColor="{Binding Recipe.Difficulty, Converter={StaticResource DifficultyToColor}}" />
                             <Label Text="Difficulty" FontSize="11"
-                                   TextColor="{StaticResource TextSecondaryLight}" />
+                                   TextColor="{StaticResource TextSecondary}" />
                         </VerticalStackLayout>
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
@@ -80,7 +80,7 @@
                                        TextColor="{StaticResource Primary}"
                                        VerticalTextAlignment="Center" />
                                 <Label Text="{Binding .}" FontSize="14"
-                                       TextColor="{StaticResource TextPrimaryLight}"
+                                       TextColor="{StaticResource TextPrimary}"
                                        VerticalTextAlignment="Center" />
                             </HorizontalStackLayout>
                         </DataTemplate>
@@ -99,9 +99,9 @@
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="x:String">
                             <Frame Style="{StaticResource CardFrame}" Margin="0"
-                                   Padding="14" BackgroundColor="#FFF8F5">
+                                   Padding="14">
                                 <Label Text="{Binding .}" FontSize="14"
-                                       TextColor="{StaticResource TextPrimaryLight}"
+                                       TextColor="{StaticResource TextPrimary}"
                                        LineBreakMode="WordWrap" />
                             </Frame>
                         </DataTemplate>
@@ -118,7 +118,7 @@
               ColumnSpacing="12"
               RowSpacing="8"
               Padding="16,8,16,24"
-              BackgroundColor="{StaticResource SurfaceLight}">
+              BackgroundColor="{StaticResource SurfaceBackground}">
             <Grid.Shadow>
                 <Shadow Color="Black" Offset="0,-2" Radius="8" Opacity="0.1" />
             </Grid.Shadow>
@@ -127,18 +127,18 @@
             <Grid Grid.Row="0" Grid.ColumnSpan="2" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
                 <Label Grid.Column="0" Text="TTS Speed:"
                        FontSize="11" VerticalTextAlignment="Center"
-                       TextColor="{StaticResource TextSecondaryLight}" />
+                       TextColor="{StaticResource TextSecondary}" />
                 <Slider Grid.Column="1"
                         Minimum="0.5" Maximum="2.0"
                         Value="{Binding TtsSpeed}"
                         MinimumTrackColor="{StaticResource Primary}"
-                        MaximumTrackColor="{StaticResource BorderLight}"
+                        MaximumTrackColor="{StaticResource BorderColor}"
                         ThumbColor="{StaticResource Primary}"
                         SemanticProperties.Description="Adjust text-to-speech speed" />
                 <Label Grid.Column="2"
                        Text="{Binding TtsSpeed, StringFormat='{0:F1}x'}"
                        FontSize="11" VerticalTextAlignment="Center"
-                       TextColor="{StaticResource TextSecondaryLight}" />
+                       TextColor="{StaticResource TextSecondary}" />
             </Grid>
 
             <Button Grid.Row="1" Grid.Column="0"

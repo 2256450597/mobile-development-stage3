@@ -49,7 +49,7 @@
                                 SemanticProperties.Description="Open camera" />
                         <Label Text="Camera" FontSize="10"
                                HorizontalTextAlignment="Center"
-                               TextColor="{StaticResource TextSecondaryLight}" />
+                               TextColor="{StaticResource TextSecondary}" />
                     </VerticalStackLayout>
                 </Frame>
 
@@ -62,7 +62,7 @@
                                 SemanticProperties.Description="Find nearby stores" />
                         <Label Text="Nearby" FontSize="10"
                                HorizontalTextAlignment="Center"
-                               TextColor="{StaticResource TextSecondaryLight}" />
+                               TextColor="{StaticResource TextSecondary}" />
                     </VerticalStackLayout>
                 </Frame>
 
@@ -75,7 +75,7 @@
                                 SemanticProperties.Description="Get a random recipe suggestion" />
                         <Label Text="Surprise" FontSize="10"
                                HorizontalTextAlignment="Center"
-                               TextColor="{StaticResource TextSecondaryLight}" />
+                               TextColor="{StaticResource TextSecondary}" />
                     </VerticalStackLayout>
                 </Frame>
 
@@ -88,7 +88,7 @@
                                 SemanticProperties.Description="Browse all recipes" />
                         <Label Text="Recipes" FontSize="10"
                                HorizontalTextAlignment="Center"
-                               TextColor="{StaticResource TextSecondaryLight}" />
+                               TextColor="{StaticResource TextSecondary}" />
                     </VerticalStackLayout>
                 </Frame>
             </Grid>
@@ -124,9 +124,9 @@
                                                      VerticalOptions="Center" Spacing="2">
                                     <Label Text="{Binding Recipe.Name}"
                                            FontSize="15" FontAttributes="Bold"
-                                           TextColor="{StaticResource TextPrimaryLight}" />
+                                           TextColor="{StaticResource TextPrimary}" />
                                     <Label FontSize="12"
-                                           TextColor="{StaticResource TextSecondaryLight}">
+                                           TextColor="{StaticResource TextSecondary}">
                                         <Label.Text>
                                             <MultiBinding StringFormat="{}{0} cal | {1} min">
                                                 <Binding Path="Recipe.Calories" />
@@ -139,7 +139,7 @@
                                 <!-- Arrow -->
                                 <Label Grid.Column="2" Text="&#x276F;"
                                        FontSize="18" VerticalTextAlignment="Center"
-                                       TextColor="{StaticResource TextSecondaryLight}" />
+                                       TextColor="{StaticResource TextSecondary}" />
                             </Grid>
                         </Frame>
                     </DataTemplate>
@@ -169,13 +169,13 @@
                                 <VerticalStackLayout Padding="10" Spacing="2">
                                     <Label Text="{Binding Name}"
                                            FontSize="13" FontAttributes="Bold"
-                                           TextColor="{StaticResource TextPrimaryLight}"
+                                           TextColor="{StaticResource TextPrimary}"
                                            LineBreakMode="TailTruncation" MaxLines="2" />
                                     <Label Text="{Binding Difficulty}"
                                            FontSize="11"
                                            TextColor="{Binding Difficulty, Converter={StaticResource DifficultyToColor}}" />
                                     <Label FontSize="11"
-                                           TextColor="{StaticResource TextSecondaryLight}">
+                                           TextColor="{StaticResource TextSecondary}">
                                         <Label.Text>
                                             <MultiBinding StringFormat="{}{0} cal">
                                                 <Binding Path="Calories" />

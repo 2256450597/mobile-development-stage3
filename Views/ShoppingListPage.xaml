@@ -49,7 +49,7 @@
                            HorizontalTextAlignment="Center" />
                     <Label Text="Your shopping list is empty"
                            FontSize="16" HorizontalTextAlignment="Center"
-                           TextColor="{StaticResource TextSecondaryLight}" />
+                           TextColor="{StaticResource TextSecondary}" />
                 </VerticalStackLayout>
             </CollectionView.EmptyView>
 
@@ -68,7 +68,7 @@
                             <Label Grid.Column="1"
                                    VerticalTextAlignment="Center"
                                    FontSize="15"
-                                   TextColor="{StaticResource TextPrimaryLight}"
+                                   TextColor="{StaticResource TextPrimary}"
                                    TextDecorations="{Binding IsChecked, Converter={StaticResource BoolToStrikethrough}}">
                                 <Label.Text>
                                     <MultiBinding StringFormat="{}{0} - {1}">

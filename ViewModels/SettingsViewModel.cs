@@ -5,6 +5,7 @@ namespace TastyMealPlanner.ViewModels;
 
 public class SettingsViewModel : BaseViewModel
 {
+    private readonly ThemeService _themeService;
     private readonly IHapticService _haptic;
     private readonly ITextToSpeechService _tts;
 
@@ -15,7 +16,9 @@ public class SettingsViewModel : BaseViewModel
         set
         {
             if (SetProperty(ref _isDarkMode, value))
-                ApplyTheme(value);
+            {
+                _themeService.SetTheme(value ? AppThemeOption.Dark : AppThemeOption.Light);
+            }
         }
     }
 
@@ -26,7 +29,15 @@ public class SettingsViewModel : BaseViewModel
         set
         {
             if (SetProperty(ref _selectedFontSize, value))
-                ApplyFontSize(value);
+            {
+                var option = value switch
+                {
+                    "Small" => FontSizeOption.Small,
+                    "Large" => FontSizeOption.Large,
+                    _ => FontSizeOption.Medium
+                };
+                _themeService.SetFontSize(option);
+            }
         }
     }
 
@@ -54,17 +65,22 @@ public class SettingsViewModel : BaseViewModel
 
     public List<string> FontSizeOptions { get; } = new() { "Small", "Medium", "Large" };
 
-    public List<float> SpeedOptions { get; } = new() { 0.5f, 0.75f, 1.0f, 1.25f, 1.5f, 2.0f };
-
     public ICommand ToggleDarkModeCommand { get; }
     public ICommand AboutCommand { get; }
     public ICommand TestTtsCommand { get; }
 
-    public SettingsViewModel(IHapticService haptic, ITextToSpeechService tts)
+    public SettingsViewModel(ThemeService themeService, IHapticService haptic, ITextToSpeechService tts)
     {
+        _themeService = themeService;
         _haptic = haptic;
         _tts = tts;
         Title = "Settings";
+
+        // Load saved preferences
+        _isDarkMode = _themeService.CurrentTheme == AppThemeOption.Dark;
+        _selectedFontSize = _themeService.CurrentFontSize.ToString();
+        _ttsSpeed = _tts.Speed;
+        _ttsPitch = _tts.Pitch;
 
         ToggleDarkModeCommand = new Command(() =>
         {
@@ -80,6 +96,12 @@ public class SettingsViewModel : BaseViewModel
                 "Version 1.0\n\nA meal planning app to help you organise your weekly meals, " +
                 "discover new recipes, and manage your shopping list.\n\n" +
                 "Built with .NET MAUI for 6G6Z0014 Mobile Computing.\n\n" +
+                "Accessibility:\n" +
+                "• WCAG 2.1 AA compliant colour contrast\n" +
+                "• Dark mode support\n" +
+                "• Adjustable font sizes\n" +
+                "• Screen reader semantic descriptions\n" +
+                "• Touch targets ≥ 44pt\n\n" +
                 "Hardware Features:\n" +
                 "• Camera - capture food photos\n" +
                 "• GPS Location - find nearby stores\n" +
@@ -92,20 +114,24 @@ public class SettingsViewModel : BaseViewModel
         TestTtsCommand = new Command(async () =>
         {
             _haptic.PerformClick();
-            await _tts.SpeakAsync("This is a test of the text-to-speech feature.", TtsSpeed, TtsPitch);
+            await _tts.SpeakAsync(
+                "This is a test of the text-to-speech feature. " +
+                "You can adjust the speed and pitch in the settings above.",
+                TtsSpeed, TtsPitch);
         });
+
+        // Listen for external theme changes
+        _themeService.ThemeChanged += OnExternalThemeChanged;
     }
 
-    private void ApplyTheme(bool isDark)
+    private void OnExternalThemeChanged()
     {
-        if (Application.Current != null)
+        // Sync the toggle state if changed externally
+        var expected = _themeService.CurrentTheme == AppThemeOption.Dark;
+        if (_isDarkMode != expected)
         {
-            Application.Current.UserAppTheme = isDark ? AppTheme.Dark : AppTheme.Light;
+            _isDarkMode = expected;
+            OnPropertyChanged(nameof(IsDarkMode));
         }
-    }
-
-    private void ApplyFontSize(string size)
-    {
-        System.Diagnostics.Debug.WriteLine($"Font size changed to: {size}");
     }
 }
