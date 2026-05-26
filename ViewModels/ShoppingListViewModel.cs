@@ -8,6 +8,7 @@ namespace TastyMealPlanner.ViewModels;
 public class ShoppingListViewModel : BaseViewModel
 {
     private readonly IDataService _dataService;
+    private readonly IHapticService _haptic;
 
     public ObservableCollection<ShoppingItem> Items { get; } = new();
 
@@ -29,20 +30,25 @@ public class ShoppingListViewModel : BaseViewModel
     public ICommand ToggleItemCommand { get; }
     public ICommand ClearCheckedCommand { get; }
 
-    public ShoppingListViewModel(IDataService dataService)
+    public ShoppingListViewModel(IDataService dataService, IHapticService haptic)
     {
         _dataService = dataService;
+        _haptic = haptic;
         Title = "Shopping List";
 
         AddItemCommand = new Command(OnAddItem);
         ToggleItemCommand = new Command<ShoppingItem>((item) =>
         {
             if (item != null)
+            {
+                _haptic.PerformClick();
                 _dataService.ToggleShoppingItem(item.Id);
+            }
         });
 
         ClearCheckedCommand = new Command(() =>
         {
+            _haptic.PerformLongPress();
             _dataService.ClearCheckedShoppingItems();
             LoadItems();
         });
@@ -54,6 +60,7 @@ public class ShoppingListViewModel : BaseViewModel
     {
         if (string.IsNullOrWhiteSpace(NewItemName)) return;
 
+        _haptic.PerformClick();
         _dataService.AddShoppingItem(new ShoppingItem
         {
             Name = NewItemName.Trim(),
@@ -69,8 +76,6 @@ public class ShoppingListViewModel : BaseViewModel
     {
         Items.Clear();
         foreach (var item in _dataService.GetShoppingList().OrderBy(i => i.IsChecked))
-        {
             Items.Add(item);
-        }
     }
 }

@@ -8,20 +8,24 @@ namespace TastyMealPlanner.ViewModels;
 public class MealPlanViewModel : BaseViewModel
 {
     private readonly IDataService _dataService;
+    private readonly IHapticService _haptic;
 
     public ObservableCollection<DayPlanGroup> WeekPlan { get; } = new();
 
     public ICommand RemoveMealCommand { get; }
     public ICommand AddMealCommand { get; }
 
-    public MealPlanViewModel(IDataService dataService)
+    public MealPlanViewModel(IDataService dataService, IHapticService haptic)
     {
         _dataService = dataService;
+        _haptic = haptic;
         Title = "Meal Plan";
 
         RemoveMealCommand = new Command<MealPlanEntry>(async (entry) =>
         {
             if (entry == null) return;
+            _haptic.PerformLongPress();
+
             bool confirm = await Shell.Current.DisplayAlert(
                 "Remove Meal", $"Remove {entry.Recipe?.Name} from {entry.MealType}?", "Yes", "No");
             if (confirm)
@@ -33,7 +37,7 @@ public class MealPlanViewModel : BaseViewModel
 
         AddMealCommand = new Command<MealPlanEntry>(async (entry) =>
         {
-            if (entry == null) return;
+            _haptic.PerformClick();
             await Shell.Current.GoToAsync("//recipes");
         });
 

@@ -6,39 +6,108 @@
              x:DataType="vm:CameraViewModel"
              Title="{Binding Title}">
 
-    <Grid RowDefinitions="*,Auto" Padding="20">
+    <Grid RowDefinitions="*,Auto" Padding="16">
 
-        <!-- Camera Preview Placeholder -->
-        <Frame Grid.Row="0"
-               BackgroundColor="#1A1A2E"
-               CornerRadius="16"
-               Margin="0,20">
-            <VerticalStackLayout VerticalOptions="Center"
-                                 HorizontalOptions="Center" Spacing="16">
-                <Label Text="&#x1F4F7;"
-                       FontSize="60"
+        <!-- Main Content Area -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="16">
+
+                <!-- Camera Preview / Photo Display -->
+                <Frame BackgroundColor="#1A1A2E"
+                       CornerRadius="16"
+                       HeightRequest="320"
+                       Padding="0"
+                       IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}">
+                    <VerticalStackLayout VerticalOptions="Center"
+                                         HorizontalOptions="Center" Spacing="12">
+                        <Label Text="&#x1F4F7;" FontSize="64"
+                               HorizontalTextAlignment="Center" />
+                        <Label Text="Take a photo of your meal or ingredients"
+                               FontSize="14" TextColor="White"
+                               HorizontalTextAlignment="Center" />
+                        <Label Text="Use the buttons below to capture or pick a photo"
+                               FontSize="11" TextColor="#AAAAAA"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Photo Preview -->
+                <Frame BackgroundColor="#1A1A2E"
+                       CornerRadius="16"
+                       HeightRequest="320"
+                       Padding="0"
+                       IsVisible="{Binding HasPhoto}">
+                    <Image Source="{Binding PhotoPath}"
+                           Aspect="AspectFill">
+                        <Image.Clip>
+                            <RoundRectangleGeometry CornerRadius="16"
+                                                    Rect="0,0,340,320" />
+                        </Image.Clip>
+                    </Image>
+                </Frame>
+
+                <!-- Status Message -->
+                <Frame Style="{StaticResource CardFrame}" Margin="0">
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="{Binding StatusMessage}"
+                               FontSize="13"
+                               TextColor="{StaticResource TextPrimaryLight}"
+                               VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <!-- Camera Info -->
+                <Label Text="{Binding HasCamera, StringFormat='Camera available: {0}'}"
+                       FontSize="11"
+                       TextColor="{StaticResource TextSecondaryLight}"
                        HorizontalTextAlignment="Center" />
-                <Label Text="Camera view will appear here"
-                       FontSize="16"
-                       TextColor="White"
-                       HorizontalTextAlignment="Center" />
-                <Label Text="Take photos of your meals, ingredients, or recipes"
-                       FontSize="12"
-                       TextColor="#AAAAAA"
-                       HorizontalTextAlignment="Center" />
+
             </VerticalStackLayout>
-        </Frame>
+        </ScrollView>
 
-        <!-- Capture Button -->
-        <Button Grid.Row="1"
-                Text="&#x1F4F8; Take Photo"
-                Style="{StaticResource PrimaryButton}"
-                Command="{Binding TakePhotoCommand}"
-                HeightRequest="56"
-                FontSize="18"
-                CornerRadius="28"
-                Margin="40,16,40,32"
-                SemanticProperties.Description="Capture a photo with the device camera" />
+        <!-- Bottom Action Buttons -->
+        <VerticalStackLayout Grid.Row="1" Spacing="10" Margin="0,8,0,20">
+
+            <!-- Take Photo / Clear -->
+            <Button Text="&#x1F4F8; Take Photo"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding TakePhotoCommand}"
+                    HeightRequest="52"
+                    FontSize="16"
+                    CornerRadius="26"
+                    IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}"
+                    SemanticProperties.Description="Capture a photo with the camera" />
+
+            <Button Text="&#x1F5BC; Pick from Gallery"
+                    Style="{StaticResource SecondaryButton}"
+                    Command="{Binding PickPhotoCommand}"
+                    HeightRequest="48"
+                    FontSize="14"
+                    CornerRadius="24"
+                    IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}"
+                    SemanticProperties.Description="Pick a photo from your gallery" />
+
+            <!-- Clear Photo -->
+            <Button Text="&#x2716; Clear Photo"
+                    Style="{StaticResource SecondaryButton}"
+                    Command="{Binding ClearPhotoCommand}"
+                    HeightRequest="48"
+                    FontSize="14"
+                    CornerRadius="24"
+                    IsVisible="{Binding HasPhoto}"
+                    SemanticProperties.Description="Clear the current photo" />
+
+            <!-- Take Another -->
+            <Button Text="&#x1F4F8; Take Another Photo"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding TakePhotoCommand}"
+                    HeightRequest="52"
+                    FontSize="16"
+                    CornerRadius="26"
+                    IsVisible="{Binding HasPhoto}"
+                    SemanticProperties.Description="Capture another photo" />
+
+        </VerticalStackLayout>
 
     </Grid>
 

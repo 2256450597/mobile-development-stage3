@@ -26,8 +26,8 @@
                        SemanticProperties.Description="Tasty Meal Planner application title" />
 
                 <Label Grid.Row="1"
-                       Text="Plan, cook, and enjoy your meals!"
-                       FontSize="14"
+                       Text="Plan, cook, and enjoy your meals!  |  Shake for random recipe"
+                       FontSize="12"
                        TextColor="#FFCCBB"
                        Margin="0,4,0,0" />
             </Grid>

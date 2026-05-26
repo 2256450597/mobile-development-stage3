@@ -1,12 +1,15 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using TastyMealPlanner.Services;
 
 namespace TastyMealPlanner.ViewModels;
 
 public class NearbyViewModel : BaseViewModel
 {
-    public ICommand GoBackCommand { get; }
-    public ICommand RefreshLocationCommand { get; }
+    private readonly ILocationService _locationService;
+    private readonly IHapticService _haptic;
+
+    public ObservableCollection<NearbyPlace> NearbyPlaces { get; } = new();
 
     private string _locationInfo = "Fetching location...";
     public string LocationInfo
@@ -22,12 +25,35 @@ public class NearbyViewModel : BaseViewModel
         set => SetProperty(ref _isLocating, value);
     }
 
-    public NearbyViewModel()
+    private bool _hasLocation;
+    public bool HasLocation
     {
+        get => _hasLocation;
+        set => SetProperty(ref _hasLocation, value);
+    }
+
+    public ICommand GoBackCommand { get; }
+    public ICommand RefreshLocationCommand { get; }
+
+    public NearbyViewModel(ILocationService locationService, IHapticService haptic)
+    {
+        _locationService = locationService;
+        _haptic = haptic;
         Title = "Nearby Stores";
 
-        GoBackCommand = new Command(async () => await Shell.Current.GoToAsync(".."));
-        RefreshLocationCommand = new Command(async () => await GetLocationAsync());
+        GoBackCommand = new Command(async () =>
+        {
+            _haptic.PerformClick();
+            await Shell.Current.GoToAsync("..");
+        });
+
+        RefreshLocationCommand = new Command(async () =>
+        {
+            _haptic.PerformClick();
+            await GetLocationAsync();
+        });
+
+        _ = GetLocationAsync();
     }
 
     private async Task GetLocationAsync()
@@ -35,33 +61,36 @@ public class NearbyViewModel : BaseViewModel
         try
         {
             IsLocating = true;
-            LocationInfo = "Fetching location...";
+            LocationInfo = "Requesting location permission...";
 
-            var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-            if (status != PermissionStatus.Granted)
+            var hasPermission = await _locationService.RequestLocationPermissionAsync();
+            if (!hasPermission)
             {
-                status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-                if (status != PermissionStatus.Granted)
-                {
-                    LocationInfo = "Location permission denied.";
-                    return;
-                }
+                LocationInfo = "Location permission denied. Please enable in settings.";
+                return;
             }
 
-            var location = await Geolocation.Default.GetLocationAsync(new GeolocationRequest
-            {
-                DesiredAccuracy = GeolocationAccuracy.Medium,
-                Timeout = TimeSpan.FromSeconds(10)
-            });
+            LocationInfo = "Fetching your location...";
+            var location = await _locationService.GetCurrentLocationAsync();
 
             if (location != null)
             {
-                LocationInfo = $"Lat: {location.Latitude:F4}, Lon: {location.Longitude:F4}\n" +
-                               $"Showing grocery stores near you...";
+                HasLocation = true;
+                LocationInfo = location.DisplayText;
+
+                LocationInfo += "\nFinding nearby grocery stores...";
+                var places = await _locationService.GetNearbyGroceryStoresAsync(
+                    location.Latitude, location.Longitude);
+
+                NearbyPlaces.Clear();
+                foreach (var place in places)
+                    NearbyPlaces.Add(place);
+
+                LocationInfo = $"Found {places.Count} stores near your location.";
             }
             else
             {
-                LocationInfo = "Unable to get location.";
+                LocationInfo = "Unable to get current location. Try again.";
             }
         }
         catch (Exception ex)

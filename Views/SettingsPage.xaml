@@ -110,6 +110,74 @@
                 </VerticalStackLayout>
             </Frame>
 
+            <!-- Hardware Settings Section -->
+            <Label Text="Hardware Settings"
+                   Style="{StaticResource SectionTitleLabel}"
+                   SemanticProperties.HeadingLevel="Level2" />
+
+            <Frame Style="{StaticResource CardFrame}" Margin="12,0">
+                <VerticalStackLayout Spacing="14">
+
+                    <!-- TTS Speed -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Text-to-Speech Speed"
+                               FontSize="16" FontAttributes="Bold"
+                               TextColor="{StaticResource TextPrimaryLight}" />
+                        <Label Text="Adjust how fast recipes are read aloud"
+                               FontSize="12"
+                               TextColor="{StaticResource TextSecondaryLight}" />
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                            <Slider Grid.Column="0"
+                                    Minimum="0.5" Maximum="2.0"
+                                    Value="{Binding TtsSpeed}"
+                                    MinimumTrackColor="{StaticResource Primary}"
+                                    MaximumTrackColor="{StaticResource BorderLight}"
+                                    ThumbColor="{StaticResource Primary}" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding TtsSpeed, StringFormat='{0:F1}x'}"
+                                   FontSize="13" FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"
+                                   VerticalTextAlignment="Center"
+                                   WidthRequest="40" />
+                        </Grid>
+                    </VerticalStackLayout>
+
+                    <BoxView HeightRequest="1" Color="{StaticResource BorderLight}" />
+
+                    <!-- TTS Pitch -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Text-to-Speech Pitch"
+                               FontSize="16" FontAttributes="Bold"
+                               TextColor="{StaticResource TextPrimaryLight}" />
+                        <Label Text="Adjust the voice pitch for reading"
+                               FontSize="12"
+                               TextColor="{StaticResource TextSecondaryLight}" />
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                            <Slider Grid.Column="0"
+                                    Minimum="0.5" Maximum="2.0"
+                                    Value="{Binding TtsPitch}"
+                                    MinimumTrackColor="{StaticResource Accent}"
+                                    MaximumTrackColor="{StaticResource BorderLight}"
+                                    ThumbColor="{StaticResource Accent}" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding TtsPitch, StringFormat='{0:F1}x'}"
+                                   FontSize="13" FontAttributes="Bold"
+                                   TextColor="{StaticResource Accent}"
+                                   VerticalTextAlignment="Center"
+                                   WidthRequest="40" />
+                        </Grid>
+                    </VerticalStackLayout>
+
+                    <!-- Test TTS Button -->
+                    <Button Text="&#x1F50A; Test Text-to-Speech"
+                            Style="{StaticResource SecondaryButton}"
+                            Command="{Binding TestTtsCommand}"
+                            SemanticProperties.Description="Test text-to-speech with current settings"
+                            Margin="0,4,0,0" />
+
+                </VerticalStackLayout>
+            </Frame>
+
             <!-- About Section -->
             <Label Text="About"
                    Style="{StaticResource SectionTitleLabel}"

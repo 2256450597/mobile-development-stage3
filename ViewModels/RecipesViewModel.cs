@@ -8,6 +8,7 @@ namespace TastyMealPlanner.ViewModels;
 public class RecipesViewModel : BaseViewModel
 {
     private readonly IDataService _dataService;
+    private readonly IHapticService _haptic;
 
     public ObservableCollection<Recipe> Recipes { get; } = new();
     public ObservableCollection<FoodCategory> Categories { get; } = new();
@@ -38,23 +39,27 @@ public class RecipesViewModel : BaseViewModel
     public ICommand ClearCategoryCommand { get; }
     public ICommand NavigateToRecipeCommand { get; }
 
-    public RecipesViewModel(IDataService dataService)
+    public RecipesViewModel(IDataService dataService, IHapticService haptic)
     {
         _dataService = dataService;
+        _haptic = haptic;
         Title = "Recipes";
 
         SelectCategoryCommand = new Command<FoodCategory>((cat) =>
         {
-            if (SelectedCategory == cat)
-                SelectedCategory = null;
-            else
-                SelectedCategory = cat;
+            _haptic.PerformClick();
+            SelectedCategory = (SelectedCategory == cat) ? null : cat;
         });
 
-        ClearCategoryCommand = new Command(() => SelectedCategory = null);
+        ClearCategoryCommand = new Command(() =>
+        {
+            _haptic.PerformClick();
+            SelectedCategory = null;
+        });
 
         NavigateToRecipeCommand = new Command<Recipe>(async (recipe) =>
         {
+            _haptic.PerformClick();
             if (recipe != null)
                 await Shell.Current.GoToAsync($"recipedetail?id={recipe.Id}");
         });
@@ -67,15 +72,10 @@ public class RecipesViewModel : BaseViewModel
     {
         Categories.Clear();
         foreach (FoodCategory cat in Enum.GetValues(typeof(FoodCategory)))
-        {
             Categories.Add(cat);
-        }
     }
 
-    private void LoadAllRecipes()
-    {
-        FilterRecipes();
-    }
+    private void LoadAllRecipes() => FilterRecipes();
 
     private void FilterRecipes()
     {

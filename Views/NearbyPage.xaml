@@ -6,22 +6,28 @@
              x:DataType="vm:NearbyViewModel"
              Title="{Binding Title}">
 
-    <Grid RowDefinitions="Auto,*,Auto" Padding="20">
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="16">
 
-        <!-- Info Card -->
-        <Frame Grid.Row="0" Style="{StaticResource CardFrame}" Margin="0">
+        <!-- Location Status Card -->
+        <Frame Grid.Row="0" Style="{StaticResource CardFrame}" Margin="0,0,0,8">
             <VerticalStackLayout Spacing="8">
-                <Label Text="&#x1F4CD; Your Location"
-                       FontSize="18" FontAttributes="Bold"
-                       TextColor="{StaticResource TextPrimaryLight}" />
+                <HorizontalStackLayout Spacing="8">
+                    <Label Text="&#x1F4CD;" FontSize="20" VerticalTextAlignment="Center" />
+                    <Label Text="Your Location"
+                           FontSize="18" FontAttributes="Bold"
+                           TextColor="{StaticResource TextPrimaryLight}"
+                           VerticalTextAlignment="Center" />
+                </HorizontalStackLayout>
+
                 <Label Text="{Binding LocationInfo}"
-                       FontSize="14"
+                       FontSize="13"
                        TextColor="{StaticResource TextSecondaryLight}" />
 
                 <ActivityIndicator IsRunning="{Binding IsLocating}"
                                    IsVisible="{Binding IsLocating}"
                                    Color="{StaticResource Primary}"
-                                   HorizontalOptions="Start" />
+                                   HorizontalOptions="Start"
+                                   HeightRequest="20" />
             </VerticalStackLayout>
         </Frame>
 
@@ -29,32 +35,100 @@
         <Frame Grid.Row="1"
                BackgroundColor="#E8F5E9"
                CornerRadius="16"
-               Margin="0,16">
-            <VerticalStackLayout VerticalOptions="Center"
-                                 HorizontalOptions="Center" Spacing="12">
-                <Label Text="&#x1F5FA;"
-                       FontSize="50"
-                       HorizontalTextAlignment="Center" />
-                <Label Text="Map will appear here"
-                       FontSize="16"
-                       TextColor="{StaticResource TextSecondaryLight}"
-                       HorizontalTextAlignment="Center" />
-                <Label Text="Showing grocery stores and markets near your location"
-                       FontSize="12"
-                       TextColor="{StaticResource TextSecondaryLight}"
-                       HorizontalTextAlignment="Center" />
-            </VerticalStackLayout>
+               HeightRequest="120"
+               Padding="0"
+               Margin="0,4">
+            <Grid>
+                <!-- Decorative map-like background -->
+                <BoxView Color="#C8E6C9" CornerRadius="16" />
+                <VerticalStackLayout VerticalOptions="Center"
+                                     HorizontalOptions="Center" Spacing="6">
+                    <Label Text="&#x1F5FA;" FontSize="40" HorizontalTextAlignment="Center" />
+                    <Label Text="Nearby Grocery Stores"
+                           FontSize="14" FontAttributes="Bold"
+                           TextColor="{StaticResource SecondaryDark}"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </Grid>
         </Frame>
 
-        <!-- Refresh Location Button -->
-        <Button Grid.Row="2"
-                Text="&#x1F4CD; Refresh Location"
+        <!-- Nearby Places List Header -->
+        <Label Grid.Row="2"
+               Text="Nearby Stores"
+               Style="{StaticResource SectionTitleLabel}"
+               Margin="0,8,0,4" />
+
+        <!-- Nearby Places List -->
+        <CollectionView Grid.Row="2"
+                        ItemsSource="{Binding NearbyPlaces}"
+                        Margin="0,24,0,8">
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center"
+                                     VerticalOptions="Center" Spacing="8"
+                                     Padding="0,20">
+                    <Label Text="No stores found"
+                           FontSize="14" HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource TextSecondaryLight}" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:NearbyPlace">
+                    <Frame Style="{StaticResource CardFrame}" Margin="0,4">
+                        <Grid ColumnDefinitions="44,*,Auto" ColumnSpacing="12">
+                            <!-- Store Icon -->
+                            <Frame Grid.Column="0"
+                                   BackgroundColor="{StaticResource PrimaryLight}"
+                                   CornerRadius="22"
+                                   WidthRequest="44" HeightRequest="44"
+                                   Padding="0" HasShadow="False">
+                                <Label Text="{Binding IconGlyph}"
+                                       FontSize="20"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalTextAlignment="Center" />
+                            </Frame>
+
+                            <!-- Store Info -->
+                            <VerticalStackLayout Grid.Column="1"
+                                                 VerticalOptions="Center" Spacing="2">
+                                <Label Text="{Binding Name}"
+                                       FontSize="14" FontAttributes="Bold"
+                                       TextColor="{StaticResource TextPrimaryLight}" />
+                                <Label Text="{Binding Address}"
+                                       FontSize="12"
+                                       TextColor="{StaticResource TextSecondaryLight}" />
+                            </VerticalStackLayout>
+
+                            <!-- Distance -->
+                            <Frame Grid.Column="2"
+                                   BackgroundColor="{StaticResource Primary}"
+                                   CornerRadius="12" Padding="10,6"
+                                   HasShadow="False"
+                                   VerticalOptions="Center">
+                                <Label FontSize="12" FontAttributes="Bold"
+                                       TextColor="White">
+                                    <Label.Text>
+                                        <Binding Path="DistanceKm"
+                                                 StringFormat="{}{0:F1} km" />
+                                    </Label.Text>
+                                </Label>
+                            </Frame>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Refresh Button -->
+        <Button Grid.Row="3"
+                Text="&#x1F504; Refresh Location"
                 Style="{StaticResource PrimaryButton}"
                 Command="{Binding RefreshLocationCommand}"
                 HeightRequest="50"
                 FontSize="16"
                 CornerRadius="25"
-                Margin="30,0,30,20"
+                Margin="16,8,16,24"
                 IsEnabled="{Binding IsLocating, Converter={StaticResource InverseBool}}"
                 SemanticProperties.Description="Refresh your current location" />
 

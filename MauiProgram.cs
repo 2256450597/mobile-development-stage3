@@ -20,6 +20,11 @@ public static class MauiProgram
 
         // Services
         builder.Services.AddSingleton<IDataService, DataService>();
+        builder.Services.AddSingleton<ICameraService, CameraService>();
+        builder.Services.AddSingleton<ILocationService, LocationService>();
+        builder.Services.AddSingleton<ITextToSpeechService, TextToSpeechService>();
+        builder.Services.AddSingleton<IAccelerometerService, AccelerometerService>();
+        builder.Services.AddSingleton<IHapticService, HapticService>();
 
         // ViewModels
         builder.Services.AddSingleton<HomeViewModel>();

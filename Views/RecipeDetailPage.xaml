@@ -113,25 +113,58 @@
 
         <!-- Bottom Action Bar -->
         <Grid Grid.Row="1"
+              RowDefinitions="Auto,Auto"
               ColumnDefinitions="*,*"
               ColumnSpacing="12"
-              Padding="16,12,16,24"
+              RowSpacing="8"
+              Padding="16,8,16,24"
               BackgroundColor="{StaticResource SurfaceLight}">
             <Grid.Shadow>
                 <Shadow Color="Black" Offset="0,-2" Radius="8" Opacity="0.1" />
             </Grid.Shadow>
 
-            <Button Grid.Column="0"
+            <!-- TTS Speed Slider -->
+            <Grid Grid.Row="0" Grid.ColumnSpan="2" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                <Label Grid.Column="0" Text="TTS Speed:"
+                       FontSize="11" VerticalTextAlignment="Center"
+                       TextColor="{StaticResource TextSecondaryLight}" />
+                <Slider Grid.Column="1"
+                        Minimum="0.5" Maximum="2.0"
+                        Value="{Binding TtsSpeed}"
+                        MinimumTrackColor="{StaticResource Primary}"
+                        MaximumTrackColor="{StaticResource BorderLight}"
+                        ThumbColor="{StaticResource Primary}"
+                        SemanticProperties.Description="Adjust text-to-speech speed" />
+                <Label Grid.Column="2"
+                       Text="{Binding TtsSpeed, StringFormat='{0:F1}x'}"
+                       FontSize="11" VerticalTextAlignment="Center"
+                       TextColor="{StaticResource TextSecondaryLight}" />
+            </Grid>
+
+            <Button Grid.Row="1" Grid.Column="0"
                     Text="&#x1F4C5; Add to Meal Plan"
                     Style="{StaticResource PrimaryButton}"
                     Command="{Binding AddToMealPlanCommand}"
                     SemanticProperties.Description="Add this recipe to your meal plan" />
 
-            <Button Grid.Column="1"
+            <Button Grid.Row="1" Grid.Column="1"
                     Text="&#x1F50A; Read Aloud"
                     Style="{StaticResource SecondaryButton}"
                     Command="{Binding SpeakRecipeCommand}"
+                    IsVisible="{Binding IsSpeaking, Converter={StaticResource InverseBool}}"
                     SemanticProperties.Description="Read the recipe aloud using text-to-speech" />
+
+            <Button Grid.Row="1" Grid.Column="1"
+                    Text="&#x1F50A; Reading..."
+                    BackgroundColor="{StaticResource Error}"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="8"
+                    Padding="16,12"
+                    FontSize="14"
+                    Command="{Binding StopSpeakingCommand}"
+                    IsVisible="{Binding IsSpeaking}"
+                    SemanticProperties.Description="Stop reading aloud" />
         </Grid>
 
     </Grid>
