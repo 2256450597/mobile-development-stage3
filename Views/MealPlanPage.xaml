@@ -29,69 +29,68 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="vm:DayPlanGroup">
-                    <!-- Notepad-style day card -->
-                    <Border Margin="8,4,8,12" Padding="0"
-                            StrokeShape="RoundRectangle 6"
-                            Stroke="{AppThemeBinding Light=#E0D8CC, Dark=#3A3530}"
-                            StrokeThickness="1">
-                        <Grid>
-                            <Image Source="notepad_bg.jpg" Aspect="AspectFill" Opacity="0.2" />
-                            <VerticalStackLayout>
-                                <Grid ColumnDefinitions="*,Auto" Padding="12,10,12,6">
-                                    <Label Text="{Binding DayName}" FontSize="13" FontAttributes="Bold"
-                                           TextColor="{AppThemeBinding Light=#5C4A3A, Dark=#C8B8A0}"
-                                           VerticalTextAlignment="Center" />
-                                    <Button Grid.Column="1" Text="+ Add" FontSize="11"
-                                            Padding="10,4" CornerRadius="4"
-                                            BackgroundColor="{StaticResource Accent}" TextColor="White"
-                                            HeightRequest="30"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MealPlanViewModel}}, Path=AddMealCommand}"
-                                            CommandParameter="{Binding .}" />
-                                </Grid>
-                                <BoxView HeightRequest="1" Color="{AppThemeBinding Light=#E8E0D0, Dark=#2C2820}"
-                                         Margin="12,0,12,0" />
-                                <CollectionView ItemsSource="{Binding Entries}" HeightRequest="130"
-                                                Margin="8,8,8,12">
-                                    <CollectionView.ItemsLayout>
-                                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10" />
-                                    </CollectionView.ItemsLayout>
-                                    <CollectionView.EmptyView>
-                                        <Label Text="No meals planned" FontSize="12"
-                                               TextColor="{StaticResource TextTertiary}"
-                                               VerticalTextAlignment="Center" Margin="8,0" />
-                                    </CollectionView.EmptyView>
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate x:DataType="models:MealPlanEntry">
-                                            <Border StrokeShape="RoundRectangle 6"
-                                                    Stroke="{AppThemeBinding Light=#E8E0D0, Dark=#3A3530}"
-                                                    StrokeThickness="1" Padding="0"
-                                                    WidthRequest="140"
-                                                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}">
-                                                <VerticalStackLayout>
-                                                    <Image Source="{Binding Recipe.ImageUrl}"
-                                                           HeightRequest="85" Aspect="AspectFill" />
-                                                    <VerticalStackLayout Padding="8,6" Spacing="2">
-                                                        <Label Text="{Binding MealType}" FontSize="10"
-                                                               FontAttributes="Bold"
-                                                               TextColor="{StaticResource Accent}" />
-                                                        <Label Text="{Binding Recipe.Name}" FontSize="12"
-                                                               FontAttributes="Bold"
-                                                               TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}"
-                                                               LineBreakMode="TailTruncation" MaxLines="1" />
-                                                    </VerticalStackLayout>
-                                                </VerticalStackLayout>
-                                                <Border.GestureRecognizers>
-                                                    <TapGestureRecognizer
-                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MealPlanViewModel}}, Path=NavigateToDetailCommand}"
-                                                        CommandParameter="{Binding .}" />
-                                                </Border.GestureRecognizers>
-                                            </Border>
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
-                            </VerticalStackLayout>
+                    <VerticalStackLayout Margin="0,0,0,16">
+                        <!-- Day header: vintage typography -->
+                        <Grid ColumnDefinitions="*,Auto" Padding="16,8,16,6">
+                            <Label Text="{Binding DayName}" FontSize="20"
+                                   FontFamily="Pacifico"
+                                   TextColor="{AppThemeBinding Light=#8B6B4A, Dark=#C8B8A0}"
+                                   VerticalTextAlignment="Center" />
+                            <Button Grid.Column="1" Text="+ Add"
+                                    FontSize="11" Padding="12,4" CornerRadius="4"
+                                    BackgroundColor="Transparent"
+                                    TextColor="{StaticResource Accent}"
+                                    BorderColor="{StaticResource Accent}"
+                                    BorderWidth="1" HeightRequest="30"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MealPlanViewModel}}, Path=AddMealCommand}"
+                                    CommandParameter="{Binding .}" />
                         </Grid>
-                    </Border>
+                        <!-- Subtle separator -->
+                        <BoxView HeightRequest="1" Color="{AppThemeBinding Light=#E8E3DC, Dark=#2A2A25}"
+                                 Margin="16,0,16,4" />
+
+                        <!-- Meal cards -->
+                        <CollectionView ItemsSource="{Binding Entries}" HeightRequest="130"
+                                        Margin="8,4,8,0">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="12" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.EmptyView>
+                                <Label Text="No meals planned — tap + Add"
+                                       FontSize="12" TextColor="{StaticResource TextTertiary}"
+                                       VerticalTextAlignment="Center" Margin="16,0" />
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:MealPlanEntry">
+                                    <Border StrokeShape="RoundRectangle 4"
+                                            Stroke="{AppThemeBinding Light=#E8E3DC, Dark=#33312D}"
+                                            StrokeThickness="1" Padding="0"
+                                            WidthRequest="140"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}">
+                                        <VerticalStackLayout>
+                                            <Image Source="{Binding Recipe.ImageUrl}"
+                                                   HeightRequest="90" Aspect="AspectFill" />
+                                            <VerticalStackLayout Padding="10,8" Spacing="3">
+                                                <Label Text="{Binding MealType}" FontSize="9"
+                                                       FontAttributes="Bold"
+                                                       CharacterSpacing="1"
+                                                       TextColor="{StaticResource Accent}" />
+                                                <Label Text="{Binding Recipe.Name}" FontSize="12"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}"
+                                                       LineBreakMode="TailTruncation" MaxLines="1" />
+                                            </VerticalStackLayout>
+                                        </VerticalStackLayout>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MealPlanViewModel}}, Path=NavigateToDetailCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
