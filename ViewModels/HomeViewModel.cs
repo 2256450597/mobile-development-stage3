@@ -11,32 +11,6 @@ public class HomeViewModel : BaseViewModel
     private readonly IAccelerometerService _accelerometer;
     private readonly IHapticService _haptic;
 
-    // === Search ===
-    private string _searchText = string.Empty;
-    public string SearchText
-    {
-        get => _searchText;
-        set
-        {
-            if (SetProperty(ref _searchText, value))
-                ApplyFilters();
-        }
-    }
-
-    // === Category tabs ===
-    public List<CategoryTab> Categories { get; } = new();
-
-    private FoodCategory? _selectedCategory;
-    public FoodCategory? SelectedCategory
-    {
-        get => _selectedCategory;
-        set
-        {
-            if (SetProperty(ref _selectedCategory, value))
-                ApplyFilters();
-        }
-    }
-
     // === Recipe grid (2-column waterfall) ===
     public ObservableCollection<Recipe> RecipeGrid { get; } = new();
 
@@ -48,8 +22,6 @@ public class HomeViewModel : BaseViewModel
 
     // === Commands ===
     public ICommand NavigateToRecipeDetailCommand { get; }
-    public ICommand SearchCommand { get; }
-    public ICommand SelectCategoryCommand { get; }
     public ICommand ShowQuickMenuCommand { get; }
 
     public HomeViewModel(IDataService dataService,
@@ -66,18 +38,6 @@ public class HomeViewModel : BaseViewModel
             _haptic.PerformClick();
             if (recipe != null)
                 await Shell.Current.GoToAsync($"recipedetail?id={recipe.Id}");
-        });
-
-        SearchCommand = new Command(() =>
-        {
-            _haptic.PerformClick();
-            ApplyFilters();
-        });
-
-        SelectCategoryCommand = new Command<FoodCategory?>(cat =>
-        {
-            _haptic.PerformClick();
-            SelectedCategory = SelectedCategory == cat ? null : cat;
         });
 
         ShowQuickMenuCommand = new Command(async () =>
@@ -109,10 +69,9 @@ public class HomeViewModel : BaseViewModel
         _accelerometer.ShakeDetected += OnShakeDetected;
         _accelerometer.StartShakeDetection();
 
-        LoadCategories();
         LoadTodayMeals();
         LoadCollections();
-        ApplyFilters();
+        LoadAllRecipes();
     }
 
     private async void OnShakeDetected(object? sender, EventArgs e)
@@ -121,14 +80,6 @@ public class HomeViewModel : BaseViewModel
         var recipes = _dataService.GetAllRecipes();
         var random = recipes[new Random().Next(recipes.Count)];
         await Shell.Current.GoToAsync($"recipedetail?id={random.Id}");
-    }
-
-    private void LoadCategories()
-    {
-        Categories.Clear();
-        Categories.Add(new CategoryTab { Name = "All", Category = null, Selected = true });
-        foreach (FoodCategory cat in Enum.GetValues(typeof(FoodCategory)))
-            Categories.Add(new CategoryTab { Name = cat.ToString(), Category = cat, Selected = false });
     }
 
     private void LoadTodayMeals()
@@ -164,43 +115,17 @@ public class HomeViewModel : BaseViewModel
         });
     }
 
-    private void ApplyFilters()
+    private void LoadAllRecipes()
     {
         RecipeGrid.Clear();
-        List<Recipe> results;
-
-        if (!string.IsNullOrWhiteSpace(SearchText))
-            results = _dataService.SearchRecipes(SearchText);
-        else if (SelectedCategory.HasValue)
-            results = _dataService.GetRecipesByCategory(SelectedCategory.Value);
-        else
-            results = _dataService.GetAllRecipes();
-
-        foreach (var recipe in results)
+        foreach (var recipe in _dataService.GetAllRecipes())
             RecipeGrid.Add(recipe);
-
-        // Update category selection state
-        foreach (var cat in Categories)
-            cat.Selected = cat.Category == SelectedCategory;
     }
 
     public void Cleanup()
     {
         _accelerometer.StopShakeDetection();
         _accelerometer.ShakeDetected -= OnShakeDetected;
-    }
-}
-
-public class CategoryTab : BaseViewModel
-{
-    public string Name { get; set; } = string.Empty;
-    public FoodCategory? Category { get; set; }
-
-    private bool _selected;
-    public bool Selected
-    {
-        get => _selected;
-        set => SetProperty(ref _selected, value);
     }
 }
 
