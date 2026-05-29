@@ -89,4 +89,45 @@ public class ThemeService
     public double BodySize => GetScaledFontSize(14);
     public double CaptionSize => GetScaledFontSize(12);
     public double SectionTitleSize => GetScaledFontSize(20);
+
+    /// <summary>Recursively scales font sizes on all text elements in a page.</summary>
+    public void ApplyFontScaleToPage(Element root)
+    {
+        ApplyToElement(root);
+        if (root is IVisualTreeElement visual)
+        {
+            foreach (var child in visual.GetVisualChildren().OfType<Element>())
+                ApplyFontScaleToPage(child);
+        }
+    }
+
+    private readonly Dictionary<Element, double> _originalSizes = new();
+    private void ApplyToElement(Element element)
+    {
+        switch (element)
+        {
+            case Label label:
+                label.FontSize = GetBaseSize(label, label.FontSize) * FontScale;
+                break;
+            case Button button:
+                button.FontSize = GetBaseSize(button, button.FontSize) * FontScale;
+                break;
+            case Entry entry:
+                entry.FontSize = GetBaseSize(entry, entry.FontSize) * FontScale;
+                break;
+            case SearchBar search:
+                search.FontSize = GetBaseSize(search, search.FontSize) * FontScale;
+                break;
+            case Picker picker:
+                picker.FontSize = GetBaseSize(picker, picker.FontSize) * FontScale;
+                break;
+        }
+    }
+
+    private double GetBaseSize(Element el, double current)
+    {
+        if (!_originalSizes.ContainsKey(el))
+            _originalSizes[el] = current > 0 ? current : 14;
+        return _originalSizes[el];
+    }
 }
