@@ -86,9 +86,6 @@
                             <Label Grid.Column="3" Text="×" FontSize="18"
                                    TextColor="{StaticResource TextTertiary}"
                                    VerticalTextAlignment="Center"
-                            <Label Grid.Column="2" Text="×" FontSize="18"
-                                   TextColor="{StaticResource TextTertiary}"
-                                   VerticalTextAlignment="Center"
                                    SemanticProperties.Description="Delete item">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer
