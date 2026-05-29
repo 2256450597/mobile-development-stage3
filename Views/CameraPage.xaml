@@ -17,40 +17,37 @@
         <!-- Preview area -->
         <Frame Grid.Row="1" BackgroundColor="#1A1A2E" CornerRadius="4" Padding="0">
             <Grid>
-                <!-- Empty state -->
                 <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center"
                                      IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}" Spacing="8">
                     <Label Text="Camera Preview" FontSize="18" TextColor="White" HorizontalTextAlignment="Center" />
                     <Label Text="Tap a button below to get started" FontSize="13" TextColor="#AAAAAA" HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>
-                <!-- Photo preview -->
                 <Image Source="{Binding PhotoPath}" Aspect="AspectFill"
                        IsVisible="{Binding HasPhoto}" />
             </Grid>
         </Frame>
 
-        <!-- Action buttons -->
-        <VerticalStackLayout Grid.Row="2" Spacing="10" Margin="0,16,0,0">
-
+        <!-- Before photo: capture options -->
+        <VerticalStackLayout Grid.Row="2" Spacing="10" Margin="0,16,0,0"
+                             IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}">
             <Button Text="Take Photo" Style="{StaticResource PrimaryButton}"
                     Command="{Binding TakePhotoCommand}"
-                    IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}"
                     SemanticProperties.Description="Capture a photo with the camera" />
-
             <Button Text="Pick from Gallery" Style="{StaticResource SecondaryButton}"
-                    Command="{Binding PickPhotoCommand}"
-                    IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}"
-                    SemanticProperties.Description="Pick a photo from your gallery" />
+                    Command="{Binding PickPhotoCommand}" />
+        </VerticalStackLayout>
 
-            <Button Text="Take Another Photo" Style="{StaticResource PrimaryButton}"
-                    Command="{Binding TakePhotoCommand}"
-                    IsVisible="{Binding HasPhoto}"
-                    SemanticProperties.Description="Capture another photo" />
-
-            <Button Text="Clear Photo" Style="{StaticResource SecondaryButton}"
+        <!-- After photo: action options -->
+        <VerticalStackLayout Grid.Row="2" Spacing="10" Margin="0,16,0,0"
+                             IsVisible="{Binding HasPhoto}">
+            <Button Text="Save to Gallery" Style="{StaticResource PrimaryButton}"
+                    Command="{Binding SaveToGalleryCommand}"
+                    SemanticProperties.Description="Save the photo to your device gallery" />
+            <Button Text="Take Another" Style="{StaticResource SecondaryButton}"
+                    Command="{Binding TakePhotoCommand}" />
+            <Button Text="Discard" Style="{StaticResource SecondaryButton}"
                     Command="{Binding ClearPhotoCommand}"
-                    IsVisible="{Binding HasPhoto}"
-                    SemanticProperties.Description="Clear the current photo" />
+                    TextColor="{StaticResource Error}" BorderColor="{StaticResource Error}" />
         </VerticalStackLayout>
 
     </Grid>

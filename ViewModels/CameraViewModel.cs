@@ -40,6 +40,7 @@ public class CameraViewModel : BaseViewModel
     public ICommand TakePhotoCommand { get; }
     public ICommand PickPhotoCommand { get; }
     public ICommand ClearPhotoCommand { get; }
+    public ICommand SaveToGalleryCommand { get; }
     public ICommand GoBackCommand { get; }
 
     public CameraViewModel(ICameraService cameraService, IHapticService haptic)
@@ -57,6 +58,8 @@ public class CameraViewModel : BaseViewModel
             HasPhoto = false;
             StatusMessage = "Ready to capture";
         });
+
+        SaveToGalleryCommand = new Command(async () => await OnSaveToGallery());
 
         GoBackCommand = new Command(async () =>
         {
@@ -94,6 +97,30 @@ public class CameraViewModel : BaseViewModel
         catch (Exception ex)
         {
             StatusMessage = ex.Message;
+        }
+    }
+
+    private async Task OnSaveToGallery()
+    {
+        if (string.IsNullOrEmpty(PhotoPath) || !File.Exists(PhotoPath))
+        {
+            StatusMessage = "No photo to save.";
+            return;
+        }
+
+        try
+        {
+            _haptic.PerformClick();
+            // Copy to device Pictures folder so it shows in the Gallery app
+            var fileName = $"tasty_{DateTime.Now:yyyyMMdd_HHmmss}.jpg";
+            var publicDir = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), fileName);
+            File.Copy(PhotoPath, publicDir, overwrite: true);
+            StatusMessage = "Photo saved to Pictures folder.";
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Could not save: {ex.Message}";
         }
     }
 
