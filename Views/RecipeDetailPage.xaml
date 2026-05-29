@@ -119,10 +119,9 @@
               ColumnSpacing="12"
               RowSpacing="8"
               Padding="16,8,16,24"
-              BackgroundColor="{StaticResource SurfaceBackground}">
-            <Grid.Shadow>
-                <Shadow Brush="#000000" Offset="0,-2" Radius="8" Opacity="0.1" />
-            </Grid.Shadow>
+              BackgroundColor="{StaticResource SurfaceBackground}"
+              BorderColor="{StaticResource BorderColor}"
+              BorderWidth="1">
 
             <!-- TTS Speed Slider -->
             <Grid Grid.Row="0" Grid.ColumnSpan="2" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">

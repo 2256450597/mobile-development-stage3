@@ -10,41 +10,35 @@
     <ScrollView>
         <VerticalStackLayout Spacing="0">
 
-            <!-- Header Banner -->
-            <Grid BackgroundColor="{StaticResource Primary}"
-                  Padding="20,50,20,30">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <Label Grid.Row="0"
-                       Text="Tasty Meal Planner"
-                       FontSize="28"
+            <!-- Header -->
+            <VerticalStackLayout Padding="24,56,24,32" Spacing="6"
+                                 BackgroundColor="{AppThemeBinding Light={StaticResource Light_Background}, Dark={StaticResource Dark_Background}}">
+                <Label Text="TASTY MEAL PLANNER"
+                       FontSize="11"
                        FontAttributes="Bold"
-                       TextColor="White"
+                       CharacterSpacing="3"
+                       TextColor="{StaticResource TextSecondary}"
                        SemanticProperties.Description="Tasty Meal Planner application title" />
-
-                <Label Grid.Row="1"
-                       Text="Plan, cook, and enjoy your meals!  |  Shake for random recipe"
-                       FontSize="12"
-                       TextColor="#FFCCBB"
+                <Label Text="Plan, cook, enjoy."
+                       FontSize="28"
+                       FontFamily="OpenSansSemibold"
+                       TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}"
                        Margin="0,4,0,0" />
-            </Grid>
+            </VerticalStackLayout>
 
             <!-- Quick Actions -->
             <Grid ColumnDefinitions="*,*,*,*"
-                  ColumnSpacing="10"
-                  Margin="16,-20,16,0">
-                <Grid.Shadow>
-                    <Shadow Brush="#000000" Offset="0,4" Radius="8" Opacity="0.15" />
-                </Grid.Shadow>
+                  ColumnSpacing="12"
+                  Margin="16,20,16,0">
 
-                <Frame Grid.Column="0" BackgroundColor="White" CornerRadius="16"
-                       Padding="8" HasShadow="False">
-                    <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                <Frame Grid.Column="0" BackgroundColor="{AppThemeBinding Light={StaticResource Light_Card}, Dark={StaticResource Dark_Card}}"
+                       CornerRadius="4" Padding="8" HasShadow="False"
+                       BorderColor="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}">
+                    <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
                         <Button Style="{StaticResource IconButton}"
-                                BackgroundColor="#FFF0E6"
+                                BackgroundColor="{StaticResource AccentVeryLight}"
+                                TextColor="{StaticResource Accent}"
+                                Text="Cam"
                                 Command="{Binding NavigateToCameraCommand}"
                                 SemanticProperties.Description="Open camera" />
                         <Label Text="Camera" FontSize="10"
@@ -53,11 +47,12 @@
                     </VerticalStackLayout>
                 </Frame>
 
-                <Frame Grid.Column="1" BackgroundColor="White" CornerRadius="16"
-                       Padding="8" HasShadow="False">
-                    <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                <Frame Grid.Column="1" BackgroundColor="{AppThemeBinding Light={StaticResource Light_Card}, Dark={StaticResource Dark_Card}}"
+                       CornerRadius="4" Padding="8" HasShadow="False"
+                       BorderColor="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}">
+                    <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
                         <Button Style="{StaticResource IconButton}"
-                                BackgroundColor="#E3F2FD"
+                                Text="Near"
                                 Command="{Binding NavigateToNearbyCommand}"
                                 SemanticProperties.Description="Find nearby stores" />
                         <Label Text="Nearby" FontSize="10"
@@ -66,11 +61,12 @@
                     </VerticalStackLayout>
                 </Frame>
 
-                <Frame Grid.Column="2" BackgroundColor="White" CornerRadius="16"
-                       Padding="8" HasShadow="False">
-                    <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                <Frame Grid.Column="2" BackgroundColor="{AppThemeBinding Light={StaticResource Light_Card}, Dark={StaticResource Dark_Card}}"
+                       CornerRadius="4" Padding="8" HasShadow="False"
+                       BorderColor="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}">
+                    <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
                         <Button Style="{StaticResource IconButton}"
-                                BackgroundColor="#E8F5E9"
+                                Text="Surp"
                                 Command="{Binding SurpriseMeCommand}"
                                 SemanticProperties.Description="Get a random recipe suggestion" />
                         <Label Text="Surprise" FontSize="10"
@@ -79,11 +75,12 @@
                     </VerticalStackLayout>
                 </Frame>
 
-                <Frame Grid.Column="3" BackgroundColor="White" CornerRadius="16"
-                       Padding="8" HasShadow="False">
-                    <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
+                <Frame Grid.Column="3" BackgroundColor="{AppThemeBinding Light={StaticResource Light_Card}, Dark={StaticResource Dark_Card}}"
+                       CornerRadius="4" Padding="8" HasShadow="False"
+                       BorderColor="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}">
+                    <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
                         <Button Style="{StaticResource IconButton}"
-                                BackgroundColor="#F3E5F5"
+                                Text="Recp"
                                 Command="{Binding NavigateToRecipesCommand}"
                                 SemanticProperties.Description="Browse all recipes" />
                         <Label Text="Recipes" FontSize="10"
