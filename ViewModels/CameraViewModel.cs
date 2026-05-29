@@ -72,11 +72,11 @@ public class CameraViewModel : BaseViewModel
 
         if (!_cameraService.IsCaptureSupported)
         {
-            StatusMessage = "Camera not available on this device.";
+            StatusMessage = "Camera not available. This device does not support photo capture.";
             return;
         }
 
-        StatusMessage = "Opening camera...";
+        StatusMessage = "Requesting camera permission...";
         try
         {
             var result = await _cameraService.CapturePhotoAsync();
@@ -84,17 +84,16 @@ public class CameraViewModel : BaseViewModel
             {
                 PhotoPath = result.FullPath;
                 HasPhoto = true;
-                StatusMessage = $"Photo captured: {result.FileName}";
+                StatusMessage = "Photo captured successfully.";
             }
             else
             {
-                StatusMessage = "Photo capture was cancelled.";
+                StatusMessage = "Camera was closed without capturing a photo.";
             }
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Error: {ex.Message}";
-            await Shell.Current.DisplayAlert("Camera Error", ex.Message, "OK");
+            StatusMessage = ex.Message;
         }
     }
 
@@ -111,7 +110,7 @@ public class CameraViewModel : BaseViewModel
             {
                 PhotoPath = result.FullPath;
                 HasPhoto = true;
-                StatusMessage = $"Photo selected: {result.FileName}";
+                StatusMessage = "Photo selected from gallery.";
             }
             else
             {
@@ -120,8 +119,7 @@ public class CameraViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Error: {ex.Message}";
-            await Shell.Current.DisplayAlert("Gallery Error", ex.Message, "OK");
+            StatusMessage = ex.Message;
         }
     }
 }
