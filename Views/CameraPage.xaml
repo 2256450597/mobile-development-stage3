@@ -40,9 +40,11 @@
         <!-- After photo: action options -->
         <VerticalStackLayout Grid.Row="2" Spacing="10" Margin="0,16,0,0"
                              IsVisible="{Binding HasPhoto}">
-            <Button Text="Save to Gallery" Style="{StaticResource PrimaryButton}"
-                    Command="{Binding SaveToGalleryCommand}"
-                    SemanticProperties.Description="Save the photo to your device gallery" />
+            <Button Text="Use This Photo" Style="{StaticResource PrimaryButton}"
+                    Command="{Binding UsePhotoCommand}"
+                    SemanticProperties.Description="Create a new recipe with this photo" />
+            <Button Text="Save to Gallery" Style="{StaticResource SecondaryButton}"
+                    Command="{Binding SaveToGalleryCommand}" />
             <Button Text="Take Another" Style="{StaticResource SecondaryButton}"
                     Command="{Binding TakePhotoCommand}" />
             <Button Text="Discard" Style="{StaticResource SecondaryButton}"

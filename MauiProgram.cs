@@ -38,6 +38,7 @@ public static class MauiProgram
         builder.Services.AddTransient<CameraViewModel>();
         builder.Services.AddTransient<NearbyViewModel>();
         builder.Services.AddSingleton<SettingsViewModel>();
+        builder.Services.AddTransient<QuickAddViewModel>();
 
         // Pages
         builder.Services.AddSingleton<HomePage>();
@@ -48,6 +49,7 @@ public static class MauiProgram
         builder.Services.AddTransient<CameraPage>();
         builder.Services.AddTransient<NearbyPage>();
         builder.Services.AddSingleton<SettingsPage>();
+        builder.Services.AddTransient<QuickAddPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

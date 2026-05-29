@@ -13,5 +13,6 @@ public partial class AppShell : Shell
         Routing.RegisterRoute("recipedetail", typeof(RecipeDetailPage));
         Routing.RegisterRoute("camera", typeof(CameraPage));
         Routing.RegisterRoute("nearby", typeof(NearbyPage));
+        Routing.RegisterRoute("quickadd", typeof(QuickAddPage));
     }
 }

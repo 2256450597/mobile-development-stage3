@@ -40,4 +40,7 @@ public interface IDataService
 
     /// <summary>Searches recipes by name, category, or ingredients.</summary>
     List<Recipe> SearchRecipes(string query);
+
+    /// <summary>Adds a new recipe to the catalog.</summary>
+    void AddRecipe(Recipe recipe);
 }

@@ -41,6 +41,7 @@ public class CameraViewModel : BaseViewModel
     public ICommand PickPhotoCommand { get; }
     public ICommand ClearPhotoCommand { get; }
     public ICommand SaveToGalleryCommand { get; }
+    public ICommand UsePhotoCommand { get; }
     public ICommand GoBackCommand { get; }
 
     public CameraViewModel(ICameraService cameraService, IHapticService haptic)
@@ -60,6 +61,15 @@ public class CameraViewModel : BaseViewModel
         });
 
         SaveToGalleryCommand = new Command(async () => await OnSaveToGallery());
+
+        UsePhotoCommand = new Command(async () =>
+        {
+            if (!string.IsNullOrEmpty(PhotoPath))
+            {
+                var encoded = Uri.EscapeDataString(PhotoPath);
+                await Shell.Current.GoToAsync($"quickadd?photo={encoded}");
+            }
+        });
 
         GoBackCommand = new Command(async () =>
         {

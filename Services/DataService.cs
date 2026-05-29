@@ -55,6 +55,8 @@ public class DataService : IDataService
     public void ClearCheckedShoppingItems()
         => _shoppingList.RemoveAll(i => i.IsChecked);
 
+    public void AddRecipe(Recipe recipe) => _recipes.Add(recipe);
+
     public List<Recipe> SearchRecipes(string query)
     {
         if (string.IsNullOrWhiteSpace(query))
