@@ -67,7 +67,6 @@
     <Color x:Key="Secondary">#4A6B53</Color>
     <Color x:Key="SecondaryDark">#3B5643</Color>
     <Color x:Key="SecondaryVeryLight">#E8EFE9</Color>
-    <Color x:Key="AccentVeryLight">#F5EBE4</Color>
     <Color x:Key="Error">#B85450</Color>
     <Color x:Key="Warning">#D4A24E</Color>
 
@@ -90,7 +89,6 @@
     <Color x:Key="Dark_TextSecondary_Alt">#8A8880</Color>
     <Color x:Key="Dark_Border_Alt">#333330</Color>
 
-    <Color x:Key="White">#FFFFFF</Color>
     <Color x:Key="PageBackground">#FAFAF7</Color>
     <Color x:Key="SurfaceBackground">#FFFFFF</Color>
     <Color x:Key="CardBackground">#FFFFFF</Color>
