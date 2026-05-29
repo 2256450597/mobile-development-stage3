@@ -415,28 +415,7 @@ public class DataService : IDataService
         }
     };
 
-    private List<MealPlanEntry> InitializeMealPlan()
-    {
-        var today = DateTime.Now.DayOfWeek;
-        var monday = today - ((int)today - 1);
-        if (monday < 0) monday += 7;
-
-        return new()
-        {
-            new() { Id = "mp1", Day = DayOfWeek.Monday, MealType = MealType.Breakfast, Recipe = _recipes[0] },
-            new() { Id = "mp2", Day = DayOfWeek.Monday, MealType = MealType.Lunch, Recipe = _recipes[2] },
-            new() { Id = "mp3", Day = DayOfWeek.Monday, MealType = MealType.Dinner, Recipe = _recipes[4] },
-            new() { Id = "mp4", Day = DayOfWeek.Tuesday, MealType = MealType.Breakfast, Recipe = _recipes[11] },
-            new() { Id = "mp5", Day = DayOfWeek.Tuesday, MealType = MealType.Dinner, Recipe = _recipes[12] },
-            new() { Id = "mp6", Day = DayOfWeek.Wednesday, MealType = MealType.Breakfast, Recipe = _recipes[1] },
-            new() { Id = "mp7", Day = DayOfWeek.Wednesday, MealType = MealType.Lunch, Recipe = _recipes[3] },
-            new() { Id = "mp8", Day = DayOfWeek.Thursday, MealType = MealType.Dinner, Recipe = _recipes[14] },
-            new() { Id = "mp9", Day = DayOfWeek.Friday, MealType = MealType.Lunch, Recipe = _recipes[5] },
-            new() { Id = "mp10", Day = DayOfWeek.Saturday, MealType = MealType.Breakfast, Recipe = _recipes[0] },
-            new() { Id = "mp11", Day = DayOfWeek.Saturday, MealType = MealType.Dinner, Recipe = _recipes[4] },
-            new() { Id = "mp12", Day = DayOfWeek.Sunday, MealType = MealType.Breakfast, Recipe = _recipes[9] },
-        };
-    }
+    private static List<MealPlanEntry> InitializeMealPlan() => new();
 
     private static List<ShoppingItem> InitializeShoppingList() => new()
     {
