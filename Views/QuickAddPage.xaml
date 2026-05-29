@@ -19,7 +19,7 @@
                 <!-- Photo preview -->
                 <Border StrokeShape="RoundRectangle 4" StrokeThickness="1"
                         Stroke="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}"
-                        Padding="0" HeightRequest="220"
+                        Padding="0" HeightRequest="200"
                         BackgroundColor="#1A1A2E">
                     <Image Source="{Binding PhotoPath}" Aspect="AspectFill" />
                 </Border>
@@ -42,8 +42,66 @@
                     <Picker ItemsSource="{Binding CategoryOptions}"
                             SelectedItem="{Binding SelectedCategory}"
                             TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}"
-                            TitleColor="{StaticResource TextTertiary}"
-                            FontSize="15" />
+                            TitleColor="{StaticResource TextTertiary}" FontSize="15" />
+                </VerticalStackLayout>
+
+                <!-- "Add details" tappable row -->
+                <Border StrokeShape="RoundRectangle 4" StrokeThickness="1"
+                        Stroke="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}"
+                        Padding="14,12" BackgroundColor="Transparent">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleDetailsCommand}" />
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="{Binding DetailsSummary}" FontSize="14"
+                               TextColor="{StaticResource TextTertiary}"
+                               VerticalTextAlignment="Center" />
+                        <Label Text=">" FontSize="14" TextColor="{StaticResource TextTertiary}"
+                               VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+
+                <!-- Expandable details -->
+                <VerticalStackLayout Spacing="12" IsVisible="{Binding ShowDetails}">
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Calories" FontSize="12"
+                                   TextColor="{StaticResource TextSecondary}" />
+                            <Entry Text="{Binding CaloriesText}" Placeholder="e.g. 350"
+                                   Keyboard="Numeric"
+                                   PlaceholderColor="{StaticResource TextTertiary}"
+                                   TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}"
+                                   BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                            <Label Text="Prep Time (min)" FontSize="12"
+                                   TextColor="{StaticResource TextSecondary}" />
+                            <Entry Text="{Binding PrepTimeText}" Placeholder="e.g. 15"
+                                   Keyboard="Numeric"
+                                   PlaceholderColor="{StaticResource TextTertiary}"
+                                   TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}"
+                                   BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}" />
+                        </VerticalStackLayout>
+                    </Grid>
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Servings" FontSize="12"
+                                   TextColor="{StaticResource TextSecondary}" />
+                            <Entry Text="{Binding ServingsText}" Placeholder="e.g. 2"
+                                   Keyboard="Numeric"
+                                   PlaceholderColor="{StaticResource TextTertiary}"
+                                   TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}"
+                                   BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                            <Label Text="Difficulty" FontSize="12"
+                                   TextColor="{StaticResource TextSecondary}" />
+                            <Picker ItemsSource="{Binding DifficultyOptions}"
+                                    SelectedItem="{Binding SelectedDifficulty}"
+                                    TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}"
+                                    TitleColor="{StaticResource TextTertiary}" />
+                        </VerticalStackLayout>
+                    </Grid>
                 </VerticalStackLayout>
 
             </VerticalStackLayout>
@@ -52,8 +110,7 @@
         <!-- Action buttons -->
         <VerticalStackLayout Grid.Row="2" Spacing="10" Margin="0,16,0,0">
             <Button Text="Save Recipe" Style="{StaticResource PrimaryButton}"
-                    Command="{Binding SaveCommand}"
-                    SemanticProperties.Description="Save this recipe" />
+                    Command="{Binding SaveCommand}" />
             <Button Text="Discard" Style="{StaticResource SecondaryButton}"
                     Command="{Binding DiscardCommand}"
                     TextColor="{StaticResource Error}" BorderColor="{StaticResource Error}" />

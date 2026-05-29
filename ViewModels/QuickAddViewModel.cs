@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 using TastyMealPlanner.Models;
 using TastyMealPlanner.Services;
@@ -32,10 +31,55 @@ public class QuickAddViewModel : BaseViewModel
         set => SetProperty(ref _selectedCategory, value);
     }
 
+    // Optional details (tappable to reveal)
+    private bool _showDetails;
+    public bool ShowDetails
+    {
+        get => _showDetails;
+        set => SetProperty(ref _showDetails, value);
+    }
+
+    private string _caloriesText = string.Empty;
+    public string CaloriesText
+    {
+        get => _caloriesText;
+        set => SetProperty(ref _caloriesText, value);
+    }
+
+    private string _prepTimeText = string.Empty;
+    public string PrepTimeText
+    {
+        get => _prepTimeText;
+        set => SetProperty(ref _prepTimeText, value);
+    }
+
+    private string _servingsText = string.Empty;
+    public string ServingsText
+    {
+        get => _servingsText;
+        set => SetProperty(ref _servingsText, value);
+    }
+
+    private string _selectedDifficulty = "Easy";
+    public string SelectedDifficulty
+    {
+        get => _selectedDifficulty;
+        set => SetProperty(ref _selectedDifficulty, value);
+    }
+
+    private string _detailsSummary = "Add details: calories, prep time, servings...";
+    public string DetailsSummary
+    {
+        get => _detailsSummary;
+        set => SetProperty(ref _detailsSummary, value);
+    }
+
     public List<FoodCategory> CategoryOptions { get; }
+    public List<string> DifficultyOptions { get; } = new() { "Easy", "Medium", "Hard" };
 
     public ICommand SaveCommand { get; }
     public ICommand DiscardCommand { get; }
+    public ICommand ToggleDetailsCommand { get; }
 
     public QuickAddViewModel(IDataService dataService, IHapticService haptic)
     {
@@ -51,6 +95,15 @@ public class QuickAddViewModel : BaseViewModel
             _haptic.PerformClick();
             await Shell.Current.GoToAsync("..");
         });
+
+        ToggleDetailsCommand = new Command(() =>
+        {
+            _haptic.PerformClick();
+            ShowDetails = !ShowDetails;
+            DetailsSummary = ShowDetails
+                ? "Fill in below or leave blank to skip"
+                : "Add details: calories, prep time, servings...";
+        });
     }
 
     private async Task OnSave()
@@ -63,6 +116,15 @@ public class QuickAddViewModel : BaseViewModel
 
         _haptic.PerformLongPress();
 
+        int.TryParse(CaloriesText, out var calories);
+        if (calories <= 0) calories = 0;
+
+        int.TryParse(PrepTimeText, out var prepTime);
+        if (prepTime <= 0) prepTime = 0;
+
+        int.TryParse(ServingsText, out var servings);
+        if (servings <= 0) servings = 0;
+
         var recipe = new Recipe
         {
             Name = RecipeName.Trim(),
@@ -71,11 +133,10 @@ public class QuickAddViewModel : BaseViewModel
             Description = "Added from camera capture.",
             Ingredients = new List<string> { "Add ingredients later" },
             Instructions = new List<string> { "Add instructions later" },
-            PrepTimeMinutes = 10,
-            CookTimeMinutes = 10,
-            Calories = 300,
-            Servings = 2,
-            Difficulty = "Easy"
+            Calories = calories,
+            PrepTimeMinutes = prepTime,
+            Servings = servings,
+            Difficulty = SelectedDifficulty
         };
 
         _dataService.AddRecipe(recipe);
