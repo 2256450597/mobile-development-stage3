@@ -15,6 +15,24 @@ public partial class RecipesPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+
+        // Check if navigated from MealPlan "Add" button
+        if (RecipesViewModel.PendingSelectionDay.HasValue)
+        {
+            _viewModel.EnterSelectionMode(RecipesViewModel.PendingSelectionDay.Value);
+            RecipesViewModel.PendingSelectionDay = null;
+        }
+        else
+        {
+            _viewModel.ExitSelectionMode();
+        }
+
         _viewModel.Reload();
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        _viewModel.ExitSelectionMode();
     }
 }

@@ -43,9 +43,12 @@ public class MealPlanViewModel : BaseViewModel
             }
         });
 
-        AddMealCommand = new Command(async () =>
+        AddMealCommand = new Command<DayPlanGroup>(async (dayGroup) =>
         {
             _haptic.PerformClick();
+            var day = dayGroup?.Day ?? DateTime.Now.DayOfWeek;
+            // Signal RecipesPage to enter meal-plan selection mode
+            RecipesViewModel.PendingSelectionDay = day;
             await Shell.Current.GoToAsync("//recipes");
         });
 

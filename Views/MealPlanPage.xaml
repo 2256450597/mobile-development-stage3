@@ -45,7 +45,8 @@
                                             Padding="10,4" CornerRadius="4"
                                             BackgroundColor="{StaticResource Accent}" TextColor="White"
                                             HeightRequest="30"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MealPlanViewModel}}, Path=AddMealCommand}" />
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MealPlanViewModel}}, Path=AddMealCommand}"
+                                            CommandParameter="{Binding .}" />
                                 </Grid>
                                 <BoxView HeightRequest="1" Color="{AppThemeBinding Light=#E8E0D0, Dark=#2C2820}"
                                          Margin="12,0,12,0" />
