@@ -14,12 +14,17 @@
         <VerticalStackLayout Grid.Row="0" Spacing="0">
             <Grid ColumnDefinitions="*,Auto" Padding="16,14,12,12"
                   BackgroundColor="{AppThemeBinding Light=#FEF7F0, Dark={StaticResource Dark_Background}}">
-                <VerticalStackLayout Grid.Column="0" Spacing="2">
-                    <Label Text="Tasty" FontSize="24" FontAttributes="Bold"
-                           CharacterSpacing="-0.5"
-                           TextColor="{AppThemeBinding Light=#2C2C2C, Dark=#EBE8E0}" />
-                    <Label Text="Discover what to cook today" FontSize="12"
-                           TextColor="{StaticResource TextTertiary}" />
+                <VerticalStackLayout Grid.Column="0" Spacing="0">
+                    <Label Text="Tasty" FontSize="34"
+                           FontFamily="Pacifico"
+                           TextColor="{AppThemeBinding Light=#D94E34, Dark=#E8784A}"
+                           SemanticProperties.Description="Tasty home">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnLogoTapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text="Discover what to cook today" FontSize="11"
+                           TextColor="{StaticResource TextTertiary}" Margin="2,0,0,0" />
                 </VerticalStackLayout>
                 <Button Grid.Column="1" Text="+" Style="{StaticResource IconButton}"
                         Command="{Binding ShowQuickMenuCommand}"

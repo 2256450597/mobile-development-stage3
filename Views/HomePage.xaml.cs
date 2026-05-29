@@ -11,4 +11,10 @@ public partial class HomePage : ContentPage
         InitializeComponent();
         BindingContext = _viewModel = viewModel;
     }
+
+    private async void OnLogoTapped(object? sender, EventArgs e)
+    {
+        // Navigate to home — scroll to top / reset
+        await Shell.Current.GoToAsync("//home");
+    }
 }
