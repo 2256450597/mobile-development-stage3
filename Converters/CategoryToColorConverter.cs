@@ -3,6 +3,7 @@ using TastyMealPlanner.Models;
 
 namespace TastyMealPlanner.Converters;
 
+/// <summary>Maps a FoodCategory enum value to its associated display colour.</summary>
 public class CategoryToColorConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)

@@ -3,6 +3,10 @@ using System.Runtime.CompilerServices;
 
 namespace TastyMealPlanner.ViewModels;
 
+/// <summary>
+/// Base class for all ViewModels providing INotifyPropertyChanged implementation
+/// and common properties (IsBusy, Title) used across the app.
+/// </summary>
 public abstract class BaseViewModel : INotifyPropertyChanged
 {
     private bool _isBusy;

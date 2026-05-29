@@ -1,7 +1,10 @@
 namespace TastyMealPlanner.Services;
 
+/// <summary>Provides click and long-press haptic feedback. Uses both HapticFeedback and Vibration
+/// for reliable feedback across iOS (Taptic Engine) and Android (vibration motor).</summary>
 public class HapticService : IHapticService
 {
+    /// <summary>Short click feedback — ~25ms vibration ensures Android devices feel the tap.</summary>
     public void PerformClick()
     {
         try
@@ -15,6 +18,7 @@ public class HapticService : IHapticService
         }
     }
 
+    /// <summary>Longer feedback for confirm/save/delete actions — ~80ms vibration dual with haptic.</summary>
     public void PerformLongPress()
     {
         try

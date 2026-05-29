@@ -6,6 +6,7 @@ using TastyMealPlanner.Services;
 namespace TastyMealPlanner.ViewModels;
 
 [QueryProperty(nameof(RecipeId), "id")]
+/// <summary>Displays a single recipe with ingredients, instructions, and TTS/hardware actions.</summary>
 public class RecipeDetailViewModel : BaseViewModel
 {
     private readonly IDataService _dataService;
@@ -77,6 +78,7 @@ public class RecipeDetailViewModel : BaseViewModel
         });
     }
 
+    /// <summary>Fetches recipe by ID from the data service and populates all display collections.</summary>
     private void LoadRecipe(string id)
     {
         var recipe = _dataService.GetRecipeById(id);
@@ -94,6 +96,7 @@ public class RecipeDetailViewModel : BaseViewModel
             Instructions.Add($"{i + 1}. {recipe.Instructions[i]}");
     }
 
+    /// <summary>Adds the current recipe to today's dinner slot in the meal plan.</summary>
     private async void OnAddToMealPlan()
     {
         if (Recipe == null) return;
@@ -122,6 +125,7 @@ public class RecipeDetailViewModel : BaseViewModel
         }
     }
 
+    /// <summary>Reads the full recipe aloud using the text-to-speech service with natural English narration.</summary>
     private async Task OnSpeakRecipe()
     {
         if (Recipe == null) return;

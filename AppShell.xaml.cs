@@ -2,6 +2,7 @@ using TastyMealPlanner.Views;
 
 namespace TastyMealPlanner;
 
+/// <summary>Shell navigation configuration. Registers routes for detail pages (not in the tab bar).</summary>
 public partial class AppShell : Shell
 {
     public AppShell()
@@ -14,6 +15,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute("quickadd", typeof(QuickAddPage));
     }
 
+    /// <summary>Whenever the user switches to a different tab, pop all pushed pages so they see the root.</summary>
     protected override void OnNavigated(ShellNavigatedEventArgs args)
     {
         base.OnNavigated(args);

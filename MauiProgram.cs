@@ -5,6 +5,7 @@ using TastyMealPlanner.Views;
 
 namespace TastyMealPlanner;
 
+/// <summary>Application entry point. Registers all services, ViewModels, and pages in the DI container.</summary>
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()

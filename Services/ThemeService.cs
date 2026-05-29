@@ -4,19 +4,25 @@ public enum AppThemeOption { Light, Dark }
 
 public enum FontSizeOption { Small, Medium, Large }
 
+/// <summary>Central coordinator for app theme (light/dark) and font size preferences. Persists using MAUI Preferences API.</summary>
 public class ThemeService
 {
     private const string ThemeKey = "app_theme";
     private const string FontSizeKey = "font_size";
 
+    /// <summary>Raised when the app theme (light/dark) is changed.</summary>
     public event Action? ThemeChanged;
 
+    /// <summary>Raised when the font size setting is changed.</summary>
     public event Action? FontSizeChanged;
 
+    /// <summary>Gets the current theme option (Light or Dark).</summary>
     public AppThemeOption CurrentTheme { get; private set; } = AppThemeOption.Light;
 
+    /// <summary>Gets the current font size option (Small, Medium, or Large).</summary>
     public FontSizeOption CurrentFontSize { get; private set; } = FontSizeOption.Medium;
 
+    /// <summary>Returns the numeric scale factor for the current font size: 0.85 for Small, 1.3 for Large, and 1.0 for Medium.</summary>
     public double FontScale => CurrentFontSize switch
     {
         FontSizeOption.Small => 0.85,
@@ -24,11 +30,13 @@ public class ThemeService
         _ => 1.0
     };
 
+    /// <summary>Initialises the service by loading saved theme and font size preferences.</summary>
     public ThemeService()
     {
         LoadPreferences();
     }
 
+    /// <summary>Switches between light and dark theme and persists the choice.</summary>
     public void SetTheme(AppThemeOption theme)
     {
         if (CurrentTheme == theme) return;
@@ -38,6 +46,7 @@ public class ThemeService
         ThemeChanged?.Invoke();
     }
 
+    /// <summary>Toggles the current theme between Light and Dark.</summary>
     public void ToggleTheme()
     {
         SetTheme(CurrentTheme == AppThemeOption.Light
@@ -45,6 +54,7 @@ public class ThemeService
             : AppThemeOption.Light);
     }
 
+    /// <summary>Sets the font size level and notifies listeners of the change.</summary>
     public void SetFontSize(FontSizeOption size)
     {
         if (CurrentFontSize == size) return;
@@ -53,6 +63,7 @@ public class ThemeService
         FontSizeChanged?.Invoke();
     }
 
+    /// <summary>Applies the current theme setting to the MAUI application's UserAppTheme.</summary>
     public void ApplySystemTheme()
     {
         if (Application.Current != null)
@@ -65,6 +76,7 @@ public class ThemeService
         }
     }
 
+    /// <summary>Loads persisted theme and font size preferences from MAUI Preferences and applies the theme.</summary>
     private void LoadPreferences()
     {
         var themeStr = Preferences.Default.Get(ThemeKey, "Light");
@@ -76,22 +88,32 @@ public class ThemeService
         ApplySystemTheme();
     }
 
+    /// <summary>Saves a string preference value to MAUI Preferences.</summary>
+    /// <param name="key">The preference key.</param>
+    /// <param name="value">The preference value to store.</param>
     private static void SavePreference(string key, string value)
         => Preferences.Default.Set(key, value);
 
+    /// <summary>Returns a font size multiplied by the current scale factor.</summary>
     public double GetScaledFontSize(double baseSize)
         => baseSize * FontScale;
 
+    /// <summary>Gets the title font size (24pt scaled by FontScale).</summary>
     public double TitleSize => GetScaledFontSize(24);
 
+    /// <summary>Gets the subtitle font size (18pt scaled by FontScale).</summary>
     public double SubtitleSize => GetScaledFontSize(18);
 
+    /// <summary>Gets the body text font size (14pt scaled by FontScale).</summary>
     public double BodySize => GetScaledFontSize(14);
 
+    /// <summary>Gets the caption font size (12pt scaled by FontScale).</summary>
     public double CaptionSize => GetScaledFontSize(12);
 
+    /// <summary>Gets the section title font size (20pt scaled by FontScale).</summary>
     public double SectionTitleSize => GetScaledFontSize(20);
 
+    /// <summary>Recursively scales font sizes on all text elements in a page.</summary>
     public void ApplyFontScaleToPage(Element root)
     {
         var descendants = root.GetVisualTreeDescendants();
@@ -120,6 +142,9 @@ public class ThemeService
 
     private readonly Dictionary<string, double> _originalFontSizes = new();
 
+    /// <summary>Returns the original (unscaled) font size for a visual element, caching it on first access.</summary>
+    /// <param name="el">The visual element to query.</param>
+    /// <returns>The base font size in device-independent pixels.</returns>
     private double GetBaseFontSize(Element el)
     {
         var key = $"{el.GetType().Name}_{el.Id}";

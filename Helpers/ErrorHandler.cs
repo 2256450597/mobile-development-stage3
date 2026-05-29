@@ -1,7 +1,15 @@
 namespace TastyMealPlanner.Helpers;
 
+/// <summary>
+/// Centralised error handling for hardware operations.
+/// Provides consistent user-facing error messages.
+/// </summary>
+/// <summary>Centralised error handling for hardware operations with user-friendly messages.</summary>
 public static class ErrorHandler
 {
+    /// <summary>
+    /// Displays an error alert to the user with consistent formatting.
+    /// </summary>
     public static async Task ShowErrorAsync(string title, string message)
     {
         if (Shell.Current != null)
@@ -13,6 +21,10 @@ public static class ErrorHandler
         }
     }
 
+    /// <summary>
+    /// Handles exceptions from hardware operations with user-friendly messages.
+    /// </summary>
+    /// <summary>Classifies exceptions and displays appropriate user-facing error messages.</summary>
     public static async Task<bool> HandleHardwareErrorAsync(Exception ex, string operation)
     {
         var message = ex switch
@@ -28,6 +40,9 @@ public static class ErrorHandler
         return false;
     }
 
+    /// <summary>
+    /// Wraps a hardware operation with standardised error handling.
+    /// </summary>
     public static async Task<bool> WrapHardwareOperationAsync(
         Func<Task> operation, string operationName)
     {

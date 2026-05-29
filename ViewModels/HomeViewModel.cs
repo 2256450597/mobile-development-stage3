@@ -5,6 +5,7 @@ using TastyMealPlanner.Services;
 
 namespace TastyMealPlanner.ViewModels;
 
+/// <summary>Main discovery/home page. Shows today's meals, curated collections, and full recipe feed.</summary>
 public class HomeViewModel : BaseViewModel
 {
     private readonly IDataService _dataService;
@@ -123,6 +124,7 @@ public class HomeViewModel : BaseViewModel
         ShakeResult = recipes[new Random().Next(recipes.Count)];
     }
 
+    /// <summary>Loads meals planned for the current day of the week.</summary>
     private void LoadTodayMeals()
     {
         TodayMeals.Clear();
@@ -132,6 +134,7 @@ public class HomeViewModel : BaseViewModel
             TodayMeals.Add(entry);
     }
 
+    /// <summary>Builds curated recipe collections: Quick & Easy, Weekend Indulgence, High Protein.</summary>
     private void LoadCollections()
     {
         Collections.Clear();
@@ -156,6 +159,7 @@ public class HomeViewModel : BaseViewModel
         });
     }
 
+    /// <summary>Loads all recipes unfiltered into the recipe grid.</summary>
     private void LoadAllRecipes()
     {
         RecipeGrid.Clear();
@@ -163,6 +167,7 @@ public class HomeViewModel : BaseViewModel
             RecipeGrid.Add(recipe);
     }
 
+    /// <summary>Stops shake detection and unsubscribes from sensor events. Call when navigating away.</summary>
     public void Reload()
     {
         LoadTodayMeals();
@@ -177,6 +182,7 @@ public class HomeViewModel : BaseViewModel
     }
 }
 
+/// <summary>Represents a curated horizontal-scrolling collection of recipes (e.g. Quick & Easy).</summary>
 public class CuratedCollection
 {
     public string Title { get; set; } = string.Empty;

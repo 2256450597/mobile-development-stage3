@@ -3,6 +3,7 @@ using TastyMealPlanner.Services;
 
 namespace TastyMealPlanner.ViewModels;
 
+/// <summary>Handles camera capture and gallery pick operations with permission and error handling.</summary>
 public class CameraViewModel : BaseViewModel
 {
     private readonly ICameraService _cameraService;
@@ -10,6 +11,7 @@ public class CameraViewModel : BaseViewModel
     private readonly IFlashlightService _flashlight;
 
     private bool _hasCamera;
+    /// <summary>Gets or sets whether the device has a camera available for capture.</summary>
     public bool HasCamera
     {
         get => _hasCamera;
@@ -17,6 +19,7 @@ public class CameraViewModel : BaseViewModel
     }
 
     private string _statusMessage = "Ready to capture";
+    /// <summary>Gets or sets the current status message displayed to the user.</summary>
     public string StatusMessage
     {
         get => _statusMessage;
@@ -24,6 +27,7 @@ public class CameraViewModel : BaseViewModel
     }
 
     private string _photoPath = string.Empty;
+    /// <summary>Gets or sets the file path of the captured or selected photo.</summary>
     public string PhotoPath
     {
         get => _photoPath;
@@ -31,6 +35,7 @@ public class CameraViewModel : BaseViewModel
     }
 
     private bool _hasPhoto;
+    /// <summary>Gets or sets whether a photo has been captured or selected from the gallery.</summary>
     public bool HasPhoto
     {
         get => _hasPhoto;
@@ -39,23 +44,34 @@ public class CameraViewModel : BaseViewModel
 
     // Flashlight (counts as separate "Flash" hardware feature per assessment rubric)
     private bool _isFlashlightOn;
+    /// <summary>Gets or sets whether the device flashlight is currently turned on.</summary>
     public bool IsFlashlightOn
     {
         get => _isFlashlightOn;
         set { if (SetProperty(ref _isFlashlightOn, value)) OnPropertyChanged(nameof(FlashlightLabel)); }
     }
 
+    /// <summary>Gets whether the device supports a flashlight feature.</summary>
     public bool HasFlashlight => _flashlight.IsSupported;
+    /// <summary>Gets the display label for the flashlight toggle button.</summary>
     public string FlashlightLabel => IsFlashlightOn ? "Flash On" : "Flash Off";
 
+    /// <summary>Command to capture a photo using the device camera.</summary>
     public ICommand TakePhotoCommand { get; }
+    /// <summary>Command to pick an existing photo from the device gallery.</summary>
     public ICommand PickPhotoCommand { get; }
+    /// <summary>Command to clear the current photo and reset the view to its initial state.</summary>
     public ICommand ClearPhotoCommand { get; }
+    /// <summary>Command to save the current photo to the device Pictures folder.</summary>
     public ICommand SaveToGalleryCommand { get; }
+    /// <summary>Command to navigate to the quick-add page with the current photo.</summary>
     public ICommand UsePhotoCommand { get; }
+    /// <summary>Command to toggle the device flashlight on or off.</summary>
     public ICommand ToggleFlashlightCommand { get; }
+    /// <summary>Command to navigate back to the previous page.</summary>
     public ICommand GoBackCommand { get; }
 
+    /// <summary>Initialises a new instance of the <see cref="CameraViewModel"/> class with the required camera, haptic, and flashlight services.</summary>
     public CameraViewModel(ICameraService cameraService, IHapticService haptic, IFlashlightService flashlight)
     {
         _cameraService = cameraService;
@@ -108,6 +124,7 @@ public class CameraViewModel : BaseViewModel
         });
     }
 
+    /// <summary>Opens the device camera to capture a photo. Stores the full file path on success.</summary>
     private async Task OnTakePhoto()
     {
         _haptic.PerformClick();
@@ -139,6 +156,7 @@ public class CameraViewModel : BaseViewModel
         }
     }
 
+    /// <summary>Saves the captured photo to the device Pictures folder with a timestamped filename.</summary>
     private async Task OnSaveToGallery()
     {
         _haptic.PerformClick();
@@ -164,6 +182,7 @@ public class CameraViewModel : BaseViewModel
         }
     }
 
+    /// <summary>Opens the device gallery to select an existing photo.</summary>
     private async Task OnPickPhoto()
     {
         _haptic.PerformClick();
