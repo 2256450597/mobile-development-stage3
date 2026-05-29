@@ -50,8 +50,9 @@
                Padding="0"
                Margin="0,4"
                IsVisible="{Binding HasMap}">
-            <WebView Source="{Binding MapSource}"
-                     HeightRequest="220" />
+            <Image Source="{Binding MapUrl}"
+                   Aspect="AspectFill"
+                   SemanticProperties.Description="OpenStreetMap showing your current location" />
         </Frame>
 
         <!-- Nearby Places List Header -->
