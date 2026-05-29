@@ -4,109 +4,53 @@
              xmlns:vm="clr-namespace:TastyMealPlanner.ViewModels"
              x:Class="TastyMealPlanner.Views.CameraPage"
              x:DataType="vm:CameraViewModel"
-             Title="{Binding Title}">
+             Title="Camera"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Light_Background}, Dark={StaticResource Dark_Background}}">
 
-    <Grid RowDefinitions="*,Auto" Padding="16">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="16,16,16,24">
 
-        <!-- Main Content Area -->
-        <ScrollView Grid.Row="0">
-            <VerticalStackLayout Spacing="16">
+        <!-- Status -->
+        <Label Grid.Row="0" Text="{Binding StatusMessage}" FontSize="14"
+               HorizontalTextAlignment="Center"
+               TextColor="{StaticResource TextSecondary}" Margin="0,0,0,12" />
 
-                <!-- Camera Preview / Photo Display -->
-                <Frame BackgroundColor="#1A1A2E"
-                       CornerRadius="4"
-                       HeightRequest="320"
-                       Padding="0"
-                       IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}">
-                    <VerticalStackLayout VerticalOptions="Center"
-                                         HorizontalOptions="Center" Spacing="12">
-                        <Label Text=" " FontSize="64"
-                               HorizontalTextAlignment="Center" />
-                        <Label Text="Take a photo of your meal or ingredients"
-                               FontSize="14" TextColor="White"
-                               HorizontalTextAlignment="Center" />
-                        <Label Text="Use the buttons below to capture or pick a photo"
-                               FontSize="11" TextColor="#AAAAAA"
-                               HorizontalTextAlignment="Center" />
-                    </VerticalStackLayout>
-                </Frame>
+        <!-- Preview area -->
+        <Frame Grid.Row="1" BackgroundColor="#1A1A2E" CornerRadius="4" Padding="0">
+            <Grid>
+                <!-- Empty state -->
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center"
+                                     IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}" Spacing="8">
+                    <Label Text="Camera Preview" FontSize="18" TextColor="White" HorizontalTextAlignment="Center" />
+                    <Label Text="Tap a button below to get started" FontSize="13" TextColor="#AAAAAA" HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+                <!-- Photo preview -->
+                <Image Source="{Binding PhotoPath}" Aspect="AspectFill"
+                       IsVisible="{Binding HasPhoto}" />
+            </Grid>
+        </Frame>
 
-                <!-- Photo Preview -->
-                <Frame BackgroundColor="#1A1A2E"
-                       CornerRadius="4"
-                       HeightRequest="320"
-                       Padding="0"
-                       IsVisible="{Binding HasPhoto}">
-                    <Image Source="{Binding PhotoPath}"
-                           Aspect="AspectFill">
-                        <Image.Clip>
-                            <RoundRectangleGeometry CornerRadius="4"
-                                                    Rect="0,0,340,320" />
-                        </Image.Clip>
-                    </Image>
-                </Frame>
+        <!-- Action buttons -->
+        <VerticalStackLayout Grid.Row="2" Spacing="10" Margin="0,16,0,0">
 
-                <!-- Status Message -->
-                <Frame Style="{StaticResource CardFrame}" Margin="0">
-                    <HorizontalStackLayout Spacing="8">
-                        <Label Text="{Binding StatusMessage}"
-                               FontSize="13"
-                               TextColor="{StaticResource TextPrimary}"
-                               VerticalTextAlignment="Center" />
-                    </HorizontalStackLayout>
-                </Frame>
-
-                <!-- Camera Info -->
-                <Label Text="{Binding HasCamera, StringFormat='Camera available: {0}'}"
-                       FontSize="11"
-                       TextColor="{StaticResource TextSecondary}"
-                       HorizontalTextAlignment="Center" />
-
-            </VerticalStackLayout>
-        </ScrollView>
-
-        <!-- Bottom Action Buttons -->
-        <VerticalStackLayout Grid.Row="1" Spacing="10" Margin="0,8,0,20">
-
-            <!-- Take Photo / Clear -->
-            <Button Text="Take Photo"
-                    Style="{StaticResource PrimaryButton}"
+            <Button Text="Take Photo" Style="{StaticResource PrimaryButton}"
                     Command="{Binding TakePhotoCommand}"
-                    HeightRequest="52"
-                    FontSize="16"
-                    CornerRadius="4"
                     IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}"
                     SemanticProperties.Description="Capture a photo with the camera" />
 
-            <Button Text="Pick from Gallery"
-                    Style="{StaticResource SecondaryButton}"
+            <Button Text="Pick from Gallery" Style="{StaticResource SecondaryButton}"
                     Command="{Binding PickPhotoCommand}"
-                    HeightRequest="48"
-                    FontSize="14"
-                    CornerRadius="4"
                     IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}"
                     SemanticProperties.Description="Pick a photo from your gallery" />
 
-            <!-- Clear Photo -->
-            <Button Text="Clear Photo"
-                    Style="{StaticResource SecondaryButton}"
-                    Command="{Binding ClearPhotoCommand}"
-                    HeightRequest="48"
-                    FontSize="14"
-                    CornerRadius="4"
-                    IsVisible="{Binding HasPhoto}"
-                    SemanticProperties.Description="Clear the current photo" />
-
-            <!-- Take Another -->
-            <Button Text="Take Another Photo"
-                    Style="{StaticResource PrimaryButton}"
+            <Button Text="Take Another Photo" Style="{StaticResource PrimaryButton}"
                     Command="{Binding TakePhotoCommand}"
-                    HeightRequest="52"
-                    FontSize="16"
-                    CornerRadius="4"
                     IsVisible="{Binding HasPhoto}"
                     SemanticProperties.Description="Capture another photo" />
 
+            <Button Text="Clear Photo" Style="{StaticResource SecondaryButton}"
+                    Command="{Binding ClearPhotoCommand}"
+                    IsVisible="{Binding HasPhoto}"
+                    SemanticProperties.Description="Clear the current photo" />
         </VerticalStackLayout>
 
     </Grid>
