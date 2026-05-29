@@ -88,8 +88,17 @@
                             Padding="0" Margin="0,0,0,1"
                             BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}">
                         <VerticalStackLayout>
-                            <Image Source="{Binding ImageUrl}" HeightRequest="220"
-                                   Aspect="AspectFill" />
+                            <Grid>
+                                <Image Source="{Binding ImageUrl}" HeightRequest="220"
+                                       Aspect="AspectFill" />
+                                <Border StrokeThickness="0" StrokeShape="RoundRectangle 3"
+                                        BackgroundColor="{Binding Category, Converter={StaticResource CategoryToColor}}"
+                                        Padding="8,3" HorizontalOptions="End" VerticalOptions="End"
+                                        Margin="0,0,12,12">
+                                    <Label Text="{Binding Category}" FontSize="10"
+                                           TextColor="White" FontAttributes="Bold" />
+                                </Border>
+                            </Grid>
                             <VerticalStackLayout Padding="16,12" Spacing="4">
                                 <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold"
                                        LineBreakMode="TailTruncation" MaxLines="2"

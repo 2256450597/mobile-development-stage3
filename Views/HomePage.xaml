@@ -114,12 +114,16 @@
                         <DataTemplate x:DataType="vm:CuratedCollection">
                             <VerticalStackLayout Margin="0,0,0,12">
                                 <Grid ColumnDefinitions="*,Auto" Padding="16,6,16,8">
-                                    <Label Text="{Binding Title}" FontSize="16" FontAttributes="Bold"
-                                           TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
+                                    <HorizontalStackLayout Spacing="8">
+                                        <BoxView WidthRequest="3" Color="{StaticResource Accent}"
+                                                 HeightRequest="20" VerticalOptions="Center" />
+                                        <Label Text="{Binding Title}" FontSize="16" FontAttributes="Bold"
+                                               TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
+                                    </HorizontalStackLayout>
                                     <Label Grid.Column="1" Text="{Binding Subtitle}" FontSize="12"
                                            TextColor="{StaticResource TextSecondary}" VerticalTextAlignment="Center" />
                                 </Grid>
-                                <CollectionView ItemsSource="{Binding Recipes}" HeightRequest="140">
+                                <CollectionView ItemsSource="{Binding Recipes}" HeightRequest="145">
                                     <CollectionView.ItemsLayout>
                                         <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10" />
                                     </CollectionView.ItemsLayout>
@@ -136,8 +140,18 @@
                                                     StrokeThickness="1" Padding="0" WidthRequest="120"
                                                     BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}">
                                                 <VerticalStackLayout>
-                                                    <Image Source="{Binding ImageUrl}"
-                                                           HeightRequest="85" Aspect="AspectFill" />
+                                                    <Grid>
+                                                        <Image Source="{Binding ImageUrl}"
+                                                               HeightRequest="85" Aspect="AspectFill" />
+                                                        <!-- Category color badge -->
+                                                        <Border StrokeThickness="0" StrokeShape="RoundRectangle 3"
+                                                                BackgroundColor="{Binding Category, Converter={StaticResource CategoryToColor}}"
+                                                                Padding="6,2" HorizontalOptions="End" VerticalOptions="Start"
+                                                                Margin="0,6,6,0">
+                                                            <Label Text="{Binding Category}" FontSize="9"
+                                                                   TextColor="White" FontAttributes="Bold" />
+                                                        </Border>
+                                                    </Grid>
                                                     <Label Text="{Binding Name}" FontSize="11" FontAttributes="Bold"
                                                            Padding="8,6" LineBreakMode="TailTruncation" MaxLines="2"
                                                            TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
@@ -157,9 +171,12 @@
                 </CollectionView>
 
                 <!-- All Recipes - single column large image feed -->
-                <Label Text="All Recipes" FontSize="16" FontAttributes="Bold"
-                       Padding="16,12,16,8"
-                       TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
+                <HorizontalStackLayout Spacing="8" Padding="16,16,16,8">
+                    <BoxView WidthRequest="3" Color="{StaticResource Accent}"
+                             HeightRequest="20" VerticalOptions="Center" />
+                    <Label Text="All Recipes" FontSize="16" FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
+                </HorizontalStackLayout>
                 <CollectionView ItemsSource="{Binding RecipeGrid}" Margin="0,0,0,0">
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Vertical" ItemSpacing="0" />
@@ -172,8 +189,17 @@
                                     BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}">
                                 <VerticalStackLayout>
                                     <!-- Large full-width food image -->
-                                    <Image Source="{Binding ImageUrl}"
-                                           HeightRequest="220" Aspect="AspectFill" />
+                                    <Grid>
+                                        <Image Source="{Binding ImageUrl}"
+                                               HeightRequest="220" Aspect="AspectFill" />
+                                        <Border StrokeThickness="0" StrokeShape="RoundRectangle 3"
+                                                BackgroundColor="{Binding Category, Converter={StaticResource CategoryToColor}}"
+                                                Padding="8,3" HorizontalOptions="End" VerticalOptions="End"
+                                                Margin="0,0,12,12">
+                                            <Label Text="{Binding Category}" FontSize="10"
+                                                   TextColor="White" FontAttributes="Bold" />
+                                        </Border>
+                                    </Grid>
                                     <VerticalStackLayout Padding="16,12" Spacing="4">
                                         <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold"
                                                LineBreakMode="TailTruncation" MaxLines="2"
