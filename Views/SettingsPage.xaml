@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TastyMealPlanner.ViewModels"
+             xmlns:views="clr-namespace:TastyMealPlanner.Views"
+             x:Class="TastyMealPlanner.Views.SettingsPage"
+             x:DataType="vm:SettingsViewModel"
+             Shell.NavBarIsVisible="False" Title="Settings"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Light_Background}, Dark={StaticResource Dark_Background}}">
+
+    <Grid RowDefinitions="Auto,*" Padding="0">
+        <views:HeaderLogo Grid.Row="0" />
+    <ScrollView Grid.Row="1">
+        <VerticalStackLayout Spacing="0" Padding="0">
+
+            <!-- Appearance -->
+            <Label Text="APPEARANCE" Style="{StaticResource VintageTitle}"
+                   CharacterSpacing="2"
+                   TextColor="{StaticResource TextTertiary}"
+                   Margin="16,24,0,8" />
+
+            <Border StrokeShape="RoundRectangle 8" StrokeThickness="1" Margin="12,0"
+                    Stroke="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}"
+                    Padding="16">
+                <VerticalStackLayout Spacing="0">
+
+                    <Grid ColumnDefinitions="*,Auto" Padding="0,2">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="Dark Mode" FontSize="15" FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
+                            <Label Text="Switch between light and dark appearance" FontSize="12"
+                                   TextColor="{StaticResource TextSecondary}" />
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1" IsToggled="{Binding IsDarkMode}"
+                                OnColor="{StaticResource Accent}"
+                                SemanticProperties.Description="Dark mode switch" />
+                    </Grid>
+
+                    <BoxView HeightRequest="1" Color="{AppThemeBinding Light=#F0F0F0, Dark=#333}" Margin="0,14" />
+
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Font Size" FontSize="15" FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
+                        <Label Text="Adjust text size for better readability" FontSize="12"
+                               TextColor="{StaticResource TextSecondary}" />
+                        <Picker ItemsSource="{Binding FontSizeOptions}"
+                                SelectedItem="{Binding SelectedFontSize}"
+                                Shell.NavBarIsVisible="False" Title="Select Font Size" Margin="0,4,0,0"
+                                TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Hardware -->
+            <Label Text="HARDWARE" Style="{StaticResource VintageTitle}"
+                   CharacterSpacing="2"
+                   TextColor="{StaticResource TextTertiary}"
+                   Margin="16,24,0,8" />
+
+            <Border StrokeShape="RoundRectangle 8" StrokeThickness="1" Margin="12,0"
+                    Stroke="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}"
+                    Padding="16">
+                <VerticalStackLayout Spacing="14">
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Text-to-Speech Pitch" FontSize="15" FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                            <Slider Minimum="0.5" Maximum="2.0" Value="{Binding TtsPitch}"
+                                    MinimumTrackColor="{StaticResource Accent}"
+                                    MaximumTrackColor="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}"
+                                    ThumbColor="{StaticResource Accent}" />
+                            <Label Grid.Column="1" Text="{Binding TtsPitch, StringFormat='{0:F1}x'}"
+                                   FontSize="13" FontAttributes="Bold"
+                                   TextColor="{StaticResource Accent}"
+                                   VerticalTextAlignment="Center" WidthRequest="40" />
+                        </Grid>
+                    </VerticalStackLayout>
+
+                    <BoxView HeightRequest="1" Color="{AppThemeBinding Light=#F0F0F0, Dark=#333}" />
+
+                    <Label Text="Note: speech quality depends on the device TTS engine. Install Google TTS or similar for more natural voices." FontSize="11"
+                           TextColor="{StaticResource TextTertiary}" />
+
+                    <Button Text="Test Text-to-Speech"
+                            Style="{StaticResource SecondaryButton}"
+                            Command="{Binding TestTtsCommand}" Margin="0,4,0,0" />
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- About -->
+            <Label Text="ABOUT" Style="{StaticResource VintageTitle}"
+                   CharacterSpacing="2"
+                   TextColor="{StaticResource TextTertiary}"
+                   Margin="16,24,0,8" />
+
+            <Border StrokeShape="RoundRectangle 8" StrokeThickness="1" Margin="12,0,12,30"
+                    Stroke="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}"
+                    Padding="16">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Tasty Meal Planner" FontSize="16" FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
+                    <Label Text="Version 1.0" FontSize="13" TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="A meal planning app for organising weekly meals, discovering recipes, and managing shopping lists." FontSize="13"
+                           TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
+                    <Button Text="More Information" Style="{StaticResource SecondaryButton}"
+                            Command="{Binding AboutCommand}" Margin="0,4,0,0" />
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+    </Grid>
+
+</ContentPage>

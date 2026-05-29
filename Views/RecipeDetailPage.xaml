@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TastyMealPlanner.ViewModels"
+             xmlns:views="clr-namespace:TastyMealPlanner.Views"
+             x:Class="TastyMealPlanner.Views.RecipeDetailPage"
+             x:DataType="vm:RecipeDetailViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <views:HeaderLogo Grid.Row="0" />
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding StopSpeakingCommand}"
+                                   NumberOfTapsRequired="1" />
+        </Grid.GestureRecognizers>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="0">
+
+                <!-- Hero Image -->
+                <Image Source="{Binding Recipe.ImageUrl}"
+                       HeightRequest="220"
+                       Aspect="AspectFill" />
+
+                <!-- Recipe Header Info -->
+                <VerticalStackLayout Padding="20" Spacing="8"
+                                     BackgroundColor="{StaticResource SurfaceBackground}">
+                    <Label Text="{Binding Recipe.Name}"
+                           Style="{StaticResource TitleLabel}"
+                           SemanticProperties.HeadingLevel="Level1" />
+
+                    <Label Text="{Binding Recipe.Description}"
+                           Style="{StaticResource BodyLabel}" />
+
+                    <!-- Stats Row -->
+                    <HorizontalStackLayout Spacing="20" Margin="0,8,0,0">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="{Binding Recipe.Calories}" FontSize="16"
+                                   FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                            <Label Text="Calories" FontSize="11"
+                                   TextColor="{StaticResource TextSecondary}" />
+                        </VerticalStackLayout>
+
+                        <BoxView WidthRequest="1" Color="{StaticResource BorderColor}" />
+
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="{Binding Recipe.PrepTimeMinutes}" FontSize="16"
+                                   FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                            <Label Text="Prep (min)" FontSize="11"
+                                   TextColor="{StaticResource TextSecondary}" />
+                        </VerticalStackLayout>
+
+                        <BoxView WidthRequest="1" Color="{StaticResource BorderColor}" />
+
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="{Binding Recipe.Servings}" FontSize="16"
+                                   FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                            <Label Text="Servings" FontSize="11"
+                                   TextColor="{StaticResource TextSecondary}" />
+                        </VerticalStackLayout>
+
+                        <BoxView WidthRequest="1" Color="{StaticResource BorderColor}" />
+
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="{Binding Recipe.Difficulty}" FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="{Binding Recipe.Difficulty, Converter={StaticResource DifficultyToColor}}" />
+                            <Label Text="Difficulty" FontSize="11"
+                                   TextColor="{StaticResource TextSecondary}" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- Ingredients Section -->
+                <Label Text="Ingredients"
+                       Style="{StaticResource SectionTitleLabel}"
+                       SemanticProperties.HeadingLevel="Level2" />
+
+                <VerticalStackLayout Padding="16,0" Spacing="6">
+                    <BindableLayout.ItemsSource>
+                        <Binding Path="Ingredients" />
+                    </BindableLayout.ItemsSource>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <HorizontalStackLayout Spacing="10">
+                                <Label Text="•" FontSize="16"
+                                       TextColor="{StaticResource Primary}"
+                                       VerticalTextAlignment="Center" />
+                                <Label Text="{Binding .}" FontSize="14"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       VerticalTextAlignment="Center" />
+                            </HorizontalStackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+                <!-- Instructions Section -->
+                <Label Text="Instructions"
+                       Style="{StaticResource SectionTitleLabel}"
+                       SemanticProperties.HeadingLevel="Level2" />
+
+                <VerticalStackLayout Padding="16,0,16,100" Spacing="12">
+                    <BindableLayout.ItemsSource>
+                        <Binding Path="Instructions" />
+                    </BindableLayout.ItemsSource>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <Frame Style="{StaticResource CardFrame}" Margin="0"
+                                   Padding="14">
+                                <Label Text="{Binding .}" FontSize="14"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       LineBreakMode="WordWrap" />
+                            </Frame>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Bottom Action Bar -->
+        <Grid Grid.Row="2"
+              RowDefinitions="Auto,Auto"
+              ColumnDefinitions="*,*"
+              ColumnSpacing="12"
+              RowSpacing="8"
+              Padding="16,8,16,24"
+              BackgroundColor="{StaticResource SurfaceBackground}">
+
+            <!-- TTS Pitch Slider -->
+            <Grid Grid.Row="0" Grid.ColumnSpan="2" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                <Label Grid.Column="0" Text="TTS Pitch:"
+                       FontSize="11" VerticalTextAlignment="Center"
+                       TextColor="{StaticResource TextSecondary}" />
+                <Slider Grid.Column="1"
+                        Minimum="0.5" Maximum="2.0"
+                        Value="{Binding TtsPitch}"
+                        MinimumTrackColor="{StaticResource Primary}"
+                        MaximumTrackColor="{StaticResource BorderColor}"
+                        ThumbColor="{StaticResource Primary}"
+                        SemanticProperties.Description="Adjust text-to-speech pitch" />
+                <Label Grid.Column="2"
+                       Text="{Binding TtsPitch, StringFormat='{0:F1}x'}"
+                       FontSize="11" VerticalTextAlignment="Center"
+                       TextColor="{StaticResource TextSecondary}" />
+            </Grid>
+
+            <Button Grid.Row="1" Grid.Column="0"
+                    Text="Add to Meal Plan"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding AddToMealPlanCommand}"
+                    SemanticProperties.Description="Add this recipe to your meal plan" />
+
+            <Button Grid.Row="1" Grid.Column="1"
+                    Text="Read Aloud"
+                    Style="{StaticResource SecondaryButton}"
+                    Command="{Binding SpeakRecipeCommand}"
+                    IsVisible="{Binding IsSpeaking, Converter={StaticResource InverseBool}}"
+                    SemanticProperties.Description="Read the recipe aloud using text-to-speech" />
+
+            <Button Grid.Row="1" Grid.Column="1"
+                    Text="Reading..."
+                    BackgroundColor="{StaticResource Error}"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="4"
+                    Padding="16,12"
+                    FontSize="14"
+                    Command="{Binding StopSpeakingCommand}"
+                    IsVisible="{Binding IsSpeaking}"
+                    SemanticProperties.Description="Stop reading aloud" />
+        </Grid>
+
+    </Grid>
+
+    <!-- Toolbar Favorite Button -->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Fav"
+                     Command="{Binding ToggleFavoriteCommand}"
+                     SemanticProperties.Description="Toggle favorite" />
+    </ContentPage.ToolbarItems>
+
+</ContentPage>

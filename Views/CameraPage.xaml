@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TastyMealPlanner.ViewModels"
+             xmlns:views="clr-namespace:TastyMealPlanner.Views"
+             x:Class="TastyMealPlanner.Views.CameraPage"
+             x:DataType="vm:CameraViewModel"
+             Title="Camera"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Light_Background}, Dark={StaticResource Dark_Background}}">
+
+    <ScrollView>
+        <Grid RowDefinitions="Auto,Auto,250,Auto" Padding="16,16,16,24">
+            <views:HeaderLogo Grid.Row="0" />
+
+            <!-- Status -->
+            <Label Grid.Row="1" Text="{Binding StatusMessage}" FontSize="14"
+                   HorizontalTextAlignment="Center"
+                   TextColor="{StaticResource TextSecondary}" Margin="0,0,0,12" />
+
+            <!-- Preview area -->
+            <Frame Grid.Row="2" BackgroundColor="#1A1A2E" CornerRadius="4" Padding="0">
+                <Grid>
+                    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center"
+                                         IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}" Spacing="8">
+                        <Label Text="Camera Preview" FontSize="18" TextColor="White" HorizontalTextAlignment="Center" />
+                        <Label Text="Tap a button below to get started" FontSize="13" TextColor="#AAAAAA" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                    <Image Source="{Binding PhotoPath}" Aspect="AspectFill"
+                           IsVisible="{Binding HasPhoto}" />
+                </Grid>
+            </Frame>
+
+            <!-- Before photo: capture options -->
+            <VerticalStackLayout Grid.Row="3" Spacing="10" Margin="0,16,0,0"
+                                 IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}">
+                <Button Text="Take Photo" Style="{StaticResource PrimaryButton}"
+                        Command="{Binding TakePhotoCommand}"
+                        SemanticProperties.Description="Capture a photo with the camera" />
+                <Button Text="Pick from Gallery" Style="{StaticResource SecondaryButton}"
+                        Command="{Binding PickPhotoCommand}" />
+                <Button Text="{Binding FlashlightLabel}" Style="{StaticResource SecondaryButton}"
+                        Command="{Binding ToggleFlashlightCommand}"
+                        IsVisible="{Binding HasFlashlight}"
+                        SemanticProperties.Description="Toggle the device flashlight on or off" />
+            </VerticalStackLayout>
+
+            <!-- After photo: action options -->
+            <VerticalStackLayout Grid.Row="3" Spacing="10" Margin="0,16,0,0"
+                                 IsVisible="{Binding HasPhoto}">
+                <Button Text="Use This Photo" Style="{StaticResource PrimaryButton}"
+                        Command="{Binding UsePhotoCommand}"
+                        SemanticProperties.Description="Create a new recipe with this photo" />
+                <Button Text="Save to Gallery" Style="{StaticResource SecondaryButton}"
+                        Command="{Binding SaveToGalleryCommand}" />
+                <Button Text="Take Another" Style="{StaticResource SecondaryButton}"
+                        Command="{Binding TakePhotoCommand}" />
+                <Button Text="Discard" Style="{StaticResource SecondaryButton}"
+                        Command="{Binding ClearPhotoCommand}"
+                        TextColor="{StaticResource Error}" BorderColor="{StaticResource Error}" />
+            </VerticalStackLayout>
+
+        </Grid>
+    </ScrollView>
+
+</ContentPage>
