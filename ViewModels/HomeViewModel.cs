@@ -49,18 +49,18 @@ public class HomeViewModel : BaseViewModel
 
             switch (action)
             {
-                case "Take Photo":
+                case "⌖  Take Photo":
                     await Shell.Current.GoToAsync("camera");
                     break;
-                case "Nearby Stores":
+                case "⌂  Nearby Stores":
                     await Shell.Current.GoToAsync("nearby");
                     break;
-                case "Surprise Me":
+                case "★  Surprise Me":
                     var recipes = _dataService.GetAllRecipes();
                     var r = recipes[new Random().Next(recipes.Count)];
                     await Shell.Current.GoToAsync($"recipedetail?id={r.Id}");
                     break;
-                case "All Recipes":
+                case "☰  All Recipes":
                     await Shell.Current.GoToAsync("//recipes");
                     break;
             }
