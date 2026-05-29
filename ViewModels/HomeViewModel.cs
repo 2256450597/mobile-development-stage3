@@ -21,10 +21,25 @@ public class HomeViewModel : BaseViewModel
     // === Curated collections ===
     public ObservableCollection<CuratedCollection> Collections { get; } = new();
 
+    // === Shake result overlay ===
+    private Recipe? _shakeResult;
+    public Recipe? ShakeResult
+    {
+        get => _shakeResult;
+        set
+        {
+            if (SetProperty(ref _shakeResult, value))
+                OnPropertyChanged(nameof(HasShakeResult));
+        }
+    }
+    public bool HasShakeResult => ShakeResult != null;
+
     // === Commands ===
     public ICommand NavigateToRecipeDetailCommand { get; }
     public ICommand ShowQuickMenuCommand { get; }
     public ICommand RefreshCommand { get; }
+    public ICommand DismissShakeResultCommand { get; }
+    public ICommand ViewShakeResultCommand { get; }
 
     public HomeViewModel(IDataService dataService,
                          IAccelerometerService accelerometer,
@@ -74,6 +89,20 @@ public class HomeViewModel : BaseViewModel
             IsBusy = false;
         });
 
+        DismissShakeResultCommand = new Command(() =>
+        {
+            _haptic.PerformClick();
+            ShakeResult = null;
+        });
+
+        ViewShakeResultCommand = new Command(async () =>
+        {
+            if (ShakeResult == null) return;
+            var id = ShakeResult.Id;
+            ShakeResult = null;
+            await Shell.Current.GoToAsync($"recipedetail?id={id}");
+        });
+
         _accelerometer.ShakeDetected += OnShakeDetected;
         _accelerometer.StartShakeDetection();
 
@@ -87,8 +116,7 @@ public class HomeViewModel : BaseViewModel
     {
         _haptic.PerformLongPress();
         var recipes = _dataService.GetAllRecipes();
-        var random = recipes[new Random().Next(recipes.Count)];
-        await Shell.Current.GoToAsync($"recipedetail?id={random.Id}");
+        ShakeResult = recipes[new Random().Next(recipes.Count)];
     }
 
     /// <summary>Loads meals planned for the current day of the week.</summary>

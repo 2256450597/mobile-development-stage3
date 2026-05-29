@@ -235,6 +235,43 @@
             </VerticalStackLayout>
         </ScrollView>
         </RefreshView>
+
+        <!-- Shake Result Overlay -->
+        <Grid Grid.RowSpan="2" IsVisible="{Binding HasShakeResult}"
+              BackgroundColor="#80000000" ZIndex="100">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding DismissShakeResultCommand}" />
+            </Grid.GestureRecognizers>
+            <Border StrokeShape="RoundRectangle 12" StrokeThickness="0"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}"
+                    Padding="0" Margin="32" VerticalOptions="Center"
+                    HorizontalOptions="Center" WidthRequest="300">
+                <Border.Shadow>
+                    <Shadow Brush="#40000000" Offset="0,8" Radius="20" Opacity="0.5" />
+                </Border.Shadow>
+                <VerticalStackLayout>
+                    <Image Source="{Binding ShakeResult.ImageUrl}"
+                           HeightRequest="180" Aspect="AspectFill" />
+                    <Grid ColumnDefinitions="*,Auto" Padding="16,12">
+                        <Label Text="{Binding ShakeResult.Name}" FontSize="16"
+                               FontAttributes="Bold" VerticalTextAlignment="Center"
+                               TextColor="{AppThemeBinding Light=#1A1A1A, Dark=#EBE8E0}" />
+                        <Button Grid.Column="1" Text="×" FontSize="20"
+                                TextColor="{StaticResource TextTertiary}"
+                                BackgroundColor="Transparent" Padding="8,0"
+                                Command="{Binding DismissShakeResultCommand}" />
+                    </Grid>
+                    <Label Padding="16,0,16,4" FontSize="12"
+                           TextColor="{StaticResource TextSecondary}"
+                           Text="{Binding ShakeResult.Description}"
+                           LineBreakMode="TailTruncation" MaxLines="2" />
+                    <Button Text="View Recipe" Style="{StaticResource PrimaryButton}"
+                            Margin="16,10,16,16"
+                            Command="{Binding ViewShakeResultCommand}"
+                            SemanticProperties.Description="View the randomly selected recipe" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
     </Grid>
 
 </ContentPage>
