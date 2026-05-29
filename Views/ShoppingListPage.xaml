@@ -13,7 +13,7 @@
         <views:HeaderLogo Grid.Row="0" />
 
         <!-- Add Item -->
-        <Border Grid.Row="0" Margin="12,12,12,0" Padding="12"
+        <Border Grid.Row="1" Margin="12,12,12,0" Padding="12"
                 StrokeShape="RoundRectangle 8" StrokeThickness="1"
                 Stroke="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}"
                 BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}">
@@ -39,13 +39,13 @@
         </Border>
 
         <!-- Validation Error -->
-        <Label Grid.Row="1" Text="{Binding ValidationError}"
+        <Label Grid.Row="2" Text="{Binding ValidationError}"
                TextColor="{StaticResource Error}" FontSize="12"
                Margin="16,4,0,0"
                IsVisible="{Binding ValidationError, Converter={StaticResource StringNotEmpty}}" />
 
         <!-- Shopping List -->
-        <CollectionView Grid.Row="2" ItemsSource="{Binding Items}" Margin="12,8">
+        <CollectionView Grid.Row="3" ItemsSource="{Binding Items}" Margin="12,8">
             <CollectionView.EmptyView>
                 <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="8">
                     <Label Text="Your shopping list is empty" FontSize="16"
@@ -94,7 +94,7 @@
         </CollectionView>
 
         <!-- Clear -->
-        <Button Grid.Row="3" Text="Clear Purchased"
+        <Button Grid.Row="4" Text="Clear Purchased"
                 Style="{StaticResource SecondaryButton}"
                 Command="{Binding ClearCheckedCommand}"
                 Margin="16,4,16,20"

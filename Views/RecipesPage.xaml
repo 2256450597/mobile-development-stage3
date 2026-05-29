@@ -13,7 +13,7 @@
         <views:HeaderLogo Grid.Row="0" />
 
         <!-- Search Bar -->
-        <SearchBar Grid.Row="0" Placeholder="Search recipes..."
+        <SearchBar Grid.Row="1" Placeholder="Search recipes..."
                    Text="{Binding SearchText}"
                    PlaceholderColor="{StaticResource TextTertiary}"
                    TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}"
@@ -22,7 +22,7 @@
                    SemanticProperties.Description="Search for recipes by name or ingredient" />
 
         <!-- Sticky Category Tabs with background -->
-        <Border Grid.Row="1" StrokeThickness="0"
+        <Border Grid.Row="2" StrokeThickness="0"
                 BackgroundColor="{AppThemeBinding Light=#F0EAE6, Dark=#1E1E1B}"
                 Padding="0,6">
             <CollectionView ItemsSource="{Binding Categories}"
@@ -68,7 +68,7 @@
         </Border>
 
         <!-- Single-Column Recipe Feed -->
-        <CollectionView Grid.Row="2" ItemsSource="{Binding Recipes}" Margin="0,0,0,0">
+        <CollectionView Grid.Row="3" ItemsSource="{Binding Recipes}" Margin="0,0,0,0">
             <CollectionView.EmptyView>
                 <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="8">
                     <Label Text="No recipes found" FontSize="16"
