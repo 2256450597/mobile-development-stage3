@@ -5,193 +5,226 @@
              xmlns:models="clr-namespace:TastyMealPlanner.Models"
              x:Class="TastyMealPlanner.Views.HomePage"
              x:DataType="vm:HomeViewModel"
-             Shell.NavBarIsVisible="False">
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Background}}">
 
-    <ScrollView>
-        <VerticalStackLayout Spacing="0">
+    <Grid RowDefinitions="Auto,Auto,*" Padding="0">
 
-            <!-- Header -->
-            <VerticalStackLayout Padding="24,56,24,32" Spacing="6"
-                                 BackgroundColor="{AppThemeBinding Light={StaticResource Light_Background}, Dark={StaticResource Dark_Background}}">
-                <Label Text="TASTY MEAL PLANNER"
-                       FontSize="11"
-                       FontAttributes="Bold"
-                       CharacterSpacing="3"
-                       TextColor="{StaticResource TextSecondary}"
-                       SemanticProperties.Description="Tasty Meal Planner application title" />
-                <Label Text="Plan, cook, enjoy."
-                       FontSize="28"
-                       FontFamily="OpenSansSemibold"
+        <!-- ===== TOP BAR: Search + Quick Menu ===== -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto"
+              Padding="12,12,12,8"
+              BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Background}}">
+            <SearchBar Grid.Column="0" Text="{Binding SearchText}"
+                       Placeholder="Search recipes..."
+                       PlaceholderColor="{StaticResource TextTertiary}"
                        TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}"
-                       Margin="0,4,0,0" />
-            </VerticalStackLayout>
+                       BackgroundColor="Transparent"
+                       FontSize="14" />
+            <Button Grid.Column="1" Text="+" Style="{StaticResource IconButton}"
+                    Command="{Binding ShowQuickMenuCommand}"
+                    Margin="8,0,0,0"
+                    FontSize="22" TextColor="{StaticResource TextPrimary}"
+                    BackgroundColor="Transparent"
+                    SemanticProperties.Description="Open quick actions menu" />
+        </Grid>
 
-            <!-- Quick Actions -->
-            <Grid ColumnDefinitions="*,*,*,*"
-                  ColumnSpacing="12"
-                  Margin="16,20,16,0">
+        <!-- ===== STICKY CATEGORY TABS ===== -->
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Categories}"
+                        HeightRequest="44" Margin="0,0,0,8">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="6" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.Header>
+                <BoxView WidthRequest="12" Color="Transparent" />
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:CategoryTab">
+                    <Border StrokeShape="RoundRectangle 18"
+                            StrokeThickness="1"
+                            HeightRequest="36" Padding="16,0"
+                            Stroke="{AppThemeBinding Light=#E0E0E0, Dark=#444}"
+                            BackgroundColor="Transparent">
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding Selected}" Value="True">
+                                <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                <Setter Property="Stroke" Value="{StaticResource Primary}" />
+                            </DataTrigger>
+                        </Border.Triggers>
+                        <Label Text="{Binding Name}" FontSize="13" FontAttributes="Bold"
+                               VerticalTextAlignment="Center"
+                               TextColor="{AppThemeBinding Light=#666, Dark=#AAA}">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding Selected}" Value="True">
+                                    <Setter Property="TextColor" Value="White" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}}, Path=SelectCategoryCommand}"
+                                CommandParameter="{Binding Category}" />
+                        </Border.GestureRecognizers>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
-                <Frame Grid.Column="0" BackgroundColor="{AppThemeBinding Light={StaticResource Light_Card}, Dark={StaticResource Dark_Card}}"
-                       CornerRadius="4" Padding="8" HasShadow="False"
-                       BorderColor="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}">
-                    <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                        <Button Style="{StaticResource IconButton}"
-                                BackgroundColor="{StaticResource AccentVeryLight}"
-                                TextColor="{StaticResource Accent}"
-                                Text="Cam"
-                                Command="{Binding NavigateToCameraCommand}"
-                                SemanticProperties.Description="Open camera" />
-                        <Label Text="Camera" FontSize="10"
-                               HorizontalTextAlignment="Center"
-                               TextColor="{StaticResource TextSecondary}" />
-                    </VerticalStackLayout>
-                </Frame>
+        <!-- ===== MAIN CONTENT: ScrollView with interleaved sections ===== -->
+        <ScrollView Grid.Row="2">
+            <VerticalStackLayout Spacing="0" Padding="0,0,0,24">
 
-                <Frame Grid.Column="1" BackgroundColor="{AppThemeBinding Light={StaticResource Light_Card}, Dark={StaticResource Dark_Card}}"
-                       CornerRadius="4" Padding="8" HasShadow="False"
-                       BorderColor="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}">
-                    <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                        <Button Style="{StaticResource IconButton}"
-                                Text="Near"
-                                Command="{Binding NavigateToNearbyCommand}"
-                                SemanticProperties.Description="Find nearby stores" />
-                        <Label Text="Nearby" FontSize="10"
-                               HorizontalTextAlignment="Center"
-                               TextColor="{StaticResource TextSecondary}" />
-                    </VerticalStackLayout>
-                </Frame>
+                <!-- Today's Meals Row -->
+                <VerticalStackLayout Margin="0,0,0,16">
+                    <Grid ColumnDefinitions="*,Auto" Padding="16,8">
+                        <Label Text="Today's Meals" FontSize="16" FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
+                    </Grid>
+                    <CollectionView ItemsSource="{Binding TodayMeals}"
+                                    HeightRequest="160" Margin="0,0,0,0">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal" ItemSpacing="12" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.Header>
+                            <BoxView WidthRequest="16" Color="Transparent" />
+                        </CollectionView.Header>
+                        <CollectionView.Footer>
+                            <BoxView WidthRequest="16" Color="Transparent" />
+                        </CollectionView.Footer>
+                        <CollectionView.EmptyView>
+                            <Label Text="No meals planned for today" Margin="16,0"
+                                   TextColor="{StaticResource TextSecondary}" VerticalTextAlignment="Center" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:MealPlanEntry">
+                                <Border StrokeShape="RoundRectangle 8"
+                                        Stroke="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}"
+                                        StrokeThickness="1" Padding="0"
+                                        WidthRequest="140"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}">
+                                    <VerticalStackLayout>
+                                        <Image Source="{Binding Recipe.ImageUrl}"
+                                               HeightRequest="90" Aspect="AspectFill" />
+                                        <VerticalStackLayout Padding="8,6" Spacing="2">
+                                            <Label Text="{Binding MealType}" FontSize="10"
+                                                   TextColor="{StaticResource Accent}"
+                                                   FontAttributes="Bold" />
+                                            <Label Text="{Binding Recipe.Name}" FontSize="12"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}"
+                                                   LineBreakMode="TailTruncation" MaxLines="1" />
+                                        </VerticalStackLayout>
+                                    </VerticalStackLayout>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}}, Path=NavigateToRecipeDetailCommand}"
+                                            CommandParameter="{Binding Recipe}" />
+                                    </Border.GestureRecognizers>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
 
-                <Frame Grid.Column="2" BackgroundColor="{AppThemeBinding Light={StaticResource Light_Card}, Dark={StaticResource Dark_Card}}"
-                       CornerRadius="4" Padding="8" HasShadow="False"
-                       BorderColor="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}">
-                    <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                        <Button Style="{StaticResource IconButton}"
-                                Text="Surp"
-                                Command="{Binding SurpriseMeCommand}"
-                                SemanticProperties.Description="Get a random recipe suggestion" />
-                        <Label Text="Surprise" FontSize="10"
-                               HorizontalTextAlignment="Center"
-                               TextColor="{StaticResource TextSecondary}" />
-                    </VerticalStackLayout>
-                </Frame>
+                <!-- 2-Column Recipe Grid -->
+                <Grid ColumnDefinitions="16,*" Margin="0,0,0,0">
+                    <FlexLayout Grid.Column="1" Wrap="Wrap" JustifyContent="Start"
+                                AlignItems="Start"
+                                BindableLayout.ItemsSource="{Binding RecipeGrid}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:Recipe">
+                                <Border StrokeShape="RoundRectangle 12"
+                                        Stroke="Transparent" StrokeThickness="0"
+                                        Padding="0" Margin="4,6"
+                                        WidthRequest="170"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}">
+                                    <Border.Shadow>
+                                        <Shadow Brush="#20000000" Offset="0,2" Radius="6" Opacity="0.4" />
+                                    </Border.Shadow>
+                                    <VerticalStackLayout>
+                                        <!-- Large food image -->
+                                        <Image Source="{Binding ImageUrl}"
+                                               HeightRequest="130" Aspect="AspectFill" />
+                                        <!-- Minimal text -->
+                                        <VerticalStackLayout Padding="10,8" Spacing="2">
+                                            <Label Text="{Binding Name}" FontSize="14"
+                                                   FontAttributes="Bold"
+                                                   LineBreakMode="TailTruncation" MaxLines="1"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
+                                            <Label FontSize="12"
+                                                   TextColor="{StaticResource TextSecondary}">
+                                                <Label.Text>
+                                                    <MultiBinding StringFormat="{}{0} min · {1} cal">
+                                                        <Binding Path="PrepTimeMinutes" />
+                                                        <Binding Path="Calories" />
+                                                    </MultiBinding>
+                                                </Label.Text>
+                                            </Label>
+                                        </VerticalStackLayout>
+                                    </VerticalStackLayout>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}}, Path=NavigateToRecipeDetailCommand}"
+                                            CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </Grid>
 
-                <Frame Grid.Column="3" BackgroundColor="{AppThemeBinding Light={StaticResource Light_Card}, Dark={StaticResource Dark_Card}}"
-                       CornerRadius="4" Padding="8" HasShadow="False"
-                       BorderColor="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}">
-                    <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                        <Button Style="{StaticResource IconButton}"
-                                Text="Recp"
-                                Command="{Binding NavigateToRecipesCommand}"
-                                SemanticProperties.Description="Browse all recipes" />
-                        <Label Text="Recipes" FontSize="10"
-                               HorizontalTextAlignment="Center"
-                               TextColor="{StaticResource TextSecondary}" />
-                    </VerticalStackLayout>
-                </Frame>
-            </Grid>
-
-            <!-- Today's Meals Section -->
-            <Label Text="Today's Meals"
-                   Style="{StaticResource SectionTitleLabel}"
-                   SemanticProperties.HeadingLevel="Level2" />
-
-            <CollectionView ItemsSource="{Binding TodayMeals}"
-                            EmptyView="No meals planned for today. Tap Surprise Me to get inspired!"
-                            Margin="16,0">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:MealPlanEntry">
-                        <Frame Style="{StaticResource CardFrame}" Margin="0,4">
-                            <Grid ColumnDefinitions="60,*,Auto" ColumnSpacing="12">
-                                <!-- Meal Type Badge -->
-                                <Frame Grid.Column="0"
-                                       CornerRadius="8"
-                                       Padding="4,8"
-                                       HasShadow="False"
-                                       BackgroundColor="{StaticResource PrimaryLight}">
-                                    <Label Text="{Binding MealType}"
-                                           FontSize="11"
-                                           FontAttributes="Bold"
-                                           TextColor="White"
-                                           HorizontalTextAlignment="Center"
-                                           VerticalTextAlignment="Center" />
-                                </Frame>
-
-                                <!-- Recipe Info -->
-                                <VerticalStackLayout Grid.Column="1"
-                                                     VerticalOptions="Center" Spacing="2">
-                                    <Label Text="{Binding Recipe.Name}"
-                                           FontSize="15" FontAttributes="Bold"
-                                           TextColor="{StaticResource TextPrimary}" />
-                                    <Label FontSize="12"
-                                           TextColor="{StaticResource TextSecondary}">
-                                        <Label.Text>
-                                            <MultiBinding StringFormat="{}{0} cal | {1} min">
-                                                <Binding Path="Recipe.Calories" />
-                                                <Binding Path="Recipe.PrepTimeMinutes" />
-                                            </MultiBinding>
-                                        </Label.Text>
-                                    </Label>
-                                </VerticalStackLayout>
-
-                                <!-- Arrow -->
-                                <Label Grid.Column="2" Text="❯"
-                                       FontSize="18" VerticalTextAlignment="Center"
-                                       TextColor="{StaticResource TextSecondary}" />
-                            </Grid>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-
-            <!-- Upcoming / Explore Section -->
-            <Label Text="Explore Recipes"
-                   Style="{StaticResource SectionTitleLabel}"
-                   SemanticProperties.HeadingLevel="Level2" />
-
-            <CollectionView ItemsSource="{Binding UpcomingRecipes}"
-                            Margin="16,0,16,24"
-                            HeightRequest="200">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="12" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Recipe">
-                        <Frame Style="{StaticResource CardFrame}"
-                               WidthRequest="160" Padding="0">
-                            <VerticalStackLayout>
-                                <!-- Recipe image -->
-                                <Image Source="{Binding ImageUrl}"
-                                       HeightRequest="100"
-                                       Aspect="AspectFill" />
-                                <VerticalStackLayout Padding="10" Spacing="2">
-                                    <Label Text="{Binding Name}"
-                                           FontSize="13" FontAttributes="Bold"
-                                           TextColor="{StaticResource TextPrimary}"
-                                           LineBreakMode="TailTruncation" MaxLines="2" />
-                                    <Label Text="{Binding Difficulty}"
-                                           FontSize="11"
-                                           TextColor="{Binding Difficulty, Converter={StaticResource DifficultyToColor}}" />
-                                    <Label FontSize="11"
-                                           TextColor="{StaticResource TextSecondary}">
-                                        <Label.Text>
-                                            <MultiBinding StringFormat="{}{0} cal">
-                                                <Binding Path="Calories" />
-                                            </MultiBinding>
-                                        </Label.Text>
-                                    </Label>
-                                </VerticalStackLayout>
+                <!-- Curated Collection Rows -->
+                <CollectionView ItemsSource="{Binding Collections}" Margin="0,8,0,0">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:CuratedCollection">
+                            <VerticalStackLayout Margin="0,0,0,16">
+                                <Grid ColumnDefinitions="*,Auto" Padding="16,8">
+                                    <Label Text="{Binding Title}" FontSize="16" FontAttributes="Bold"
+                                           TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
+                                    <Label Grid.Column="1" Text="{Binding Subtitle}" FontSize="12"
+                                           TextColor="{StaticResource TextSecondary}" VerticalTextAlignment="Center" />
+                                </Grid>
+                                <CollectionView ItemsSource="{Binding Recipes}"
+                                                HeightRequest="150">
+                                    <CollectionView.ItemsLayout>
+                                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10" />
+                                    </CollectionView.ItemsLayout>
+                                    <CollectionView.Header>
+                                        <BoxView WidthRequest="16" Color="Transparent" />
+                                    </CollectionView.Header>
+                                    <CollectionView.Footer>
+                                        <BoxView WidthRequest="16" Color="Transparent" />
+                                    </CollectionView.Footer>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="models:Recipe">
+                                            <Border StrokeShape="RoundRectangle 8"
+                                                    Stroke="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}"
+                                                    StrokeThickness="1" Padding="0"
+                                                    WidthRequest="120"
+                                                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}">
+                                                <VerticalStackLayout>
+                                                    <Image Source="{Binding ImageUrl}"
+                                                           HeightRequest="90" Aspect="AspectFill" />
+                                                    <Label Text="{Binding Name}" FontSize="11"
+                                                           FontAttributes="Bold" Padding="8,6"
+                                                           LineBreakMode="TailTruncation" MaxLines="2"
+                                                           TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
+                                                </VerticalStackLayout>
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}}, Path=NavigateToRecipeDetailCommand}"
+                                                        CommandParameter="{Binding .}" />
+                                                </Border.GestureRecognizers>
+                                            </Border>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
                             </VerticalStackLayout>
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}}, Path=NavigateToRecipeDetailCommand}"
-                                    CommandParameter="{Binding .}" />
-                            </Frame.GestureRecognizers>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
-        </VerticalStackLayout>
-    </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 
 </ContentPage>
