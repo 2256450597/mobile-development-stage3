@@ -46,20 +46,6 @@ public class NearbyViewModel : BaseViewModel
         set => SetProperty(ref _hasLocation, value);
     }
 
-    private string _mapUrl = string.Empty;
-    public string MapUrl
-    {
-        get => _mapUrl;
-        set => SetProperty(ref _mapUrl, value);
-    }
-
-    private bool _hasMap;
-    public bool HasMap
-    {
-        get => _hasMap;
-        set => SetProperty(ref _hasMap, value);
-    }
-
     public ICommand GoBackCommand { get; }
     public ICommand RefreshLocationCommand { get; }
 
@@ -119,13 +105,6 @@ public class NearbyViewModel : BaseViewModel
                     NearbyPlaces.Add(place);
 
                 LocationInfo = $"Found {places.Count} stores nearby.";
-
-                // Static map from OpenStreetMap with a marker for user position
-                MapUrl = $"https://staticmap.openstreetmap.de/staticmap.php" +
-                         $"?center={location.Latitude},{location.Longitude}" +
-                         $"&zoom=15&size=600x300&maptype=mapnik" +
-                         $"&markers={location.Latitude},{location.Longitude},red-pushpin";
-                HasMap = true;
             }
             else
             {
