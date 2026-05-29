@@ -5,90 +5,78 @@
              xmlns:models="clr-namespace:TastyMealPlanner.Models"
              x:Class="TastyMealPlanner.Views.ShoppingListPage"
              x:DataType="vm:ShoppingListViewModel"
-             Title="{Binding Title}">
+             Title="Shopping"
+             BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Background}}">
 
-    <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="0">
 
-        <!-- Add Item Section -->
-        <Frame Grid.Row="0" Margin="12,12,12,8"
-               Style="{StaticResource CardFrame}">
-            <VerticalStackLayout Spacing="6">
-                <Grid ColumnDefinitions="*,120,Auto" ColumnSpacing="8">
-                    <Entry Grid.Column="0"
-                           Placeholder="Item name"
-                           Text="{Binding NewItemName}"
-                           Style="{StaticResource FormEntry}"
-                           SemanticProperties.Description="Enter shopping item name"
-                           ReturnType="Next" />
+        <!-- Add Item -->
+        <Border Grid.Row="0" Margin="12,12,12,0" Padding="12"
+                StrokeShape="RoundRectangle 8" StrokeThickness="1"
+                Stroke="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}"
+                BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}">
+            <Grid ColumnDefinitions="*,100,Auto" ColumnSpacing="8">
+                <Entry Grid.Column="0" Placeholder="Item name"
+                       Text="{Binding NewItemName}"
+                       PlaceholderColor="{StaticResource TextTertiary}"
+                       TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}"
+                       BackgroundColor="Transparent" FontSize="14"
+                       ReturnType="Next"
+                       SemanticProperties.Description="Enter shopping item name" />
+                <Entry Grid.Column="1" Placeholder="Qty"
+                       Text="{Binding NewItemQuantity}"
+                       PlaceholderColor="{StaticResource TextTertiary}"
+                       TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}"
+                       BackgroundColor="Transparent" FontSize="14"
+                       SemanticProperties.Description="Enter quantity" />
+                <Button Grid.Column="2" Text="Add" Style="{StaticResource PrimaryButton}"
+                        Command="{Binding AddItemCommand}"
+                        HeightRequest="40" Padding="14,0" FontSize="12"
+                        SemanticProperties.Description="Add item to shopping list" />
+            </Grid>
+        </Border>
 
-                    <Entry Grid.Column="1"
-                           Placeholder="Qty"
-                           Text="{Binding NewItemQuantity}"
-                           Style="{StaticResource FormEntry}"
-                           SemanticProperties.Description="Enter quantity"
-                           ReturnType="Done" />
-
-                    <Button Grid.Column="2"
-                            Text="+"
-                            Style="{StaticResource PrimaryButton}"
-                            Command="{Binding AddItemCommand}"
-                            SemanticProperties.Description="Add item to shopping list"
-                            HeightRequest="44" WidthRequest="44"
-                            Padding="0" />
-                </Grid>
-
-                <!-- Validation Error -->
-                <Label Text="{Binding ValidationError}"
-                       TextColor="{StaticResource Error}"
-                       FontSize="12"
-                       IsVisible="{Binding ValidationError, Converter={StaticResource StringNotEmpty}}"
-                       Margin="4,0,0,0" />
-            </VerticalStackLayout>
-        </Frame>
+        <!-- Validation Error -->
+        <Label Grid.Row="1" Text="{Binding ValidationError}"
+               TextColor="{StaticResource Error}" FontSize="12"
+               Margin="16,4,0,0"
+               IsVisible="{Binding ValidationError, Converter={StaticResource StringNotEmpty}}" />
 
         <!-- Shopping List -->
-        <CollectionView Grid.Row="1"
-                        ItemsSource="{Binding Items}"
-                        Margin="12,4">
-
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Items}" Margin="12,8">
             <CollectionView.EmptyView>
-                <VerticalStackLayout HorizontalOptions="Center"
-                                     VerticalOptions="Center" Spacing="8">
-                    <Label Text="Your shopping list is empty"
-                           FontSize="16" HorizontalTextAlignment="Center"
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="8">
+                    <Label Text="Your shopping list is empty" FontSize="16"
+                           HorizontalTextAlignment="Center"
                            TextColor="{StaticResource TextSecondary}" />
                 </VerticalStackLayout>
             </CollectionView.EmptyView>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:ShoppingItem">
-                    <Frame Style="{StaticResource CardFrame}" Margin="0,3">
-                        <Grid ColumnDefinitions="40,*,Auto" ColumnSpacing="10">
-                            <!-- Checkbox -->
-                            <CheckBox Grid.Column="0"
-                                      IsChecked="{Binding IsChecked}"
-                                      Color="{StaticResource Primary}"
-                                      SemanticProperties.Description="Mark item as purchased"
-                                      VerticalOptions="Center" />
-
-                            <!-- Item Name -->
-                            <Label Grid.Column="1"
-                                   VerticalTextAlignment="Center"
-                                   FontSize="15"
-                                   TextColor="{StaticResource TextPrimary}"
+                    <Border StrokeShape="RoundRectangle 4" StrokeThickness="0"
+                            Padding="14,12" Margin="0,3"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}">
+                        <Border.Stroke>
+                            <SolidColorBrush Color="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}" />
+                        </Border.Stroke>
+                        <Grid ColumnDefinitions="36,*,Auto" ColumnSpacing="12">
+                            <CheckBox Grid.Column="0" IsChecked="{Binding IsChecked}"
+                                      Color="{StaticResource Accent}"
+                                      VerticalOptions="Center"
+                                      SemanticProperties.Description="Mark item as purchased" />
+                            <Label Grid.Column="1" VerticalTextAlignment="Center" FontSize="15"
+                                   TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}"
                                    TextDecorations="{Binding IsChecked, Converter={StaticResource BoolToStrikethrough}}">
                                 <Label.Text>
-                                    <MultiBinding StringFormat="{}{0} - {1}">
+                                    <MultiBinding StringFormat="{}{0} · {1}">
                                         <Binding Path="Name" />
                                         <Binding Path="Quantity" />
                                     </MultiBinding>
                                 </Label.Text>
                             </Label>
-
-                            <!-- Tap to toggle -->
-                            <Label Grid.Column="2"
-                                   Text="✕" FontSize="14"
-                                   TextColor="{StaticResource Error}"
+                            <Label Grid.Column="2" Text="×" FontSize="18"
+                                   TextColor="{StaticResource TextTertiary}"
                                    VerticalTextAlignment="Center"
                                    SemanticProperties.Description="Delete item">
                                 <Label.GestureRecognizers>
@@ -98,19 +86,17 @@
                                 </Label.GestureRecognizers>
                             </Label>
                         </Grid>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <!-- Clear Checked Button -->
-        <Button Grid.Row="2"
-                Text="Clear Purchased Items"
+        <!-- Clear -->
+        <Button Grid.Row="3" Text="Clear Purchased"
                 Style="{StaticResource SecondaryButton}"
                 Command="{Binding ClearCheckedCommand}"
-                Margin="16,8,16,16"
+                Margin="16,4,16,20"
                 SemanticProperties.Description="Remove all purchased items from the list" />
-
     </Grid>
 
 </ContentPage>

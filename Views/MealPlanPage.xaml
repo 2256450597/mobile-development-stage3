@@ -5,89 +5,71 @@
              xmlns:models="clr-namespace:TastyMealPlanner.Models"
              x:Class="TastyMealPlanner.Views.MealPlanPage"
              x:DataType="vm:MealPlanViewModel"
-             Title="{Binding Title}">
+             Title="Meal Plan"
+             BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Background}}">
 
     <Grid RowDefinitions="Auto,*" Padding="0">
+        <Label Grid.Row="0" Text="This Week" FontSize="18" FontAttributes="Bold"
+               Padding="16,12"
+               TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
 
-        <!-- Week header info -->
-        <HorizontalStackLayout Grid.Row="0" Padding="16,12" Spacing="8">
-            <Label Text="This Week"
-                   Style="{StaticResource SubtitleLabel}"
-                   VerticalTextAlignment="Center" />
-            <Label Text="{Binding WeekPlan.Count, StringFormat='({0} days)'}"
-                   FontSize="12" VerticalTextAlignment="Center"
-                   TextColor="{StaticResource TextSecondary}" />
-        </HorizontalStackLayout>
-
-        <!-- Weekly Plan -->
-        <CollectionView Grid.Row="1"
-                        ItemsSource="{Binding WeekPlan}"
+        <CollectionView Grid.Row="1" ItemsSource="{Binding WeekPlan}"
                         Margin="8,0,8,16">
-
             <CollectionView.EmptyView>
-                <VerticalStackLayout HorizontalOptions="Center"
-                                     VerticalOptions="Center" Spacing="8">
-                    <Label Text="No meals planned yet"
-                           FontSize="16" HorizontalTextAlignment="Center"
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="8">
+                    <Label Text="No meals planned yet" FontSize="16"
+                           HorizontalTextAlignment="Center"
                            TextColor="{StaticResource TextSecondary}" />
-                    <Label Text="Browse recipes to add meals to your plan"
-                           FontSize="12" HorizontalTextAlignment="Center"
-                           TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="Browse recipes to add meals" FontSize="13"
+                           HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource TextTertiary}" />
                 </VerticalStackLayout>
             </CollectionView.EmptyView>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="vm:DayPlanGroup">
-                    <VerticalStackLayout Margin="0,4">
+                    <VerticalStackLayout Margin="0,0,0,12">
                         <!-- Day Header -->
-                        <Frame BackgroundColor="{StaticResource Primary}"
-                               CornerRadius="8" Padding="12,8"
-                               HasShadow="False" Margin="0,0,0,4">
-                            <Label Text="{Binding DayName}"
-                                   FontSize="14" FontAttributes="Bold"
-                                   TextColor="White" />
-                        </Frame>
+                        <Label Text="{Binding DayName}" FontSize="13" FontAttributes="Bold"
+                               Padding="4,8,0,6"
+                               TextColor="{StaticResource TextTertiary}" />
 
                         <!-- Meals for this day -->
-                        <CollectionView ItemsSource="{Binding Entries}"
-                                        HeightRequest="120">
+                        <CollectionView ItemsSource="{Binding Entries}" HeightRequest="130">
                             <CollectionView.ItemsLayout>
-                                <LinearItemsLayout Orientation="Horizontal"
-                                                   ItemSpacing="8" />
+                                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10" />
                             </CollectionView.ItemsLayout>
                             <CollectionView.EmptyView>
-                                <Label Text="No meals planned"
-                                       FontSize="12" Margin="8,0"
-                                       TextColor="{StaticResource TextSecondary}"
-                                       VerticalTextAlignment="Center" />
+                                <Label Text="No meals planned" FontSize="12"
+                                       TextColor="{StaticResource TextTertiary}"
+                                       VerticalTextAlignment="Center" Margin="8,0" />
                             </CollectionView.EmptyView>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:MealPlanEntry">
-                                    <Frame Style="{StaticResource CardFrame}"
-                                           WidthRequest="160" Padding="10">
-                                        <VerticalStackLayout Spacing="4">
-                                            <Frame BackgroundColor="{StaticResource PrimaryLight}"
-                                                   CornerRadius="4" Padding="4,2"
-                                                   HasShadow="False"
-                                                   HorizontalOptions="Start">
-                                                <Label Text="{Binding MealType}"
-                                                       FontSize="10"
-                                                       TextColor="White" />
-                                            </Frame>
-                                            <Label Text="{Binding Recipe.Name}"
-                                                   FontSize="12" FontAttributes="Bold"
-                                                   TextColor="{StaticResource TextPrimary}"
-                                                   LineBreakMode="TailTruncation" />
-                                            <Label Text="{Binding Recipe.Calories, StringFormat='{0} cal'}"
-                                                   FontSize="10"
-                                                   TextColor="{StaticResource TextSecondary}" />
+                                    <Border StrokeShape="RoundRectangle 12"
+                                            Stroke="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}"
+                                            StrokeThickness="1" Padding="0"
+                                            WidthRequest="150"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}">
+                                        <VerticalStackLayout>
+                                            <Image Source="{Binding Recipe.ImageUrl}"
+                                                   HeightRequest="90" Aspect="AspectFill" />
+                                            <VerticalStackLayout Padding="10,8" Spacing="2">
+                                                <Label Text="{Binding MealType}" FontSize="10"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{StaticResource Accent}" />
+                                                <Label Text="{Binding Recipe.Name}" FontSize="13"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}"
+                                                       LineBreakMode="TailTruncation" MaxLines="1" />
+                                            </VerticalStackLayout>
                                         </VerticalStackLayout>
-                                        <Frame.GestureRecognizers>
+                                        <Border.GestureRecognizers>
                                             <TapGestureRecognizer
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MealPlanViewModel}}, Path=RemoveMealCommand}"
                                                 CommandParameter="{Binding .}" />
-                                        </Frame.GestureRecognizers>
-                                    </Frame>
+                                        </Border.GestureRecognizers>
+                                    </Border>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
@@ -95,7 +77,6 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
     </Grid>
 
 </ContentPage>
