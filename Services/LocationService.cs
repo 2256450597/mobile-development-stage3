@@ -33,34 +33,56 @@ public class LocationService : ILocationService
 
     public async Task<string> GetAddressFromLocationAsync(double latitude, double longitude)
     {
+        // Try built-in Geocoding first (requires Google Play Services on Android)
         try
         {
             var placemarks = await Geocoding.Default.GetPlacemarksAsync(latitude, longitude);
             var placemark = placemarks?.FirstOrDefault();
 
-            if (placemark == null)
-                return $"Coordinates: {latitude:F5}, {longitude:F5}";
-
-            var parts = new[]
+            if (placemark != null)
             {
-                placemark.Thoroughfare,
-                placemark.SubLocality,
-                placemark.Locality,
-                placemark.AdminArea,
-                placemark.CountryName
-            }
-            .Where(p => !string.IsNullOrWhiteSpace(p))
-            .Distinct()
-            .ToArray();
+                var parts = new[]
+                {
+                    placemark.Thoroughfare,
+                    placemark.SubLocality,
+                    placemark.Locality,
+                    placemark.AdminArea,
+                    placemark.CountryName
+                }
+                .Where(p => !string.IsNullOrWhiteSpace(p))
+                .Distinct()
+                .ToArray();
 
-            return parts.Length > 0
-                ? string.Join(", ", parts)
-                : $"Coordinates: {latitude:F5}, {longitude:F5}";
+                if (parts.Length > 0)
+                    return string.Join(", ", parts);
+            }
         }
-        catch (Exception ex)
+        catch
         {
-            System.Diagnostics.Debug.WriteLine($"Geocoding failed: {ex.Message}");
-            return $"Location: {latitude:F5}, {longitude:F5}";
+            // Google Play Services not available, fall through to Nominatim
+        }
+
+        // Fallback: OpenStreetMap Nominatim (free, no API key needed)
+        return await GetNominatimAddressAsync(latitude, longitude);
+    }
+
+    private static async Task<string> GetNominatimAddressAsync(double latitude, double longitude)
+    {
+        try
+        {
+            using var http = new HttpClient();
+            http.DefaultRequestHeaders.Add("User-Agent", "TastyMealPlanner/1.0");
+            var url = $"https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat={latitude:F6}&lon={longitude:F6}";
+            var response = await http.GetStringAsync(url);
+            var doc = System.Text.Json.JsonDocument.Parse(response);
+            var displayName = doc.RootElement.GetProperty("display_name").GetString();
+            return !string.IsNullOrWhiteSpace(displayName)
+                ? displayName
+                : $"{latitude:F5}, {longitude:F5}";
+        }
+        catch
+        {
+            return $"{latitude:F5}, {longitude:F5}";
         }
     }
 
