@@ -68,10 +68,10 @@
                 <DataTemplate x:DataType="models:Recipe">
                     <Frame Style="{StaticResource CardFrame}" Padding="0" Margin="0">
                         <VerticalStackLayout>
-                            <!-- Card Image Placeholder -->
-                            <BoxView HeightRequest="120"
-                                     Color="{Binding Category, Converter={StaticResource CategoryToColor}}"
-                                     CornerRadius="12,12,0,0" />
+                            <!-- Card Image -->
+                            <Image Source="{Binding ImageUrl}"
+                                   HeightRequest="120"
+                                   Aspect="AspectFill" />
 
                             <VerticalStackLayout Padding="10" Spacing="4">
                                 <Label Text="{Binding Name}"

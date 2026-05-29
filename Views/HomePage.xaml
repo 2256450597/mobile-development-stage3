@@ -162,10 +162,10 @@
                         <Frame Style="{StaticResource CardFrame}"
                                WidthRequest="160" Padding="0">
                             <VerticalStackLayout>
-                                <!-- Placeholder image -->
-                                <BoxView HeightRequest="100"
-                                         Color="{Binding Category, Converter={StaticResource CategoryToColor}}"
-                                         CornerRadius="12,12,0,0" />
+                                <!-- Recipe image -->
+                                <Image Source="{Binding ImageUrl}"
+                                       HeightRequest="100"
+                                       Aspect="AspectFill" />
                                 <VerticalStackLayout Padding="10" Spacing="2">
                                     <Label Text="{Binding Name}"
                                            FontSize="13" FontAttributes="Bold"

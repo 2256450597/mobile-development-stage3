@@ -11,9 +11,10 @@
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Spacing="0">
 
-                <!-- Hero Image Placeholder -->
-                <BoxView HeightRequest="220"
-                         Color="{Binding Recipe.Category, Converter={StaticResource CategoryToColor}}" />
+                <!-- Hero Image -->
+                <Image Source="{Binding Recipe.ImageUrl}"
+                       HeightRequest="220"
+                       Aspect="AspectFill" />
 
                 <!-- Recipe Header Info -->
                 <VerticalStackLayout Padding="20" Spacing="8"

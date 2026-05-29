@@ -75,7 +75,7 @@ public class DataService : IDataService
             Name = "Classic Pancakes",
             Category = FoodCategory.Breakfast,
             Description = "Fluffy golden pancakes perfect for a weekend breakfast.",
-            ImageUrl = "pancakes.png",
+            ImageUrl = "01_pancakes.jpg",
             Ingredients = new() { "1 cup flour", "2 tbsp sugar", "1 egg", "1 cup milk", "2 tbsp butter", "1 tsp baking powder" },
             Instructions = new()
             {
@@ -97,7 +97,7 @@ public class DataService : IDataService
             Name = "Avocado Toast",
             Category = FoodCategory.Breakfast,
             Description = "Simple and nutritious smashed avocado on sourdough toast.",
-            ImageUrl = "avocado_toast.png",
+            ImageUrl = "02_avocado_toast.jpg",
             Ingredients = new() { "2 slices sourdough bread", "1 ripe avocado", "1 lime", "Salt", "Red pepper flakes", "Cherry tomatoes" },
             Instructions = new()
             {
@@ -119,7 +119,7 @@ public class DataService : IDataService
             Name = "Caesar Salad",
             Category = FoodCategory.Lunch,
             Description = "Crisp romaine lettuce with classic Caesar dressing and croutons.",
-            ImageUrl = "caesar_salad.png",
+            ImageUrl = "03_caesar_salad.jpg",
             Ingredients = new() { "1 head romaine lettuce", "Caesar dressing", "Croutons", "Parmesan cheese", "1 lemon", "Grilled chicken (optional)" },
             Instructions = new()
             {
@@ -141,7 +141,7 @@ public class DataService : IDataService
             Name = "Classic Margherita Pizza",
             Category = FoodCategory.Lunch,
             Description = "Authentic Italian pizza with fresh mozzarella and basil.",
-            ImageUrl = "pizza.png",
+            ImageUrl = "04_pizza.jpg",
             Ingredients = new() { "Pizza dough", "San Marzano tomatoes", "Fresh mozzarella", "Fresh basil", "Olive oil", "Salt" },
             Instructions = new()
             {
@@ -164,7 +164,7 @@ public class DataService : IDataService
             Name = "Grilled Salmon",
             Category = FoodCategory.Dinner,
             Description = "Perfectly grilled salmon fillet with lemon herb butter.",
-            ImageUrl = "salmon.png",
+            ImageUrl = "05_salmon.jpg",
             Ingredients = new() { "2 salmon fillets", "2 tbsp butter", "1 lemon", "Fresh dill", "Garlic cloves", "Asparagus", "Salt and pepper" },
             Instructions = new()
             {
@@ -187,7 +187,7 @@ public class DataService : IDataService
             Name = "Beef Stir Fry",
             Category = FoodCategory.Dinner,
             Description = "Quick and flavourful beef stir fry with vegetables.",
-            ImageUrl = "stirfry.png",
+            ImageUrl = "06_stirfry.jpg",
             Ingredients = new() { "Beef sirloin", "Broccoli", "Bell peppers", "Soy sauce", "Ginger", "Garlic", "Sesame oil", "Rice" },
             Instructions = new()
             {
@@ -210,7 +210,7 @@ public class DataService : IDataService
             Name = "Chocolate Lava Cake",
             Category = FoodCategory.Dessert,
             Description = "Rich molten chocolate cake with a gooey centre.",
-            ImageUrl = "lava_cake.png",
+            ImageUrl = "07_lava_cake.jpg",
             Ingredients = new() { "Dark chocolate 200g", "Butter 100g", "2 eggs", "2 egg yolks", "Sugar 50g", "Flour 30g" },
             Instructions = new()
             {
@@ -233,7 +233,7 @@ public class DataService : IDataService
             Name = "Tiramisu",
             Category = FoodCategory.Dessert,
             Description = "Classic Italian layered coffee dessert with mascarpone cream.",
-            ImageUrl = "tiramisu.png",
+            ImageUrl = "08_tiramisu.jpg",
             Ingredients = new() { "Mascarpone 500g", "Espresso", "Ladyfinger biscuits", "Eggs 4", "Sugar 100g", "Cocoa powder" },
             Instructions = new()
             {
@@ -256,7 +256,7 @@ public class DataService : IDataService
             Name = "Hummus with Pita",
             Category = FoodCategory.Snack,
             Description = "Creamy homemade hummus served with warm pita bread.",
-            ImageUrl = "hummus.png",
+            ImageUrl = "09_hummus.jpg",
             Ingredients = new() { "1 can chickpeas", "Tahini 3 tbsp", "Lemon juice", "Garlic 2 cloves", "Olive oil", "Paprika", "Pita bread" },
             Instructions = new()
             {
@@ -279,7 +279,7 @@ public class DataService : IDataService
             Name = "Fruit Smoothie Bowl",
             Category = FoodCategory.Snack,
             Description = "Thick and creamy smoothie bowl topped with fresh fruits and granola.",
-            ImageUrl = "smoothie_bowl.png",
+            ImageUrl = "10_smoothie_bowl.jpg",
             Ingredients = new() { "Frozen banana", "Frozen berries", "Greek yogurt", "Honey", "Granola", "Chia seeds", "Fresh fruit" },
             Instructions = new()
             {
@@ -301,7 +301,7 @@ public class DataService : IDataService
             Name = "Fresh Lemonade",
             Category = FoodCategory.Drink,
             Description = "Homemade zesty lemonade, perfectly refreshing.",
-            ImageUrl = "lemonade.png",
+            ImageUrl = "11_lemonade.jpg",
             Ingredients = new() { "4 lemons", "Sugar 100g", "Water 1L", "Ice cubes", "Mint leaves" },
             Instructions = new()
             {
@@ -345,7 +345,7 @@ public class DataService : IDataService
             Name = "Chicken Fajitas",
             Category = FoodCategory.Dinner,
             Description = "Sizzling chicken fajitas with peppers and onions.",
-            ImageUrl = "fajitas.png",
+            ImageUrl = "13_fajitas.jpg",
             Ingredients = new() { "Chicken breast", "Bell peppers", "Onion", "Fajita seasoning", "Tortillas", "Sour cream", "Salsa" },
             Instructions = new()
             {
@@ -368,7 +368,7 @@ public class DataService : IDataService
             Name = "Mango Lassi",
             Category = FoodCategory.Drink,
             Description = "Creamy Indian yogurt drink blended with sweet mango.",
-            ImageUrl = "mango_lassi.png",
+            ImageUrl = "14_mango_lassi.jpg",
             Ingredients = new() { "Ripe mango 1", "Plain yogurt 1 cup", "Milk 1/2 cup", "Sugar 2 tbsp", "Cardamom powder", "Ice cubes" },
             Instructions = new()
             {
@@ -390,7 +390,7 @@ public class DataService : IDataService
             Name = "Vegetable Curry",
             Category = FoodCategory.Dinner,
             Description = "Aromatic and hearty vegetable curry with coconut milk.",
-            ImageUrl = "curry.png",
+            ImageUrl = "15_curry.jpg",
             Ingredients = new() { "Coconut milk", "Sweet potato", "Chickpeas", "Spinach", "Curry paste", "Onion", "Garlic", "Basmati rice" },
             Instructions = new()
             {
