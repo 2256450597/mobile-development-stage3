@@ -14,7 +14,7 @@
 
                 <!-- Camera Preview / Photo Display -->
                 <Frame BackgroundColor="#1A1A2E"
-                       CornerRadius="16"
+                       CornerRadius="4"
                        HeightRequest="320"
                        Padding="0"
                        IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}">
@@ -33,14 +33,14 @@
 
                 <!-- Photo Preview -->
                 <Frame BackgroundColor="#1A1A2E"
-                       CornerRadius="16"
+                       CornerRadius="4"
                        HeightRequest="320"
                        Padding="0"
                        IsVisible="{Binding HasPhoto}">
                     <Image Source="{Binding PhotoPath}"
                            Aspect="AspectFill">
                         <Image.Clip>
-                            <RoundRectangleGeometry CornerRadius="16"
+                            <RoundRectangleGeometry CornerRadius="4"
                                                     Rect="0,0,340,320" />
                         </Image.Clip>
                     </Image>
@@ -74,7 +74,7 @@
                     Command="{Binding TakePhotoCommand}"
                     HeightRequest="52"
                     FontSize="16"
-                    CornerRadius="26"
+                    CornerRadius="4"
                     IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}"
                     SemanticProperties.Description="Capture a photo with the camera" />
 
@@ -83,7 +83,7 @@
                     Command="{Binding PickPhotoCommand}"
                     HeightRequest="48"
                     FontSize="14"
-                    CornerRadius="24"
+                    CornerRadius="4"
                     IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}"
                     SemanticProperties.Description="Pick a photo from your gallery" />
 
@@ -93,7 +93,7 @@
                     Command="{Binding ClearPhotoCommand}"
                     HeightRequest="48"
                     FontSize="14"
-                    CornerRadius="24"
+                    CornerRadius="4"
                     IsVisible="{Binding HasPhoto}"
                     SemanticProperties.Description="Clear the current photo" />
 
@@ -103,7 +103,7 @@
                     Command="{Binding TakePhotoCommand}"
                     HeightRequest="52"
                     FontSize="16"
-                    CornerRadius="26"
+                    CornerRadius="4"
                     IsVisible="{Binding HasPhoto}"
                     SemanticProperties.Description="Capture another photo" />
 

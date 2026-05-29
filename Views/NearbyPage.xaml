@@ -93,7 +93,7 @@
                             <!-- Store Icon -->
                             <Frame Grid.Column="0"
                                    BackgroundColor="{StaticResource PrimaryLight}"
-                                   CornerRadius="22"
+                                   CornerRadius="4"
                                    WidthRequest="44" HeightRequest="44"
                                    Padding="0" HasShadow="False">
                                 <Label Text="{Binding IconGlyph}"
@@ -116,7 +116,7 @@
                             <!-- Distance -->
                             <Frame Grid.Column="2"
                                    BackgroundColor="{StaticResource Primary}"
-                                   CornerRadius="12" Padding="10,6"
+                                   CornerRadius="4" Padding="10,6"
                                    HasShadow="False"
                                    VerticalOptions="Center">
                                 <Label FontSize="12" FontAttributes="Bold"
@@ -140,7 +140,7 @@
                 Command="{Binding RefreshLocationCommand}"
                 HeightRequest="50"
                 FontSize="16"
-                CornerRadius="25"
+                CornerRadius="4"
                 Margin="16,8,16,24"
                 IsEnabled="{Binding IsLocating, Converter={StaticResource InverseBool}}"
                 SemanticProperties.Description="Refresh your current location" />

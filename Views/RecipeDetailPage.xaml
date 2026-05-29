@@ -157,7 +157,7 @@
                     BackgroundColor="{StaticResource Error}"
                     TextColor="White"
                     FontAttributes="Bold"
-                    CornerRadius="8"
+                    CornerRadius="4"
                     Padding="16,12"
                     FontSize="14"
                     Command="{Binding StopSpeakingCommand}"

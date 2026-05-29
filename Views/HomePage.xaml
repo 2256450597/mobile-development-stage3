@@ -130,49 +130,54 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <!-- All Recipes Grid -->
+                <!-- All Recipes - single column large image feed -->
                 <Label Text="All Recipes" FontSize="16" FontAttributes="Bold"
                        Padding="16,12,16,8"
                        TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
-                <Grid ColumnDefinitions="16,*">
-                    <FlexLayout Grid.Column="1" Wrap="Wrap" JustifyContent="Start" AlignItems="Start"
-                                BindableLayout.ItemsSource="{Binding RecipeGrid}">
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate x:DataType="models:Recipe">
-                                <Border StrokeShape="RoundRectangle 12"
-                                        Stroke="Transparent" StrokeThickness="0"
-                                        Padding="0" Margin="4,6" WidthRequest="170"
-                                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}">
-                                    <Border.Shadow>
-                                        <Shadow Brush="#20000000" Offset="0,2" Radius="6" Opacity="0.4" />
-                                    </Border.Shadow>
-                                    <VerticalStackLayout>
-                                        <Image Source="{Binding ImageUrl}"
-                                               HeightRequest="130" Aspect="AspectFill" />
-                                        <VerticalStackLayout Padding="10,8" Spacing="2">
-                                            <Label Text="{Binding Name}" FontSize="14" FontAttributes="Bold"
-                                                   LineBreakMode="TailTruncation" MaxLines="1"
-                                                   TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
-                                            <Label FontSize="12" TextColor="{StaticResource TextSecondary}">
+                <CollectionView ItemsSource="{Binding RecipeGrid}" Margin="0,0,0,0">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="0" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Recipe">
+                            <Border StrokeShape="RoundRectangle 4"
+                                    Stroke="Transparent" StrokeThickness="0"
+                                    Padding="0" Margin="0,0,0,1"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}">
+                                <VerticalStackLayout>
+                                    <!-- Large full-width food image -->
+                                    <Image Source="{Binding ImageUrl}"
+                                           HeightRequest="220" Aspect="AspectFill" />
+                                    <VerticalStackLayout Padding="16,12" Spacing="4">
+                                        <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold"
+                                               LineBreakMode="TailTruncation" MaxLines="2"
+                                               TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
+                                        <HorizontalStackLayout Spacing="12">
+                                            <Label FontSize="13" TextColor="{StaticResource TextSecondary}">
                                                 <Label.Text>
-                                                    <MultiBinding StringFormat="{}{0} min · {1} cal">
+                                                    <MultiBinding StringFormat="{}{0} min">
                                                         <Binding Path="PrepTimeMinutes" />
-                                                        <Binding Path="Calories" />
                                                     </MultiBinding>
                                                 </Label.Text>
                                             </Label>
-                                        </VerticalStackLayout>
+                                            <Label Text="·" FontSize="13" TextColor="{StaticResource TextTertiary}" />
+                                            <Label FontSize="13" TextColor="{StaticResource TextSecondary}"
+                                                   Text="{Binding Calories, StringFormat='{0} cal'}" />
+                                            <Label Text="·" FontSize="13" TextColor="{StaticResource TextTertiary}" />
+                                            <Label FontSize="13" TextColor="{StaticResource TextSecondary}"
+                                                   Text="{Binding Difficulty}" />
+                                        </HorizontalStackLayout>
                                     </VerticalStackLayout>
-                                    <Border.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}}, Path=NavigateToRecipeDetailCommand}"
-                                            CommandParameter="{Binding .}" />
-                                    </Border.GestureRecognizers>
-                                </Border>
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
-                    </FlexLayout>
-                </Grid>
+                                </VerticalStackLayout>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}}, Path=NavigateToRecipeDetailCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
             </VerticalStackLayout>
         </ScrollView>
