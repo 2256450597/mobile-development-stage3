@@ -31,17 +31,49 @@ public class LocationService : ILocationService
         }
     }
 
+    public async Task<string> GetAddressFromLocationAsync(double latitude, double longitude)
+    {
+        try
+        {
+            var placemarks = await Geocoding.Default.GetPlacemarksAsync(latitude, longitude);
+            var placemark = placemarks?.FirstOrDefault();
+
+            if (placemark == null)
+                return "Address not available for this location.";
+
+            var parts = new[]
+            {
+                placemark.Thoroughfare,
+                placemark.SubLocality,
+                placemark.Locality,
+                placemark.AdminArea,
+                placemark.CountryName
+            }
+            .Where(p => !string.IsNullOrWhiteSpace(p))
+            .Distinct()
+            .ToArray();
+
+            return parts.Length > 0
+                ? string.Join(", ", parts)
+                : "Address details not available.";
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Geocoding failed: {ex.Message}");
+            return $"Unable to look up address (Lat: {latitude:F4}, Lon: {longitude:F4})";
+        }
+    }
+
     public Task<List<NearbyPlace>> GetNearbyGroceryStoresAsync(double latitude, double longitude)
     {
-        // Mock nearby grocery stores based on the user's location
-        // In a real app, this would call a maps API
+        var rng = new Random();
         var stores = new List<NearbyPlace>
         {
             new()
             {
                 Name = "FreshMart Supermarket",
                 Address = "123 High Street",
-                DistanceKm = 0.3 + new Random().NextDouble() * 0.5,
+                DistanceKm = 0.3 + rng.NextDouble() * 0.5,
                 Latitude = latitude + 0.002,
                 Longitude = longitude + 0.001,
                 IconGlyph = "\U0001F3EA"
@@ -50,7 +82,7 @@ public class LocationService : ILocationService
             {
                 Name = "Organic Greens Market",
                 Address = "45 Park Lane",
-                DistanceKm = 0.6 + new Random().NextDouble() * 0.5,
+                DistanceKm = 0.6 + rng.NextDouble() * 0.5,
                 Latitude = latitude - 0.001,
                 Longitude = longitude + 0.003,
                 IconGlyph = "\U0001F33F"
@@ -59,7 +91,7 @@ public class LocationService : ILocationService
             {
                 Name = "City Food Wholesale",
                 Address = "78 Commerce Road",
-                DistanceKm = 1.2 + new Random().NextDouble() * 0.5,
+                DistanceKm = 1.2 + rng.NextDouble() * 0.5,
                 Latitude = latitude + 0.004,
                 Longitude = longitude - 0.002,
                 IconGlyph = "\U0001F3EC"
@@ -68,7 +100,7 @@ public class LocationService : ILocationService
             {
                 Name = "Baker's Delight",
                 Address = "200 Mill Street",
-                DistanceKm = 0.8 + new Random().NextDouble() * 0.5,
+                DistanceKm = 0.8 + rng.NextDouble() * 0.5,
                 Latitude = latitude - 0.003,
                 Longitude = longitude - 0.001,
                 IconGlyph = "\U0001F35E"
@@ -77,7 +109,7 @@ public class LocationService : ILocationService
             {
                 Name = "Asian Grocery Mart",
                 Address = "56 Eastern Avenue",
-                DistanceKm = 1.5 + new Random().NextDouble() * 0.5,
+                DistanceKm = 1.5 + rng.NextDouble() * 0.5,
                 Latitude = latitude + 0.001,
                 Longitude = longitude - 0.004,
                 IconGlyph = "\U0001F3EA"

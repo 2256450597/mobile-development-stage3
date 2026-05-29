@@ -8,6 +8,9 @@ public interface ILocationService
     /// <summary>Gets the current device location. Throws on permission denial or timeout.</summary>
     Task<LocationInfo?> GetCurrentLocationAsync();
 
+    /// <summary>Reverse-geocodes coordinates into a human-readable address.</summary>
+    Task<string> GetAddressFromLocationAsync(double latitude, double longitude);
+
     /// <summary>Returns a list of mock grocery stores near the specified coordinates.</summary>
     Task<List<NearbyPlace>> GetNearbyGroceryStoresAsync(double latitude, double longitude);
 

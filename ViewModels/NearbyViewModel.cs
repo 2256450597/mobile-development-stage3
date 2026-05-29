@@ -18,6 +18,20 @@ public class NearbyViewModel : BaseViewModel
         set => SetProperty(ref _locationInfo, value);
     }
 
+    private string _address = string.Empty;
+    public string Address
+    {
+        get => _address;
+        set => SetProperty(ref _address, value);
+    }
+
+    private string _coordinates = string.Empty;
+    public string Coordinates
+    {
+        get => _coordinates;
+        set => SetProperty(ref _coordinates, value);
+    }
+
     private bool _isLocating;
     public bool IsLocating
     {
@@ -76,8 +90,14 @@ public class NearbyViewModel : BaseViewModel
             if (location != null)
             {
                 HasLocation = true;
-                LocationInfo = location.DisplayText + "\nFinding nearby grocery stores...";
+                Coordinates = $"Lat: {location.Latitude:F5}, Lon: {location.Longitude:F5}";
 
+                // Reverse geocode to real address
+                Address = "Looking up address...";
+                Address = await _locationService.GetAddressFromLocationAsync(
+                    location.Latitude, location.Longitude);
+
+                LocationInfo = "Finding nearby grocery stores...";
                 var places = await _locationService.GetNearbyGroceryStoresAsync(
                     location.Latitude, location.Longitude);
 
@@ -85,7 +105,7 @@ public class NearbyViewModel : BaseViewModel
                 foreach (var place in places)
                     NearbyPlaces.Add(place);
 
-                LocationInfo = $"Lat: {location.Latitude:F4}, Lon: {location.Longitude:F4} | Found {places.Count} stores nearby.";
+                LocationInfo = $"Found {places.Count} stores nearby.";
             }
             else
             {
