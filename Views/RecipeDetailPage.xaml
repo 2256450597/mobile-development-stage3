@@ -143,20 +143,20 @@
             </Grid>
 
             <Button Grid.Row="1" Grid.Column="0"
-                    Text=" Add to Meal Plan"
+                    Text="Add to Meal Plan"
                     Style="{StaticResource PrimaryButton}"
                     Command="{Binding AddToMealPlanCommand}"
                     SemanticProperties.Description="Add this recipe to your meal plan" />
 
             <Button Grid.Row="1" Grid.Column="1"
-                    Text=" Read Aloud"
+                    Text="Read Aloud"
                     Style="{StaticResource SecondaryButton}"
                     Command="{Binding SpeakRecipeCommand}"
                     IsVisible="{Binding IsSpeaking, Converter={StaticResource InverseBool}}"
                     SemanticProperties.Description="Read the recipe aloud using text-to-speech" />
 
             <Button Grid.Row="1" Grid.Column="1"
-                    Text=" Reading..."
+                    Text="Reading..."
                     BackgroundColor="{StaticResource Error}"
                     TextColor="White"
                     FontAttributes="Bold"
@@ -172,7 +172,7 @@
 
     <!-- Toolbar Favorite Button -->
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text=""
+        <ToolbarItem Text="Fav"
                      Command="{Binding ToggleFavoriteCommand}"
                      SemanticProperties.Description="Toggle favorite" />
     </ContentPage.ToolbarItems>
