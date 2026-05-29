@@ -26,10 +26,12 @@ public class DataService : IDataService
 
     public List<MealPlanEntry> GetMealPlanForWeek(DateTime weekStart)
     {
-        var endOfWeek = weekStart.AddDays(7);
-        return _mealPlan
-            .Where(m => m.Day >= weekStart.DayOfWeek && m.Day < endOfWeek.DayOfWeek)
-            .ToList();
+        // Build set of 7 days starting from weekStart (assumed to be Monday)
+        var weekDays = new HashSet<DayOfWeek>();
+        for (int i = 0; i < 7; i++)
+            weekDays.Add(weekStart.AddDays(i).DayOfWeek);
+
+        return _mealPlan.Where(m => weekDays.Contains(m.Day)).ToList();
     }
 
     public List<ShoppingItem> GetShoppingList() => _shoppingList;
