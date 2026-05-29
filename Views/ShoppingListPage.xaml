@@ -3,12 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:TastyMealPlanner.ViewModels"
              xmlns:models="clr-namespace:TastyMealPlanner.Models"
+             xmlns:views="clr-namespace:TastyMealPlanner.Views"
              x:Class="TastyMealPlanner.Views.ShoppingListPage"
              x:DataType="vm:ShoppingListViewModel"
-             Title="Shopping"
+             Shell.NavBarIsVisible="False" Title="Shopping"
              BackgroundColor="{AppThemeBinding Light={StaticResource Light_Background}, Dark={StaticResource Dark_Background}}">
 
-    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="0">
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Padding="0">
+        <views:HeaderLogo Grid.Row="0" />
 
         <!-- Add Item -->
         <Border Grid.Row="0" Margin="12,12,12,0" Padding="12"

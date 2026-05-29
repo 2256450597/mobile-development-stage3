@@ -2,12 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:TastyMealPlanner.ViewModels"
+             xmlns:views="clr-namespace:TastyMealPlanner.Views"
              x:Class="TastyMealPlanner.Views.SettingsPage"
              x:DataType="vm:SettingsViewModel"
-             Title="Settings"
+             Shell.NavBarIsVisible="False" Title="Settings"
              BackgroundColor="{AppThemeBinding Light={StaticResource Light_Background}, Dark={StaticResource Dark_Background}}">
 
-    <ScrollView>
+    <Grid RowDefinitions="Auto,*" Padding="0">
+        <views:HeaderLogo Grid.Row="0" />
+    <ScrollView Grid.Row="1">
         <VerticalStackLayout Spacing="0" Padding="0">
 
             <!-- Appearance -->
@@ -43,7 +46,7 @@
                                TextColor="{StaticResource TextSecondary}" />
                         <Picker ItemsSource="{Binding FontSizeOptions}"
                                 SelectedItem="{Binding SelectedFontSize}"
-                                Title="Select Font Size" Margin="0,4,0,0"
+                                Shell.NavBarIsVisible="False" Title="Select Font Size" Margin="0,4,0,0"
                                 TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
                     </VerticalStackLayout>
 
@@ -124,5 +127,6 @@
 
         </VerticalStackLayout>
     </ScrollView>
+    </Grid>
 
 </ContentPage>
