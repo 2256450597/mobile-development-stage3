@@ -93,41 +93,47 @@ public class ThemeService
     /// <summary>Recursively scales font sizes on all text elements in a page.</summary>
     public void ApplyFontScaleToPage(Element root)
     {
-        ApplyToElement(root);
-        if (root is IVisualTreeElement visual)
+        var descendants = root.GetVisualTreeDescendants();
+        foreach (var element in descendants)
         {
-            foreach (var child in visual.GetVisualChildren().OfType<Element>())
-                ApplyFontScaleToPage(child);
+            switch (element)
+            {
+                case Label label:
+                    label.FontSize = GetBaseFontSize(label) * FontScale;
+                    break;
+                case Button button:
+                    button.FontSize = GetBaseFontSize(button) * FontScale;
+                    break;
+                case Entry entry:
+                    entry.FontSize = GetBaseFontSize(entry) * FontScale;
+                    break;
+                case SearchBar search:
+                    search.FontSize = GetBaseFontSize(search) * FontScale;
+                    break;
+                case Picker picker:
+                    picker.FontSize = GetBaseFontSize(picker) * FontScale;
+                    break;
+            }
         }
     }
 
-    private readonly Dictionary<Element, double> _originalSizes = new();
-    private void ApplyToElement(Element element)
+    private readonly Dictionary<string, double> _originalFontSizes = new();
+    private double GetBaseFontSize(Element el)
     {
-        switch (element)
+        var key = $"{el.GetType().Name}_{el.Id}";
+        if (!_originalFontSizes.ContainsKey(key))
         {
-            case Label label:
-                label.FontSize = GetBaseSize(label, label.FontSize) * FontScale;
-                break;
-            case Button button:
-                button.FontSize = GetBaseSize(button, button.FontSize) * FontScale;
-                break;
-            case Entry entry:
-                entry.FontSize = GetBaseSize(entry, entry.FontSize) * FontScale;
-                break;
-            case SearchBar search:
-                search.FontSize = GetBaseSize(search, search.FontSize) * FontScale;
-                break;
-            case Picker picker:
-                picker.FontSize = GetBaseSize(picker, picker.FontSize) * FontScale;
-                break;
+            var current = el switch
+            {
+                Label l => l.FontSize,
+                Button b => b.FontSize,
+                Entry e => e.FontSize,
+                SearchBar s => s.FontSize,
+                Picker p => p.FontSize,
+                _ => 14.0
+            };
+            _originalFontSizes[key] = current > 0 ? current : 14;
         }
-    }
-
-    private double GetBaseSize(Element el, double current)
-    {
-        if (!_originalSizes.ContainsKey(el))
-            _originalSizes[el] = current > 0 ? current : 14;
-        return _originalSizes[el];
+        return _originalFontSizes[key];
     }
 }

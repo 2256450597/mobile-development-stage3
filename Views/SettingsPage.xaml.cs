@@ -12,5 +12,12 @@ public partial class SettingsPage : ContentPage
         InitializeComponent();
         _theme = theme;
         BindingContext = viewModel;
+        _theme.FontSizeChanged += () => _theme.ApplyFontScaleToPage(this);
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _theme.ApplyFontScaleToPage(this);
     }
 }
