@@ -129,8 +129,12 @@ public class RecipeDetailViewModel : BaseViewModel
         try
         {
             IsSpeaking = true;
-            var text = $"{Recipe.Name}. Ingredients: {string.Join(", ", Recipe.Ingredients)}. " +
-                       $"Instructions: {string.Join(". ", Recipe.Instructions)}";
+            // Build natural-sounding English narrative
+            var ingredientList = string.Join(". ", Recipe.Ingredients.Select((ing, i) => $"{ing}"));
+            var instructionSteps = string.Join(". Next, ", Recipe.Instructions);
+            var text = $"Let's make {Recipe.Name}. " +
+                       $"Here are the ingredients. {ingredientList}. " +
+                       $"Now follow these steps. First, {instructionSteps}. Enjoy your meal!";
 
             await _tts.SpeakAsync(text, TtsSpeed);
         }

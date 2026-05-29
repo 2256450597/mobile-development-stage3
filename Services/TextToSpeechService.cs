@@ -6,10 +6,10 @@ public class TextToSpeechService : ITextToSpeechService
     private CancellationTokenSource? _cts;
 
     public float Speed { get; set; } = 1.0f;
-    public float Pitch { get; set; } = 1.0f;
+    public float Pitch { get; set; } = 1.1f;
     public bool IsSpeaking { get; private set; }
 
-    public async Task SpeakAsync(string text, float speed = 1.0f, float pitch = 1.0f)
+    public async Task SpeakAsync(string text, float speed = 1.0f, float pitch = 1.1f)
     {
         // Cancel any existing speech before starting new
         await StopAsync();
@@ -19,6 +19,7 @@ public class TextToSpeechService : ITextToSpeechService
         {
             Pitch = pitch,
             Volume = 1.0f,
+            Locale = await GetEnglishLocaleAsync()
         };
 
         Speed = speed;
@@ -42,6 +43,24 @@ public class TextToSpeechService : ITextToSpeechService
             IsSpeaking = false;
             _cts?.Dispose();
             _cts = null;
+        }
+    }
+
+    /// <summary>Finds an English voice locale on the device for more natural pronunciation.</summary>
+    private static async Task<Locale?> GetEnglishLocaleAsync()
+    {
+        try
+        {
+            var locales = await TextToSpeech.Default.GetLocalesAsync();
+            // Prefer UK or US English over other English variants
+            return locales.FirstOrDefault(l => l.Language == "en" && l.Country == "GB")
+                ?? locales.FirstOrDefault(l => l.Language == "en" && l.Country == "US")
+                ?? locales.FirstOrDefault(l => l.Language.StartsWith("en", StringComparison.OrdinalIgnoreCase))
+                ?? null;
+        }
+        catch
+        {
+            return null;
         }
     }
 
