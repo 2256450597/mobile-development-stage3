@@ -82,20 +82,8 @@
 
                     <BoxView HeightRequest="1" Color="{AppThemeBinding Light=#F0F0F0, Dark=#333}" />
 
-                    <VerticalStackLayout Spacing="4">
-                        <Label Text="Text-to-Speech Pitch" FontSize="15" FontAttributes="Bold"
-                               TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
-                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
-                            <Slider Minimum="0.5" Maximum="2.0" Value="{Binding TtsPitch}"
-                                    MinimumTrackColor="{StaticResource Accent}"
-                                    MaximumTrackColor="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}"
-                                    ThumbColor="{StaticResource Accent}" />
-                            <Label Grid.Column="1" Text="{Binding TtsPitch, StringFormat='{0:F1}x'}"
-                                   FontSize="13" FontAttributes="Bold"
-                                   TextColor="{StaticResource Accent}"
-                                   VerticalTextAlignment="Center" WidthRequest="40" />
-                        </Grid>
-                    </VerticalStackLayout>
+                    <Label Text="Note: speech quality depends on the device TTS engine. Install Google TTS or similar for more natural voices." FontSize="11"
+                           TextColor="{StaticResource TextTertiary}" />
 
                     <Button Text="Test Text-to-Speech"
                             Style="{StaticResource SecondaryButton}"
