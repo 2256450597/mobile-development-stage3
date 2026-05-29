@@ -3,16 +3,16 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- Primary palette -->
-    <Color x:Key="Primary">#FF6B35</Color>
-    <Color x:Key="PrimaryDark">#E55A2B</Color>
-    <Color x:Key="PrimaryLight">#FF8A5C</Color>
-    <Color x:Key="PrimaryVeryLight">#FFF0E6</Color>
+    <!-- Primary palette - warm terracotta -->
+    <Color x:Key="Primary">#D94E34</Color>
+    <Color x:Key="PrimaryDark">#B8381F</Color>
+    <Color x:Key="PrimaryLight">#E8735C</Color>
+    <Color x:Key="PrimaryVeryLight">#FEF0ED</Color>
 
-    <!-- Secondary -->
-    <Color x:Key="Secondary">#4CAF50</Color>
-    <Color x:Key="SecondaryDark">#388E3C</Color>
-    <Color x:Key="SecondaryVeryLight">#E8F5E9</Color>
+    <!-- Secondary - fresh green -->
+    <Color x:Key="Secondary">#059669</Color>
+    <Color x:Key="SecondaryDark">#047857</Color>
+    <Color x:Key="SecondaryVeryLight">#ECFDF5</Color>
 
     <!-- Accent -->
     <Color x:Key="Accent">#2196F3</Color>

@@ -43,7 +43,7 @@
                 <Frame Grid.Column="0" BackgroundColor="White" CornerRadius="16"
                        Padding="8" HasShadow="False">
                     <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
-                        <Button Text="&#x1F4F7;" Style="{StaticResource IconButton}"
+                        <Button Text="" Style="{StaticResource IconButton}"
                                 BackgroundColor="#FFF0E6"
                                 Command="{Binding NavigateToCameraCommand}"
                                 SemanticProperties.Description="Open camera" />
@@ -56,7 +56,7 @@
                 <Frame Grid.Column="1" BackgroundColor="White" CornerRadius="16"
                        Padding="8" HasShadow="False">
                     <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
-                        <Button Text="&#x1F4CD;" Style="{StaticResource IconButton}"
+                        <Button Text="" Style="{StaticResource IconButton}"
                                 BackgroundColor="#E3F2FD"
                                 Command="{Binding NavigateToNearbyCommand}"
                                 SemanticProperties.Description="Find nearby stores" />
@@ -69,7 +69,7 @@
                 <Frame Grid.Column="2" BackgroundColor="White" CornerRadius="16"
                        Padding="8" HasShadow="False">
                     <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
-                        <Button Text="&#x1F3B2;" Style="{StaticResource IconButton}"
+                        <Button Text="" Style="{StaticResource IconButton}"
                                 BackgroundColor="#E8F5E9"
                                 Command="{Binding SurpriseMeCommand}"
                                 SemanticProperties.Description="Get a random recipe suggestion" />
@@ -82,7 +82,7 @@
                 <Frame Grid.Column="3" BackgroundColor="White" CornerRadius="16"
                        Padding="8" HasShadow="False">
                     <VerticalStackLayout Spacing="4" HorizontalOptions="Center">
-                        <Button Text="&#x1F4D6;" Style="{StaticResource IconButton}"
+                        <Button Text="" Style="{StaticResource IconButton}"
                                 BackgroundColor="#F3E5F5"
                                 Command="{Binding NavigateToRecipesCommand}"
                                 SemanticProperties.Description="Browse all recipes" />
@@ -137,7 +137,7 @@
                                 </VerticalStackLayout>
 
                                 <!-- Arrow -->
-                                <Label Grid.Column="2" Text="&#x276F;"
+                                <Label Grid.Column="2" Text="❯"
                                        FontSize="18" VerticalTextAlignment="Center"
                                        TextColor="{StaticResource TextSecondary}" />
                             </Grid>

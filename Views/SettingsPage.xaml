@@ -70,7 +70,7 @@
                     <Label FontSize="13" TextColor="{StaticResource TextPrimary}">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="&#x2022; " />
+                                <Span Text="• " />
                                 <Span Text="All images include descriptive alt text for screen readers." />
                             </FormattedString>
                         </Label.FormattedText>
@@ -78,7 +78,7 @@
                     <Label FontSize="13" TextColor="{StaticResource TextPrimary}">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="&#x2022; " />
+                                <Span Text="• " />
                                 <Span Text="Semantic heading levels are defined for navigation." />
                             </FormattedString>
                         </Label.FormattedText>
@@ -86,7 +86,7 @@
                     <Label FontSize="13" TextColor="{StaticResource TextPrimary}">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="&#x2022; " />
+                                <Span Text="• " />
                                 <Span Text="Touch targets meet minimum size requirements (44pt)." />
                             </FormattedString>
                         </Label.FormattedText>
@@ -94,7 +94,7 @@
                     <Label FontSize="13" TextColor="{StaticResource TextPrimary}">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="&#x2022; " />
+                                <Span Text="• " />
                                 <Span Text="High contrast colour ratios for text readability." />
                             </FormattedString>
                         </Label.FormattedText>
@@ -102,7 +102,7 @@
                     <Label FontSize="13" TextColor="{StaticResource TextPrimary}">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="&#x2022; " />
+                                <Span Text="• " />
                                 <Span Text="Text-to-speech support for recipe instructions." />
                             </FormattedString>
                         </Label.FormattedText>
@@ -169,7 +169,7 @@
                     </VerticalStackLayout>
 
                     <!-- Test TTS Button -->
-                    <Button Text="&#x1F50A; Test Text-to-Speech"
+                    <Button Text=" Test Text-to-Speech"
                             Style="{StaticResource SecondaryButton}"
                             Command="{Binding TestTtsCommand}"
                             SemanticProperties.Description="Test text-to-speech with current settings"

@@ -54,7 +54,6 @@
             <CollectionView.EmptyView>
                 <VerticalStackLayout HorizontalOptions="Center"
                                      VerticalOptions="Center" Spacing="8">
-                    <Label Text="&#x1F6D2;" FontSize="40"
                            HorizontalTextAlignment="Center" />
                     <Label Text="Your shopping list is empty"
                            FontSize="16" HorizontalTextAlignment="Center"
@@ -89,7 +88,7 @@
 
                             <!-- Tap to toggle -->
                             <Label Grid.Column="2"
-                                   Text="&#x2716;" FontSize="14"
+                                   Text="✕" FontSize="14"
                                    TextColor="{StaticResource Error}"
                                    VerticalTextAlignment="Center"
                                    SemanticProperties.Description="Delete item">

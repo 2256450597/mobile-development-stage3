@@ -77,7 +77,7 @@
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="x:String">
                             <HorizontalStackLayout Spacing="10">
-                                <Label Text="&#x2022;" FontSize="16"
+                                <Label Text="•" FontSize="16"
                                        TextColor="{StaticResource Primary}"
                                        VerticalTextAlignment="Center" />
                                 <Label Text="{Binding .}" FontSize="14"
@@ -143,20 +143,20 @@
             </Grid>
 
             <Button Grid.Row="1" Grid.Column="0"
-                    Text="&#x1F4C5; Add to Meal Plan"
+                    Text=" Add to Meal Plan"
                     Style="{StaticResource PrimaryButton}"
                     Command="{Binding AddToMealPlanCommand}"
                     SemanticProperties.Description="Add this recipe to your meal plan" />
 
             <Button Grid.Row="1" Grid.Column="1"
-                    Text="&#x1F50A; Read Aloud"
+                    Text=" Read Aloud"
                     Style="{StaticResource SecondaryButton}"
                     Command="{Binding SpeakRecipeCommand}"
                     IsVisible="{Binding IsSpeaking, Converter={StaticResource InverseBool}}"
                     SemanticProperties.Description="Read the recipe aloud using text-to-speech" />
 
             <Button Grid.Row="1" Grid.Column="1"
-                    Text="&#x1F50A; Reading..."
+                    Text=" Reading..."
                     BackgroundColor="{StaticResource Error}"
                     TextColor="White"
                     FontAttributes="Bold"
@@ -172,7 +172,7 @@
 
     <!-- Toolbar Favorite Button -->
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="&#x2764;"
+        <ToolbarItem Text=""
                      Command="{Binding ToggleFavoriteCommand}"
                      SemanticProperties.Description="Toggle favorite" />
     </ContentPage.ToolbarItems>

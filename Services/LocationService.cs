@@ -99,7 +99,7 @@ public class LocationService : ILocationService
                 DistanceKm = 0.3 + new Random().NextDouble() * 0.3,
                 Latitude = latitude + 0.002,
                 Longitude = longitude + 0.001,
-                IconGlyph = "\U0001F3EA"
+                IconGlyph = "◉"
             },
             new()
             {
@@ -108,7 +108,7 @@ public class LocationService : ILocationService
                 DistanceKm = 0.6 + new Random().NextDouble() * 0.4,
                 Latitude = latitude - 0.001,
                 Longitude = longitude + 0.003,
-                IconGlyph = "\U0001F33F"
+                IconGlyph = "◉"
             },
             new()
             {
@@ -117,7 +117,7 @@ public class LocationService : ILocationService
                 DistanceKm = 1.1 + new Random().NextDouble() * 0.5,
                 Latitude = latitude + 0.004,
                 Longitude = longitude - 0.002,
-                IconGlyph = "\U0001F3EC"
+                IconGlyph = "◉"
             },
             new()
             {
@@ -126,7 +126,7 @@ public class LocationService : ILocationService
                 DistanceKm = 0.8 + new Random().NextDouble() * 0.4,
                 Latitude = latitude - 0.003,
                 Longitude = longitude - 0.001,
-                IconGlyph = "\U0001F35E"
+                IconGlyph = "◉"
             },
             new()
             {
@@ -135,7 +135,7 @@ public class LocationService : ILocationService
                 DistanceKm = 1.4 + new Random().NextDouble() * 0.5,
                 Latitude = latitude + 0.001,
                 Longitude = longitude - 0.004,
-                IconGlyph = "\U0001F3EA"
+                IconGlyph = "◉"
             }
         };
 

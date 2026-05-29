@@ -20,7 +20,7 @@
                        IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}">
                     <VerticalStackLayout VerticalOptions="Center"
                                          HorizontalOptions="Center" Spacing="12">
-                        <Label Text="&#x1F4F7;" FontSize="64"
+                        <Label Text="" FontSize="64"
                                HorizontalTextAlignment="Center" />
                         <Label Text="Take a photo of your meal or ingredients"
                                FontSize="14" TextColor="White"
@@ -69,7 +69,7 @@
         <VerticalStackLayout Grid.Row="1" Spacing="10" Margin="0,8,0,20">
 
             <!-- Take Photo / Clear -->
-            <Button Text="&#x1F4F8; Take Photo"
+            <Button Text=" Take Photo"
                     Style="{StaticResource PrimaryButton}"
                     Command="{Binding TakePhotoCommand}"
                     HeightRequest="52"
@@ -78,7 +78,7 @@
                     IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}"
                     SemanticProperties.Description="Capture a photo with the camera" />
 
-            <Button Text="&#x1F5BC; Pick from Gallery"
+            <Button Text=" Pick from Gallery"
                     Style="{StaticResource SecondaryButton}"
                     Command="{Binding PickPhotoCommand}"
                     HeightRequest="48"
@@ -88,7 +88,7 @@
                     SemanticProperties.Description="Pick a photo from your gallery" />
 
             <!-- Clear Photo -->
-            <Button Text="&#x2716; Clear Photo"
+            <Button Text=" Clear Photo"
                     Style="{StaticResource SecondaryButton}"
                     Command="{Binding ClearPhotoCommand}"
                     HeightRequest="48"
@@ -98,7 +98,7 @@
                     SemanticProperties.Description="Clear the current photo" />
 
             <!-- Take Another -->
-            <Button Text="&#x1F4F8; Take Another Photo"
+            <Button Text=" Take Another Photo"
                     Style="{StaticResource PrimaryButton}"
                     Command="{Binding TakePhotoCommand}"
                     HeightRequest="52"

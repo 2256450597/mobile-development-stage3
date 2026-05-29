@@ -27,7 +27,6 @@
             <CollectionView.EmptyView>
                 <VerticalStackLayout HorizontalOptions="Center"
                                      VerticalOptions="Center" Spacing="8">
-                    <Label Text="&#x1F4C5;" FontSize="40"
                            HorizontalTextAlignment="Center" />
                     <Label Text="No meals planned yet"
                            FontSize="16" HorizontalTextAlignment="Center"

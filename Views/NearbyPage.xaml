@@ -13,7 +13,7 @@
         <Frame Grid.Row="0" Style="{StaticResource CardFrame}" Margin="0,0,0,8">
             <VerticalStackLayout Spacing="8">
                 <HorizontalStackLayout Spacing="8">
-                    <Label Text="&#x1F4CD;" FontSize="20" VerticalTextAlignment="Center" />
+                    <Label Text="" FontSize="20" VerticalTextAlignment="Center" />
                     <Label Text="Your Location"
                            FontSize="18" FontAttributes="Bold"
                            TextColor="{StaticResource TextPrimary}"
@@ -49,14 +49,14 @@
                IsVisible="{Binding HasLocation}"
                Margin="0,4">
             <VerticalStackLayout Spacing="8">
-                <Label Text="&#x1F4CD; Address"
+                <Label Text=" Address"
                        FontAttributes="Bold" FontSize="14"
                        TextColor="{StaticResource Primary}" />
                 <Label Text="{Binding Address}"
                        FontSize="14"
                        TextColor="{StaticResource TextPrimary}" />
                 <BoxView HeightRequest="1" Color="{StaticResource BorderColor}" />
-                <Label Text="&#x1F310; Coordinates"
+                <Label Text=" Coordinates"
                        FontAttributes="Bold" FontSize="14"
                        TextColor="{StaticResource Primary}" />
                 <Label Text="{Binding Coordinates}"
@@ -135,7 +135,7 @@
 
         <!-- Refresh Button -->
         <Button Grid.Row="3"
-                Text="&#x1F504; Refresh Location"
+                Text=" Refresh Location"
                 Style="{StaticResource PrimaryButton}"
                 Command="{Binding RefreshLocationCommand}"
                 HeightRequest="50"

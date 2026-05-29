@@ -50,7 +50,6 @@
 
             <CollectionView.EmptyView>
                 <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="8">
-                    <Label Text="&#x1F50D;" FontSize="40" HorizontalTextAlignment="Center" />
                     <Label Text="No recipes found"
                            FontSize="16" HorizontalTextAlignment="Center"
                            TextColor="{StaticResource TextSecondary}" />
