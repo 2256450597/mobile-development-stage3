@@ -43,25 +43,15 @@
             </VerticalStackLayout>
         </Frame>
 
-        <!-- Map Placeholder -->
+        <!-- OpenStreetMap -->
         <Frame Grid.Row="1"
-               BackgroundColor="#E8F5E9"
                CornerRadius="16"
-               HeightRequest="120"
+               HeightRequest="220"
                Padding="0"
-               Margin="0,4">
-            <Grid>
-                <!-- Decorative map-like background -->
-                <BoxView Color="#C8E6C9" CornerRadius="16" />
-                <VerticalStackLayout VerticalOptions="Center"
-                                     HorizontalOptions="Center" Spacing="6">
-                    <Label Text="&#x1F5FA;" FontSize="40" HorizontalTextAlignment="Center" />
-                    <Label Text="Nearby Grocery Stores"
-                           FontSize="14" FontAttributes="Bold"
-                           TextColor="{StaticResource SecondaryDark}"
-                           HorizontalTextAlignment="Center" />
-                </VerticalStackLayout>
-            </Grid>
+               Margin="0,4"
+               IsVisible="{Binding HasMap}">
+            <WebView Source="{Binding MapSource}"
+                     HeightRequest="220" />
         </Frame>
 
         <!-- Nearby Places List Header -->

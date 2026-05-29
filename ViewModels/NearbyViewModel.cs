@@ -46,6 +46,20 @@ public class NearbyViewModel : BaseViewModel
         set => SetProperty(ref _hasLocation, value);
     }
 
+    private HtmlWebViewSource? _mapSource;
+    public HtmlWebViewSource? MapSource
+    {
+        get => _mapSource;
+        set => SetProperty(ref _mapSource, value);
+    }
+
+    private bool _hasMap;
+    public bool HasMap
+    {
+        get => _hasMap;
+        set => SetProperty(ref _hasMap, value);
+    }
+
     public ICommand GoBackCommand { get; }
     public ICommand RefreshLocationCommand { get; }
 
@@ -92,7 +106,6 @@ public class NearbyViewModel : BaseViewModel
                 HasLocation = true;
                 Coordinates = $"Lat: {location.Latitude:F5}, Lon: {location.Longitude:F5}";
 
-                // Reverse geocode to real address
                 Address = "Looking up address...";
                 Address = await _locationService.GetAddressFromLocationAsync(
                     location.Latitude, location.Longitude);
@@ -106,6 +119,9 @@ public class NearbyViewModel : BaseViewModel
                     NearbyPlaces.Add(place);
 
                 LocationInfo = $"Found {places.Count} stores nearby.";
+
+                // Generate OpenStreetMap via Leaflet
+                GenerateMap(location.Latitude, location.Longitude, places);
             }
             else
             {
@@ -120,5 +136,41 @@ public class NearbyViewModel : BaseViewModel
         {
             IsLocating = false;
         }
+    }
+
+    private void GenerateMap(double lat, double lon, List<NearbyPlace> places)
+    {
+        var markersJs = $"var you = L.marker([{lat}, {lon}]).addTo(map).bindPopup('You are here').openPopup();\n";
+        foreach (var place in places)
+        {
+            markersJs += $"L.marker([{place.Latitude}, {place.Longitude}]).addTo(map).bindPopup('<b>{place.Name}</b><br/>{place.Address}<br/>{place.DistanceKm:F1} km');\n";
+        }
+
+        var html = $@"<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'/>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'/>
+<link rel='stylesheet' href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'/>
+<script src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'></script>
+<style>
+  html,body,#map{{margin:0;padding:0;height:100%;width:100%}}
+</style>
+</head>
+<body>
+<div id='map'></div>
+<script>
+  var map = L.map('map').setView([{lat}, {lon}], 16);
+  L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png', {{
+    attribution: '&copy; OpenStreetMap contributors',
+    maxZoom: 19
+  }}).addTo(map);
+  {markersJs}
+</script>
+</body>
+</html>";
+
+        MapSource = new HtmlWebViewSource { Html = html };
+        HasMap = true;
     }
 }
