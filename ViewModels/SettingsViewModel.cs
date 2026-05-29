@@ -42,18 +42,7 @@ public class SettingsViewModel : BaseViewModel
         }
     }
 
-    private float _ttsSpeed = 1.0f;
-    public float TtsSpeed
-    {
-        get => _ttsSpeed;
-        set
-        {
-            if (SetProperty(ref _ttsSpeed, value))
-                _tts.Speed = value;
-        }
-    }
-
-    private float _ttsPitch = 1.0f;
+    private float _ttsPitch = 1.1f;
     public float TtsPitch
     {
         get => _ttsPitch;
@@ -80,7 +69,6 @@ public class SettingsViewModel : BaseViewModel
         // Load saved preferences
         _isDarkMode = _themeService.CurrentTheme == AppThemeOption.Dark;
         _selectedFontSize = _themeService.CurrentFontSize.ToString();
-        _ttsSpeed = _tts.Speed;
         _ttsPitch = _tts.Pitch;
 
         ToggleDarkModeCommand = new Command(() =>
@@ -115,10 +103,17 @@ public class SettingsViewModel : BaseViewModel
         TestTtsCommand = new Command(async () =>
         {
             _haptic.PerformClick();
-            await _tts.SpeakAsync(
-                "This is a test of the text-to-speech feature. " +
-                "You can adjust the speed and pitch in the settings above.",
-                TtsSpeed, TtsPitch);
+            if (_tts.IsSpeaking)
+            {
+                await _tts.StopAsync();
+            }
+            else
+            {
+                await _tts.SpeakAsync(
+                    "This is a test of the text-to-speech feature. " +
+                    "You can adjust the pitch to change the voice tone.",
+                    1.0f, TtsPitch);
+            }
         });
 
         // Listen for external theme changes

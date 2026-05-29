@@ -125,20 +125,20 @@
               Padding="16,8,16,24"
               BackgroundColor="{StaticResource SurfaceBackground}">
 
-            <!-- TTS Speed Slider -->
+            <!-- TTS Pitch Slider -->
             <Grid Grid.Row="0" Grid.ColumnSpan="2" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
-                <Label Grid.Column="0" Text="TTS Speed:"
+                <Label Grid.Column="0" Text="TTS Pitch:"
                        FontSize="11" VerticalTextAlignment="Center"
                        TextColor="{StaticResource TextSecondary}" />
                 <Slider Grid.Column="1"
                         Minimum="0.5" Maximum="2.0"
-                        Value="{Binding TtsSpeed}"
+                        Value="{Binding TtsPitch}"
                         MinimumTrackColor="{StaticResource Primary}"
                         MaximumTrackColor="{StaticResource BorderColor}"
                         ThumbColor="{StaticResource Primary}"
-                        SemanticProperties.Description="Adjust text-to-speech speed" />
+                        SemanticProperties.Description="Adjust text-to-speech pitch" />
                 <Label Grid.Column="2"
-                       Text="{Binding TtsSpeed, StringFormat='{0:F1}x'}"
+                       Text="{Binding TtsPitch, StringFormat='{0:F1}x'}"
                        FontSize="11" VerticalTextAlignment="Center"
                        TextColor="{StaticResource TextSecondary}" />
             </Grid>

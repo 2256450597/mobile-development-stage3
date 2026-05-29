@@ -5,8 +5,8 @@ using TastyMealPlanner.Services;
 
 namespace TastyMealPlanner.ViewModels;
 
-/// <summary>Displays a single recipe with ingredients, instructions, and TTS/hardware actions.</summary>
 [QueryProperty(nameof(RecipeId), "id")]
+/// <summary>Displays a single recipe with ingredients, instructions, and TTS/hardware actions.</summary>
 public class RecipeDetailViewModel : BaseViewModel
 {
     private readonly IDataService _dataService;
@@ -38,14 +38,15 @@ public class RecipeDetailViewModel : BaseViewModel
         set => SetProperty(ref _isSpeaking, value);
     }
 
-    private float _ttsSpeed = 1.0f;
-    public float TtsSpeed
+    // Uses pitch (0.5–2.0) — MAUI SpeechOptions does not support rate/speed natively.
+    private float _ttsPitch = 1.1f;
+    public float TtsPitch
     {
-        get => _ttsSpeed;
+        get => _ttsPitch;
         set
         {
-            SetProperty(ref _ttsSpeed, value);
-            _tts.Speed = value;
+            if (SetProperty(ref _ttsPitch, value))
+                _tts.Pitch = value;
         }
     }
 
@@ -120,7 +121,7 @@ public class RecipeDetailViewModel : BaseViewModel
         }
     }
 
-    /// <summary>Reads the full recipe aloud using the text-to-speech service.</summary>
+    /// <summary>Reads the full recipe aloud using the text-to-speech service with natural English narration.</summary>
     private async Task OnSpeakRecipe()
     {
         if (Recipe == null) return;
@@ -129,14 +130,13 @@ public class RecipeDetailViewModel : BaseViewModel
         try
         {
             IsSpeaking = true;
-            // Build natural-sounding English narrative
-            var ingredientList = string.Join(". ", Recipe.Ingredients.Select((ing, i) => $"{ing}"));
+            var ingredientList = string.Join(". ", Recipe.Ingredients.Select(ing => ing));
             var instructionSteps = string.Join(". Next, ", Recipe.Instructions);
             var text = $"Let's make {Recipe.Name}. " +
                        $"Here are the ingredients. {ingredientList}. " +
                        $"Now follow these steps. First, {instructionSteps}. Enjoy your meal!";
 
-            await _tts.SpeakAsync(text, TtsSpeed);
+            await _tts.SpeakAsync(text, 1.0f, TtsPitch);
         }
         catch (Exception ex)
         {
