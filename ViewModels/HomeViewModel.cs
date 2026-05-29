@@ -45,7 +45,7 @@ public class HomeViewModel : BaseViewModel
             _haptic.PerformClick();
             var action = await Shell.Current.DisplayActionSheet(
                 "Quick Actions", "Cancel", null,
-                "Take Photo", "Nearby Stores", "Surprise Me", "All Recipes");
+                "⌖  Take Photo", "⌂  Nearby Stores", "★  Surprise Me", "☰  All Recipes");
 
             switch (action)
             {

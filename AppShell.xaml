@@ -7,36 +7,64 @@
        Shell.BackgroundColor="{StaticResource ShellBackground}"
        Shell.ForegroundColor="{StaticResource ShellForeground}"
        Shell.UnselectedColor="{StaticResource ShellUnselected}"
-       Shell.TabBarBackgroundColor="{AppThemeBinding Light=#E6F0FA, Dark=#1A1F2E}"
+
+       Shell.TabBarBackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1A1F2E}"
        Shell.TabBarForegroundColor="#E8784A"
-       Shell.TabBarUnselectedColor="{StaticResource ShellUnselected}"
+       Shell.TabBarUnselectedColor="{AppThemeBinding Light=#B0ADB0, Dark=#6B6770}"
        Shell.TabBarTitleColor="#E8784A">
 
+    <!-- Floating capsule tab bar effect via padding/margin -->
+    <Shell.Resources>
+        <Style TargetType="TabBar">
+            <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light=#F8F6F2, Dark=#141412}" />
+        </Style>
+    </Shell.Resources>
+
     <TabBar>
-        <ShellContent
-            Title="Home"
-            ContentTemplate="{DataTemplate views:HomePage}"
-            Route="home" />
+        <ShellContent Title="Home"
+                      ContentTemplate="{DataTemplate views:HomePage}"
+                      Route="home">
+            <ShellContent.Icon>
+                <FontImageSource Glyph="&#x2302;" Size="20"
+                                 Color="{AppThemeBinding Light=#B0ADB0, Dark=#6B6770}" />
+            </ShellContent.Icon>
+        </ShellContent>
 
-        <ShellContent
-            Title="Recipes"
-            ContentTemplate="{DataTemplate views:RecipesPage}"
-            Route="recipes" />
+        <ShellContent Title="Recipes"
+                      ContentTemplate="{DataTemplate views:RecipesPage}"
+                      Route="recipes">
+            <ShellContent.Icon>
+                <FontImageSource Glyph="&#x2630;" Size="18"
+                                 Color="{AppThemeBinding Light=#B0ADB0, Dark=#6B6770}" />
+            </ShellContent.Icon>
+        </ShellContent>
 
-        <ShellContent
-            Title="Meal Plan"
-            ContentTemplate="{DataTemplate views:MealPlanPage}"
-            Route="mealplan" />
+        <ShellContent Title="Meal Plan"
+                      ContentTemplate="{DataTemplate views:MealPlanPage}"
+                      Route="mealplan">
+            <ShellContent.Icon>
+                <FontImageSource Glyph="&#x25F7;" Size="18"
+                                 Color="{AppThemeBinding Light=#B0ADB0, Dark=#6B6770}" />
+            </ShellContent.Icon>
+        </ShellContent>
 
-        <ShellContent
-            Title="Shopping"
-            ContentTemplate="{DataTemplate views:ShoppingListPage}"
-            Route="shopping" />
+        <ShellContent Title="Shopping"
+                      ContentTemplate="{DataTemplate views:ShoppingListPage}"
+                      Route="shopping">
+            <ShellContent.Icon>
+                <FontImageSource Glyph="&#x2611;" Size="18"
+                                 Color="{AppThemeBinding Light=#B0ADB0, Dark=#6B6770}" />
+            </ShellContent.Icon>
+        </ShellContent>
 
-        <ShellContent
-            Title="Settings"
-            ContentTemplate="{DataTemplate views:SettingsPage}"
-            Route="settings" />
+        <ShellContent Title="Settings"
+                      ContentTemplate="{DataTemplate views:SettingsPage}"
+                      Route="settings">
+            <ShellContent.Icon>
+                <FontImageSource Glyph="&#x2699;" Size="20"
+                                 Color="{AppThemeBinding Light=#B0ADB0, Dark=#6B6770}" />
+            </ShellContent.Icon>
+        </ShellContent>
     </TabBar>
 
 </Shell>
