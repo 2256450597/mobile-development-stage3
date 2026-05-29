@@ -76,9 +76,8 @@ public class NearbyViewModel : BaseViewModel
             if (location != null)
             {
                 HasLocation = true;
-                LocationInfo = location.DisplayText;
+                LocationInfo = location.DisplayText + "\nFinding nearby grocery stores...";
 
-                LocationInfo += "\nFinding nearby grocery stores...";
                 var places = await _locationService.GetNearbyGroceryStoresAsync(
                     location.Latitude, location.Longitude);
 
@@ -86,7 +85,7 @@ public class NearbyViewModel : BaseViewModel
                 foreach (var place in places)
                     NearbyPlaces.Add(place);
 
-                LocationInfo = $"Found {places.Count} stores near your location.";
+                LocationInfo = $"Lat: {location.Latitude:F4}, Lon: {location.Longitude:F4} | Found {places.Count} stores nearby.";
             }
             else
             {
