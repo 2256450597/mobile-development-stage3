@@ -323,7 +323,7 @@ public class DataService : IDataService
             Name = "Banana Oatmeal",
             Category = FoodCategory.Breakfast,
             Description = "Warm and comforting oatmeal with caramelised bananas.",
-            ImageUrl = "oatmeal.png",
+            ImageUrl = "12_oatmeal.png",
             Ingredients = new() { "Rolled oats 1 cup", "Milk 2 cups", "Banana 1", "Honey", "Cinnamon", "Walnuts" },
             Instructions = new()
             {
