@@ -60,6 +60,7 @@ public class MealPlanViewModel : BaseViewModel
     {
         WeekPlan.Clear();
         var monday = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek + 1);
+        var index = 0;
 
         foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek)))
         {
@@ -72,6 +73,7 @@ public class MealPlanViewModel : BaseViewModel
             {
                 Day = day,
                 DayName = day.ToString().Substring(0, 3),
+                Index = index++,
                 Entries = new ObservableCollection<MealPlanEntry>(entries)
             });
         }
@@ -83,5 +85,7 @@ public class DayPlanGroup
 {
     public DayOfWeek Day { get; set; }
     public string DayName { get; set; } = string.Empty;
+    public int Index { get; set; }
     public ObservableCollection<MealPlanEntry> Entries { get; set; } = new();
+    public bool IsEven => Index % 2 == 0;
 }
