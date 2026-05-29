@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace TastyMealPlanner.Models;
 
+/// <summary>Represents an item on the shopping list with a name, quantity, and checked state.</summary>
 public class ShoppingItem : INotifyPropertyChanged
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();

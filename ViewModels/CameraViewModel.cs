@@ -3,6 +3,7 @@ using TastyMealPlanner.Services;
 
 namespace TastyMealPlanner.ViewModels;
 
+/// <summary>Handles camera capture and gallery pick operations with permission and error handling.</summary>
 public class CameraViewModel : BaseViewModel
 {
     private readonly ICameraService _cameraService;
@@ -64,6 +65,7 @@ public class CameraViewModel : BaseViewModel
         });
     }
 
+    /// <summary>Opens the device camera to capture a photo. Stores the full file path on success.</summary>
     private async Task OnTakePhoto()
     {
         _haptic.PerformClick();
@@ -96,6 +98,7 @@ public class CameraViewModel : BaseViewModel
         }
     }
 
+    /// <summary>Opens the device gallery to select an existing photo.</summary>
     private async Task OnPickPhoto()
     {
         _haptic.PerformClick();

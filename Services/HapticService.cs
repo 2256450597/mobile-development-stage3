@@ -1,5 +1,6 @@
 namespace TastyMealPlanner.Services;
 
+/// <summary>Provides click and long-press haptic feedback via MAUI HapticFeedback API.</summary>
 public class HapticService : IHapticService
 {
     public void PerformClick()

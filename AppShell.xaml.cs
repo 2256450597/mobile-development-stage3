@@ -2,6 +2,7 @@ using TastyMealPlanner.Views;
 
 namespace TastyMealPlanner;
 
+/// <summary>Shell navigation configuration. Registers routes for detail pages (not in the tab bar).</summary>
 public partial class AppShell : Shell
 {
     public AppShell()

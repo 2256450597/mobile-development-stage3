@@ -1,5 +1,6 @@
 namespace TastyMealPlanner.Services;
 
+/// <summary>Wraps MAUI MediaPicker for camera capture and gallery selection with permission handling.</summary>
 public class CameraService : ICameraService
 {
     public bool IsCaptureSupported => MediaPicker.Default.IsCaptureSupported;

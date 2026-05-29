@@ -5,6 +5,7 @@ using TastyMealPlanner.Services;
 
 namespace TastyMealPlanner.ViewModels;
 
+/// <summary>Weekly meal planner showing 7 days with breakfast/lunch/dinner slots per day.</summary>
 public class MealPlanViewModel : BaseViewModel
 {
     private readonly IDataService _dataService;
@@ -44,6 +45,7 @@ public class MealPlanViewModel : BaseViewModel
         LoadWeekPlan();
     }
 
+    /// <summary>Rebuilds the full week plan from the data service. Called on appearing and after modifications.</summary>
     public void LoadWeekPlan()
     {
         WeekPlan.Clear();
@@ -66,6 +68,7 @@ public class MealPlanViewModel : BaseViewModel
     }
 }
 
+/// <summary>Groups meal plan entries by day of the week for display in the collection view.</summary>
 public class DayPlanGroup
 {
     public DayOfWeek Day { get; set; }

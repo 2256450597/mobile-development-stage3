@@ -1,5 +1,6 @@
 namespace TastyMealPlanner.Services;
 
+/// <summary>Wraps MAUI TextToSpeech API with configurable speed and pitch settings.</summary>
 public class TextToSpeechService : ITextToSpeechService
 {
     public float Speed { get; set; } = 1.0f;

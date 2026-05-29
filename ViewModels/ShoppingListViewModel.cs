@@ -6,6 +6,7 @@ using TastyMealPlanner.Services;
 
 namespace TastyMealPlanner.ViewModels;
 
+/// <summary>Manages the shopping list with add, toggle, and clear-purchased operations.</summary>
 public class ShoppingListViewModel : BaseViewModel
 {
     private readonly IDataService _dataService;
@@ -87,6 +88,7 @@ public class ShoppingListViewModel : BaseViewModel
         LoadItems();
     }
 
+    /// <summary>Validates and adds a new item to the shopping list. Shows validation error if name is empty.</summary>
     private void OnAddItem()
     {
         var (isValid, error) = ValidationHelper.ValidateShoppingItem(NewItemName, NewItemQuantity);
@@ -110,6 +112,7 @@ public class ShoppingListViewModel : BaseViewModel
         LoadItems();
     }
 
+    /// <summary>Reloads the shopping list from the data service, sorting unchecked items first.</summary>
     public void LoadItems()
     {
         Items.Clear();

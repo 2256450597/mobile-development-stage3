@@ -4,6 +4,7 @@ public enum AppThemeOption { Light, Dark }
 
 public enum FontSizeOption { Small, Medium, Large }
 
+/// <summary>Central coordinator for app theme (light/dark) and font size preferences. Persists using MAUI Preferences API.</summary>
 public class ThemeService
 {
     private const string ThemeKey = "app_theme";
@@ -27,6 +28,7 @@ public class ThemeService
         LoadPreferences();
     }
 
+    /// <summary>Switches between light and dark theme and persists the choice.</summary>
     public void SetTheme(AppThemeOption theme)
     {
         if (CurrentTheme == theme) return;
@@ -43,6 +45,7 @@ public class ThemeService
             : AppThemeOption.Light);
     }
 
+    /// <summary>Sets the font size level and notifies listeners of the change.</summary>
     public void SetFontSize(FontSizeOption size)
     {
         if (CurrentFontSize == size) return;
@@ -77,6 +80,7 @@ public class ThemeService
     private static void SavePreference(string key, string value)
         => Preferences.Default.Set(key, value);
 
+    /// <summary>Returns a font size multiplied by the current scale factor.</summary>
     public double GetScaledFontSize(double baseSize)
         => baseSize * FontScale;
 

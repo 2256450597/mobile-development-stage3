@@ -4,6 +4,7 @@ using TastyMealPlanner.Services;
 
 namespace TastyMealPlanner.ViewModels;
 
+/// <summary>Gets GPS location, reverse-geocodes an address, and finds nearby grocery stores.</summary>
 public class NearbyViewModel : BaseViewModel
 {
     private readonly ILocationService _locationService;
@@ -70,6 +71,7 @@ public class NearbyViewModel : BaseViewModel
         _ = GetLocationAsync();
     }
 
+    /// <summary>Requests location permission, fetches GPS coordinates, reverse-geocodes the address, and queries nearby stores.</summary>
     private async Task GetLocationAsync()
     {
         try

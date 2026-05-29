@@ -3,6 +3,7 @@ using TastyMealPlanner.Services;
 
 namespace TastyMealPlanner.ViewModels;
 
+/// <summary>Manages app settings: dark mode toggle, font size selection, and TTS voice configuration.</summary>
 public class SettingsViewModel : BaseViewModel
 {
     private readonly ThemeService _themeService;

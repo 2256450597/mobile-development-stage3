@@ -2,6 +2,7 @@ using System.Globalization;
 
 namespace TastyMealPlanner.Converters;
 
+/// <summary>Maps a difficulty string (Easy/Medium/Hard) to a semantic colour.</summary>
 public class DifficultyToColorConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)

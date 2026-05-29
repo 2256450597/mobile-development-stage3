@@ -2,6 +2,7 @@ using TastyMealPlanner.Models;
 
 namespace TastyMealPlanner.Services;
 
+/// <summary>In-memory data store providing recipes, meal plans, and shopping lists with search/filter capabilities.</summary>
 public class DataService : IDataService
 {
     private readonly List<Recipe> _recipes;
@@ -67,6 +68,7 @@ public class DataService : IDataService
             .ToList();
     }
 
+    /// <summary>Creates 15 sample recipes across 6 food categories with ingredients, instructions, and nutritional data.</summary>
     private static List<Recipe> InitializeRecipes() => new()
     {
         new Recipe

@@ -1,5 +1,6 @@
 namespace TastyMealPlanner.Services;
 
+/// <summary>Provides GPS location, reverse geocoding (Google/Nominatim fallback), and nearby store discovery via Overpass API.</summary>
 public class LocationService : ILocationService
 {
     public async Task<LocationInfo?> GetCurrentLocationAsync()
@@ -66,6 +67,7 @@ public class LocationService : ILocationService
         return GenerateMockAddress(latitude, longitude);
     }
 
+    /// <summary>Returns a human-readable address from coordinates, recognising well-known locations.</summary>
     private static string GenerateMockAddress(double latitude, double longitude)
     {
         // Recognise a few well-known locations
@@ -88,6 +90,7 @@ public class LocationService : ILocationService
         return approxAddr;
     }
 
+    /// <summary>Returns a curated list of nearby grocery stores with pre-defined names and calculated distances.</summary>
     public Task<List<NearbyPlace>> GetNearbyGroceryStoresAsync(double latitude, double longitude)
     {
         var stores = new List<NearbyPlace>

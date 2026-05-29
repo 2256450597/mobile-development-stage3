@@ -5,6 +5,7 @@ using TastyMealPlanner.Services;
 
 namespace TastyMealPlanner.ViewModels;
 
+/// <summary>Searchable/filterable recipe browser with category tabs and real-time filtering.</summary>
 public class RecipesViewModel : BaseViewModel
 {
     private readonly IDataService _dataService;
@@ -77,6 +78,7 @@ public class RecipesViewModel : BaseViewModel
 
     private void LoadAllRecipes() => FilterRecipes();
 
+    /// <summary>Applies current search text and category filter to the displayed recipe list.</summary>
     private void FilterRecipes()
     {
         Recipes.Clear();

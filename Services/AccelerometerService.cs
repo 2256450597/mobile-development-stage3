@@ -1,5 +1,6 @@
 namespace TastyMealPlanner.Services;
 
+/// <summary>Detects device shake gestures using the accelerometer with 500ms debounce.</summary>
 public class AccelerometerService : IAccelerometerService
 {
     private const double ShakeThreshold = 1.5;
@@ -49,6 +50,7 @@ public class AccelerometerService : IAccelerometerService
         }
     }
 
+    /// <summary>Debounced shake handler — raises ShakeDetected event at most once per 500ms window.</summary>
     private void OnShakeDetected(object? sender, EventArgs e)
     {
         // Debounce shake events

@@ -1,5 +1,6 @@
 namespace TastyMealPlanner.Helpers;
 
+/// <summary>Provides reusable input validation methods returning (isValid, errorMessage) tuples.</summary>
 public static class ValidationHelper
 {
     public static (bool IsValid, string? Error) ValidateRequired(string? value, string fieldName)
@@ -23,6 +24,7 @@ public static class ValidationHelper
         return (true, null);
     }
 
+    /// <summary>Validates a shopping item: name is required and must be ≤50 characters.</summary>
     public static (bool IsValid, string? Error) ValidateShoppingItem(string? name, string? quantity)
     {
         var (nameValid, nameError) = ValidateRequired(name, "Item name");
