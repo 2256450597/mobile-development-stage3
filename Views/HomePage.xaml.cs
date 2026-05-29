@@ -12,9 +12,14 @@ public partial class HomePage : ContentPage
         BindingContext = _viewModel = viewModel;
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _viewModel.Reload();
+    }
+
     private async void OnLogoTapped(object? sender, EventArgs e)
     {
-        // Navigate to home — scroll to top / reset
         await Shell.Current.GoToAsync("//home");
     }
 }

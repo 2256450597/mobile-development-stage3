@@ -128,6 +128,13 @@ public class HomeViewModel : BaseViewModel
     }
 
     /// <summary>Stops shake detection and unsubscribes from sensor events. Call when navigating away.</summary>
+    public void Reload()
+    {
+        LoadTodayMeals();
+        LoadCollections();
+        LoadAllRecipes();
+    }
+
     public void Cleanup()
     {
         _accelerometer.StopShakeDetection();

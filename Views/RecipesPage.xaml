@@ -68,7 +68,8 @@
         </Border>
 
         <!-- Single-Column Recipe Feed -->
-        <CollectionView Grid.Row="3" ItemsSource="{Binding Recipes}" Margin="0,0,0,0">
+        <RefreshView Grid.Row="3" IsRefreshing="{Binding IsBusy}">
+        <CollectionView ItemsSource="{Binding Recipes}" Margin="0,0,0,0">
             <CollectionView.EmptyView>
                 <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="8">
                     <Label Text="No recipes found" FontSize="16"
@@ -129,6 +130,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        </RefreshView>
 
     </Grid>
 

@@ -34,7 +34,8 @@
         </VerticalStackLayout>
 
         <!-- ===== MAIN: ScrollView ===== -->
-        <ScrollView Grid.Row="1">
+        <RefreshView Grid.Row="1" Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
+        <ScrollView>
             <VerticalStackLayout Spacing="0" Padding="0,0,0,24">
 
                 <!-- Today's Meals - Notepad Style -->
@@ -233,6 +234,7 @@
 
             </VerticalStackLayout>
         </ScrollView>
+        </RefreshView>
     </Grid>
 
 </ContentPage>

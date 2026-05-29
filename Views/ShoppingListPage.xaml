@@ -45,7 +45,8 @@
                IsVisible="{Binding ValidationError, Converter={StaticResource StringNotEmpty}}" />
 
         <!-- Shopping List -->
-        <CollectionView Grid.Row="3" ItemsSource="{Binding Items}" Margin="12,8">
+        <RefreshView Grid.Row="3" IsRefreshing="{Binding IsBusy}">
+        <CollectionView ItemsSource="{Binding Items}" Margin="12,8">
             <CollectionView.EmptyView>
                 <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="8">
                     <Label Text="Your shopping list is empty" FontSize="16"
@@ -92,6 +93,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        </RefreshView>
 
         <!-- Clear -->
         <Button Grid.Row="4" Text="Clear Purchased"

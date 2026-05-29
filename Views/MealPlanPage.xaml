@@ -16,7 +16,8 @@
                Padding="16,12"
                TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
 
-        <CollectionView Grid.Row="2" ItemsSource="{Binding WeekPlan}" Margin="8,0,8,16">
+        <RefreshView Grid.Row="2" IsRefreshing="{Binding IsBusy}">
+        <CollectionView ItemsSource="{Binding WeekPlan}" Margin="8,0,8,16">
             <CollectionView.EmptyView>
                 <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="8">
                     <Label Text="No meals planned yet" FontSize="16"
@@ -86,6 +87,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        </RefreshView>
     </Grid>
 
 </ContentPage>

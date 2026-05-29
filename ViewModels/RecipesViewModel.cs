@@ -76,6 +76,8 @@ public class RecipesViewModel : BaseViewModel
             Categories.Add(cat);
     }
 
+    public void Reload() => FilterRecipes();
+
     private void LoadAllRecipes() => FilterRecipes();
 
     /// <summary>Applies current search text and category filter to the displayed recipe list.</summary>
