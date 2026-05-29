@@ -6,8 +6,9 @@ namespace TastyMealPlanner.Views;
 public partial class RecipesPage : ContentPage
 {
     private readonly RecipesViewModel _viewModel;
+    private readonly ThemeService _theme;
 
-    public RecipesPage(RecipesViewModel viewModel)
+    public RecipesPage(RecipesViewModel viewModel, ThemeService theme)
     {
         InitializeComponent();
         _theme = theme;
@@ -19,7 +20,6 @@ public partial class RecipesPage : ContentPage
         base.OnAppearing();
         _theme.ApplyFontScaleToPage(this);
 
-        // Check if navigated from MealPlan "Add" button
         if (RecipesViewModel.PendingSelectionDay.HasValue)
         {
             _viewModel.EnterSelectionMode(RecipesViewModel.PendingSelectionDay.Value);
