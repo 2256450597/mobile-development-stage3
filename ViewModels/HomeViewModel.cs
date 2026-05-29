@@ -67,6 +67,12 @@ public class HomeViewModel : BaseViewModel
             }
         });
 
+        RefreshCommand = new Command(() =>
+        {
+            Reload();
+            IsBusy = false;
+        });
+
         _accelerometer.ShakeDetected += OnShakeDetected;
         _accelerometer.StartShakeDetection();
 
