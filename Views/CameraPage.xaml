@@ -2,20 +2,22 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:TastyMealPlanner.ViewModels"
+             xmlns:views="clr-namespace:TastyMealPlanner.Views"
              x:Class="TastyMealPlanner.Views.CameraPage"
              x:DataType="vm:CameraViewModel"
              Title="Camera"
              BackgroundColor="{AppThemeBinding Light={StaticResource Light_Background}, Dark={StaticResource Dark_Background}}">
 
-    <Grid RowDefinitions="Auto,*,Auto" Padding="16,16,16,24">
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="16,16,16,24">
+        <views:HeaderLogo Grid.Row="0" />
 
         <!-- Status -->
-        <Label Grid.Row="0" Text="{Binding StatusMessage}" FontSize="14"
+        <Label Grid.Row="1" Text="{Binding StatusMessage}" FontSize="14"
                HorizontalTextAlignment="Center"
                TextColor="{StaticResource TextSecondary}" Margin="0,0,0,12" />
 
         <!-- Preview area -->
-        <Frame Grid.Row="1" BackgroundColor="#1A1A2E" CornerRadius="4" Padding="0">
+        <Frame Grid.Row="2" BackgroundColor="#1A1A2E" CornerRadius="4" Padding="0">
             <Grid>
                 <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center"
                                      IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}" Spacing="8">
@@ -28,7 +30,7 @@
         </Frame>
 
         <!-- Before photo: capture options -->
-        <VerticalStackLayout Grid.Row="2" Spacing="10" Margin="0,16,0,0"
+        <VerticalStackLayout Grid.Row="3" Spacing="10" Margin="0,16,0,0"
                              IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}">
             <Button Text="Take Photo" Style="{StaticResource PrimaryButton}"
                     Command="{Binding TakePhotoCommand}"
@@ -38,7 +40,7 @@
         </VerticalStackLayout>
 
         <!-- After photo: action options -->
-        <VerticalStackLayout Grid.Row="2" Spacing="10" Margin="0,16,0,0"
+        <VerticalStackLayout Grid.Row="3" Spacing="10" Margin="0,16,0,0"
                              IsVisible="{Binding HasPhoto}">
             <Button Text="Use This Photo" Style="{StaticResource PrimaryButton}"
                     Command="{Binding UsePhotoCommand}"

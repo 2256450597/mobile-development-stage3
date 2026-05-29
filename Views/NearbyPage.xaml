@@ -3,14 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:TastyMealPlanner.ViewModels"
              xmlns:services="clr-namespace:TastyMealPlanner.Services"
+             xmlns:views="clr-namespace:TastyMealPlanner.Views"
              x:Class="TastyMealPlanner.Views.NearbyPage"
              x:DataType="vm:NearbyViewModel"
              Title="{Binding Title}">
 
-    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="16">
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Padding="16">
+        <views:HeaderLogo Grid.Row="0" />
 
         <!-- Location Status Card -->
-        <Frame Grid.Row="0" Style="{StaticResource CardFrame}" Margin="0,0,0,8">
+        <Frame Grid.Row="2" Style="{StaticResource CardFrame}" Margin="0,0,0,8">
             <VerticalStackLayout Spacing="8">
                 <HorizontalStackLayout Spacing="8">
                     <Label Text=" " FontSize="20" VerticalTextAlignment="Center" />
