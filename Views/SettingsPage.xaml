@@ -14,7 +14,7 @@
         <VerticalStackLayout Spacing="0" Padding="0">
 
             <!-- Appearance -->
-            <Label Text="APPEARANCE" FontSize="11" FontAttributes="Bold"
+            <Label Text="APPEARANCE" Style="{StaticResource VintageTitle}"
                    CharacterSpacing="2"
                    TextColor="{StaticResource TextTertiary}"
                    Margin="16,24,0,8" />
@@ -54,7 +54,7 @@
             </Border>
 
             <!-- Hardware -->
-            <Label Text="HARDWARE" FontSize="11" FontAttributes="Bold"
+            <Label Text="HARDWARE" Style="{StaticResource VintageTitle}"
                    CharacterSpacing="2"
                    TextColor="{StaticResource TextTertiary}"
                    Margin="16,24,0,8" />
@@ -93,7 +93,7 @@
             </Border>
 
             <!-- About -->
-            <Label Text="ABOUT" FontSize="11" FontAttributes="Bold"
+            <Label Text="ABOUT" Style="{StaticResource VintageTitle}"
                    CharacterSpacing="2"
                    TextColor="{StaticResource TextTertiary}"
                    Margin="16,24,0,8" />

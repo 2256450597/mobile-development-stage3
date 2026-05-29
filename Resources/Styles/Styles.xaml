@@ -145,6 +145,14 @@
         <Setter Property="Margin" Value="16,28,0,10" />
     </Style>
 
+    <!-- Vintage section title using Pacifico -->
+    <Style x:Key="VintageTitle" TargetType="Label">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontFamily" Value="Pacifico" />
+        <Setter Property="TextColor" Value="{StaticResource Accent}" />
+        <Setter Property="Margin" Value="16,20,0,6" />
+    </Style>
+
     <!-- ===== Card Frame (no shadow, thin border) ===== -->
     <Style x:Key="CardFrame" TargetType="Frame">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Light_Card}, Dark={StaticResource Dark_Card}}" />
