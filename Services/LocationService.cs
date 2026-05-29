@@ -86,60 +86,72 @@ public class LocationService : ILocationService
         }
     }
 
-    public Task<List<NearbyPlace>> GetNearbyGroceryStoresAsync(double latitude, double longitude)
+    public async Task<List<NearbyPlace>> GetNearbyGroceryStoresAsync(double latitude, double longitude)
     {
-        var rng = new Random();
-        var stores = new List<NearbyPlace>
+        try
         {
-            new()
-            {
-                Name = "FreshMart Supermarket",
-                Address = "123 High Street",
-                DistanceKm = 0.3 + rng.NextDouble() * 0.5,
-                Latitude = latitude + 0.002,
-                Longitude = longitude + 0.001,
-                IconGlyph = "\U0001F3EA"
-            },
-            new()
-            {
-                Name = "Organic Greens Market",
-                Address = "45 Park Lane",
-                DistanceKm = 0.6 + rng.NextDouble() * 0.5,
-                Latitude = latitude - 0.001,
-                Longitude = longitude + 0.003,
-                IconGlyph = "\U0001F33F"
-            },
-            new()
-            {
-                Name = "City Food Wholesale",
-                Address = "78 Commerce Road",
-                DistanceKm = 1.2 + rng.NextDouble() * 0.5,
-                Latitude = latitude + 0.004,
-                Longitude = longitude - 0.002,
-                IconGlyph = "\U0001F3EC"
-            },
-            new()
-            {
-                Name = "Baker's Delight",
-                Address = "200 Mill Street",
-                DistanceKm = 0.8 + rng.NextDouble() * 0.5,
-                Latitude = latitude - 0.003,
-                Longitude = longitude - 0.001,
-                IconGlyph = "\U0001F35E"
-            },
-            new()
-            {
-                Name = "Asian Grocery Mart",
-                Address = "56 Eastern Avenue",
-                DistanceKm = 1.5 + rng.NextDouble() * 0.5,
-                Latitude = latitude + 0.001,
-                Longitude = longitude - 0.004,
-                IconGlyph = "\U0001F3EA"
-            }
-        };
-
-        return Task.FromResult(stores.OrderBy(s => s.DistanceKm).ToList());
+            return await GetRealStoresFromOverpassAsync(latitude, longitude);
+        }
+        catch
+        {
+            // Network unavailable, return empty list rather than fake data
+            return new List<NearbyPlace>();
+        }
     }
+
+    private static async Task<List<NearbyPlace>> GetRealStoresFromOverpassAsync(double latitude, double longitude)
+    {
+        var query = $"[out:json];(node[shop=supermarket](around:5000,{latitude},{longitude});node[shop=convenience](around:3000,{latitude},{longitude});node[shop=grocery](around:3000,{latitude},{longitude}););out center 20;";
+        var url = $"https://overpass-api.de/api/interpreter?data={Uri.EscapeDataString(query)}";
+
+        using var http = new HttpClient();
+        http.DefaultRequestHeaders.Add("User-Agent", "TastyMealPlanner/1.0");
+        http.Timeout = TimeSpan.FromSeconds(15);
+
+        var response = await http.GetStringAsync(url);
+        var doc = System.Text.Json.JsonDocument.Parse(response);
+        var elements = doc.RootElement.GetProperty("elements");
+
+        var stores = new List<NearbyPlace>();
+        foreach (var el in elements.EnumerateArray())
+        {
+            var name = "Unknown Store";
+            if (el.TryGetProperty("tags", out var tags) && tags.TryGetProperty("name", out var nameProp))
+                name = nameProp.GetString() ?? "Unknown Store";
+            else if (el.TryGetProperty("tags", out var tags2) && tags2.TryGetProperty("shop", out var shopProp))
+                name = char.ToUpper(shopProp.GetString()![0]) + shopProp.GetString()![1..] + " Shop";
+
+            var storeLat = el.GetProperty("lat").GetDouble();
+            var storeLon = el.GetProperty("lon").GetDouble();
+            var distance = CalculateDistance(latitude, longitude, storeLat, storeLon);
+
+            stores.Add(new NearbyPlace
+            {
+                Name = name,
+                Address = $"Approx. {distance:F1} km from you",
+                DistanceKm = distance,
+                Latitude = storeLat,
+                Longitude = storeLon,
+                IconGlyph = "\U0001F3EA"
+            });
+        }
+
+        return stores.OrderBy(s => s.DistanceKm).Take(10).ToList();
+    }
+
+    private static double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
+    {
+        var r = 6371.0; // Earth radius in km
+        var dLat = ToRad(lat2 - lat1);
+        var dLon = ToRad(lon2 - lon1);
+        var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                Math.Cos(ToRad(lat1)) * Math.Cos(ToRad(lat2)) *
+                Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+        var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+        return r * c;
+    }
+
+    private static double ToRad(double deg) => deg * Math.PI / 180.0;
 
     public async Task<bool> RequestLocationPermissionAsync()
     {
