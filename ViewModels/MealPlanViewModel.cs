@@ -14,6 +14,7 @@ public class MealPlanViewModel : BaseViewModel
     public ObservableCollection<DayPlanGroup> WeekPlan { get; } = new();
 
     public ICommand RemoveMealCommand { get; }
+    public ICommand NavigateToDetailCommand { get; }
     public ICommand AddMealCommand { get; }
 
     public MealPlanViewModel(IDataService dataService, IHapticService haptic)
@@ -22,11 +23,17 @@ public class MealPlanViewModel : BaseViewModel
         _haptic = haptic;
         Title = "Meal Plan";
 
+        NavigateToDetailCommand = new Command<MealPlanEntry>(async (entry) =>
+        {
+            if (entry?.Recipe == null) return;
+            _haptic.PerformClick();
+            await Shell.Current.GoToAsync($"recipedetail?id={entry.Recipe.Id}");
+        });
+
         RemoveMealCommand = new Command<MealPlanEntry>(async (entry) =>
         {
             if (entry == null) return;
             _haptic.PerformLongPress();
-
             bool confirm = await Shell.Current.DisplayAlert(
                 "Remove Meal", $"Remove {entry.Recipe?.Name} from {entry.MealType}?", "Yes", "No");
             if (confirm)
@@ -36,7 +43,7 @@ public class MealPlanViewModel : BaseViewModel
             }
         });
 
-        AddMealCommand = new Command<MealPlanEntry>(async (entry) =>
+        AddMealCommand = new Command(async () =>
         {
             _haptic.PerformClick();
             await Shell.Current.GoToAsync("//recipes");
