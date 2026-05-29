@@ -24,6 +24,7 @@ public class HomeViewModel : BaseViewModel
     // === Commands ===
     public ICommand NavigateToRecipeDetailCommand { get; }
     public ICommand ShowQuickMenuCommand { get; }
+    public ICommand RefreshCommand { get; }
 
     public HomeViewModel(IDataService dataService,
                          IAccelerometerService accelerometer,
