@@ -215,7 +215,6 @@
         <Setter Property="Padding" Value="14,7" />
         <Setter Property="HasShadow" Value="False" />
         <Setter Property="Margin" Value="4" />
-        <Setter Property="BorderWidth" Value="0" />
     </Style>
 
 </ResourceDictionary>

@@ -119,9 +119,7 @@
               ColumnSpacing="12"
               RowSpacing="8"
               Padding="16,8,16,24"
-              BackgroundColor="{StaticResource SurfaceBackground}"
-              BorderColor="{StaticResource BorderColor}"
-              BorderWidth="1">
+              BackgroundColor="{StaticResource SurfaceBackground}">
 
             <!-- TTS Speed Slider -->
             <Grid Grid.Row="0" Grid.ColumnSpan="2" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">

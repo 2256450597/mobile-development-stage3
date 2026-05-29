@@ -67,7 +67,6 @@
     <Color x:Key="Secondary">#4A6B53</Color>
     <Color x:Key="SecondaryDark">#3B5643</Color>
     <Color x:Key="SecondaryVeryLight">#E8EFE9</Color>
-    <Color x:Key="Accent">#A0603F</Color>
     <Color x:Key="AccentVeryLight">#F5EBE4</Color>
     <Color x:Key="Error">#B85450</Color>
     <Color x:Key="Warning">#D4A24E</Color>
