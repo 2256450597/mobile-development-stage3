@@ -6,7 +6,7 @@
              x:Class="TastyMealPlanner.Views.MealPlanPage"
              x:DataType="vm:MealPlanViewModel"
              Title="Meal Plan"
-             BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Background}}">
+             BackgroundColor="{AppThemeBinding Light={StaticResource Light_Background}, Dark={StaticResource Dark_Background}}">
 
     <Grid RowDefinitions="Auto,*" Padding="0">
         <Label Grid.Row="0" Text="This Week" FontSize="18" FontAttributes="Bold"

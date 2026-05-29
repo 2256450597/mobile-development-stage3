@@ -5,7 +5,7 @@
              x:Class="TastyMealPlanner.Views.SettingsPage"
              x:DataType="vm:SettingsViewModel"
              Title="Settings"
-             BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Background}}">
+             BackgroundColor="{AppThemeBinding Light={StaticResource Light_Background}, Dark={StaticResource Dark_Background}}">
 
     <ScrollView>
         <VerticalStackLayout Spacing="0" Padding="0">

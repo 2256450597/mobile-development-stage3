@@ -6,7 +6,7 @@
              x:Class="TastyMealPlanner.Views.RecipesPage"
              x:DataType="vm:RecipesViewModel"
              Title="Recipes"
-             BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Background}}">
+             BackgroundColor="{AppThemeBinding Light={StaticResource Light_Background}, Dark={StaticResource Dark_Background}}">
 
     <Grid RowDefinitions="Auto,Auto,*" Padding="0">
 

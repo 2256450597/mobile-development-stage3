@@ -6,7 +6,11 @@
        Shell.FlyoutBehavior="Disabled"
        Shell.BackgroundColor="{StaticResource ShellBackground}"
        Shell.ForegroundColor="{StaticResource ShellForeground}"
-       Shell.UnselectedColor="{StaticResource ShellUnselected}">
+       Shell.UnselectedColor="{StaticResource ShellUnselected}"
+       Shell.TabBarBackgroundColor="{AppThemeBinding Light=#E6F0FA, Dark=#1A1F2E}"
+       Shell.TabBarForegroundColor="#E8784A"
+       Shell.TabBarUnselectedColor="{StaticResource ShellUnselected}"
+       Shell.TabBarTitleColor="#E8784A">
 
     <TabBar>
         <ShellContent

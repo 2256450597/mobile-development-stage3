@@ -78,7 +78,7 @@
     <Color x:Key="DrinkColor">#3B6B7B</Color>
 
     <!-- Deprecated light theme aliases (for backward compat) -->
-    <Color x:Key="Light_Background">#FAFAF7</Color>
+    <Color x:Key="Light_Background">#FEF7F0</Color>
     <Color x:Key="Light_Surface">#FFFFFF</Color>
     <Color x:Key="Light_Card">#FFFFFF</Color>
     <Color x:Key="Light_TextPrimary">#1A1A1A</Color>
@@ -89,7 +89,7 @@
     <Color x:Key="Dark_TextSecondary_Alt">#8A8880</Color>
     <Color x:Key="Dark_Border_Alt">#333330</Color>
 
-    <Color x:Key="PageBackground">#FAFAF7</Color>
+    <Color x:Key="PageBackground">#FEF7F0</Color>
     <Color x:Key="SurfaceBackground">#FFFFFF</Color>
     <Color x:Key="CardBackground">#FFFFFF</Color>
     <Color x:Key="BorderColor">#E8E5DF</Color>
