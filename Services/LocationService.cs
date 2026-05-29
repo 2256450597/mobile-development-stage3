@@ -39,7 +39,7 @@ public class LocationService : ILocationService
             var placemark = placemarks?.FirstOrDefault();
 
             if (placemark == null)
-                return "Address not available for this location.";
+                return $"Coordinates: {latitude:F5}, {longitude:F5}";
 
             var parts = new[]
             {
@@ -55,12 +55,12 @@ public class LocationService : ILocationService
 
             return parts.Length > 0
                 ? string.Join(", ", parts)
-                : "Address details not available.";
+                : $"Coordinates: {latitude:F5}, {longitude:F5}";
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Geocoding failed: {ex.Message}");
-            return $"Unable to look up address (Lat: {latitude:F4}, Lon: {longitude:F4})";
+            return $"Location: {latitude:F5}, {longitude:F5}";
         }
     }
 
