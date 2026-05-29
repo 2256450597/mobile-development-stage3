@@ -29,7 +29,7 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="vm:DayPlanGroup">
-                    <VerticalStackLayout Margin="0,0,0,0" Padding="0,0,0,0"
+                    <VerticalStackLayout Margin="0,0,0,12" Padding="0,0,0,8"
                                          BackgroundColor="{AppThemeBinding Light=#F5F0EB, Dark=#1C1B18}">
                         <VerticalStackLayout.Triggers>
                             <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding IsEven}" Value="True">
