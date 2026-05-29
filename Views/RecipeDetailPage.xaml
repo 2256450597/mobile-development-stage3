@@ -9,6 +9,10 @@
     <Grid RowDefinitions="*,Auto">
 
         <ScrollView Grid.Row="0">
+            <ScrollView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding StopSpeakingCommand}"
+                                       NumberOfTapsRequired="1" />
+            </ScrollView.GestureRecognizers>
             <VerticalStackLayout Spacing="0">
 
                 <!-- Hero Image -->
