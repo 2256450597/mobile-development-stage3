@@ -113,30 +113,19 @@ public class HomeViewModel : BaseViewModel
 
     private void OnShakeDetected(object? sender, EventArgs e)
     {
-        // Accelerometer events come from a sensor thread.
-        // Vibration, haptic, and UI updates must run on the main thread.
-        MainThread.BeginInvokeOnMainThread(() =>
-        {
-            try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(300)); } catch { }
-            try { HapticFeedback.Default.Perform(HapticFeedbackType.LongPress); } catch { }
-            PlayShakeSound();
-
-            var recipes = _dataService.GetAllRecipes();
-            ShakeResult = recipes[new Random().Next(recipes.Count)];
-        });
-    }
-
-    private static void PlayShakeSound()
-    {
-#if ANDROID
+        try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500)); } catch { }
+        try { HapticFeedback.Default.Perform(HapticFeedbackType.LongPress); } catch { }
         try
         {
-            using var toneGen = new Android.Media.ToneGenerator(
-                Android.Media.Stream.Notification, 100);
-            toneGen.StartTone(Android.Media.Tone.PropBeep, 250);
+#if ANDROID
+            using var tg = new Android.Media.ToneGenerator(Android.Media.Stream.Notification, 100);
+            tg.StartTone(Android.Media.Tone.PropBeep, 300);
+#endif
         }
         catch { }
-#endif
+
+        var recipes = _dataService.GetAllRecipes();
+        ShakeResult = recipes[new Random().Next(recipes.Count)];
     }
 
     /// <summary>Loads meals planned for the current day of the week.</summary>
