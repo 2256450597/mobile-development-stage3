@@ -10,9 +10,11 @@ public class NearbyViewModel : BaseViewModel
     private readonly ILocationService _locationService;
     private readonly IHapticService _haptic;
 
+    /// <summary>Gets the collection of nearby grocery places found during the last location query.</summary>
     public ObservableCollection<NearbyPlace> NearbyPlaces { get; } = new();
 
     private string _locationInfo = "Fetching location...";
+    /// <summary>Gets or sets the current location status message displayed to the user.</summary>
     public string LocationInfo
     {
         get => _locationInfo;
@@ -20,6 +22,7 @@ public class NearbyViewModel : BaseViewModel
     }
 
     private string _address = string.Empty;
+    /// <summary>Gets or sets the reverse-geocoded address string for the current location.</summary>
     public string Address
     {
         get => _address;
@@ -27,6 +30,7 @@ public class NearbyViewModel : BaseViewModel
     }
 
     private string _coordinates = string.Empty;
+    /// <summary>Gets or sets the formatted GPS coordinate display text.</summary>
     public string Coordinates
     {
         get => _coordinates;
@@ -34,6 +38,7 @@ public class NearbyViewModel : BaseViewModel
     }
 
     private bool _isLocating;
+    /// <summary>Gets or sets whether the app is currently fetching the device location.</summary>
     public bool IsLocating
     {
         get => _isLocating;
@@ -41,15 +46,19 @@ public class NearbyViewModel : BaseViewModel
     }
 
     private bool _hasLocation;
+    /// <summary>Gets or sets whether a valid GPS location has been successfully obtained.</summary>
     public bool HasLocation
     {
         get => _hasLocation;
         set => SetProperty(ref _hasLocation, value);
     }
 
+    /// <summary>Command to navigate back to the previous page.</summary>
     public ICommand GoBackCommand { get; }
+    /// <summary>Command to refresh the current location and nearby store results.</summary>
     public ICommand RefreshLocationCommand { get; }
 
+    /// <summary>Initialises a new instance of the <see cref="NearbyViewModel"/> class with the required location and haptic services.</summary>
     public NearbyViewModel(ILocationService locationService, IHapticService haptic)
     {
         _locationService = locationService;

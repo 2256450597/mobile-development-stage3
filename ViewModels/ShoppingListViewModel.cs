@@ -12,9 +12,11 @@ public class ShoppingListViewModel : BaseViewModel
     private readonly IDataService _dataService;
     private readonly IHapticService _haptic;
 
+    /// <summary>Gets the collection of shopping list items (auto-generated and manual).</summary>
     public ObservableCollection<ShoppingItem> Items { get; } = new();
 
     private string _newItemName = string.Empty;
+    /// <summary>Gets or sets the name of a new item to add to the shopping list.</summary>
     public string NewItemName
     {
         get => _newItemName;
@@ -26,6 +28,7 @@ public class ShoppingListViewModel : BaseViewModel
     }
 
     private string _newItemQuantity = string.Empty;
+    /// <summary>Gets or sets the quantity of a new item to add to the shopping list.</summary>
     public string NewItemQuantity
     {
         get => _newItemQuantity;
@@ -37,16 +40,21 @@ public class ShoppingListViewModel : BaseViewModel
     }
 
     private string? _validationError;
+    /// <summary>Gets or sets the current validation error message for the add-item form.</summary>
     public string? ValidationError
     {
         get => _validationError;
         set => SetProperty(ref _validationError, value);
     }
 
+    /// <summary>Command to validate and add a new item to the shopping list.</summary>
     public ICommand AddItemCommand { get; }
+    /// <summary>Command to toggle the checked (purchased) state of a shopping item.</summary>
     public ICommand ToggleItemCommand { get; }
+    /// <summary>Command to remove all checked (purchased) items from the shopping list.</summary>
     public ICommand ClearCheckedCommand { get; }
 
+    /// <summary>Initialises a new instance of the <see cref="ShoppingListViewModel"/> class with data and haptic services, then loads the shopping list.</summary>
     public ShoppingListViewModel(IDataService dataService, IHapticService haptic)
     {
         _dataService = dataService;

@@ -3,6 +3,8 @@ namespace TastyMealPlanner.Services;
 /// <summary>Provides GPS location, reverse geocoding (Google/Nominatim fallback), and nearby store discovery via Overpass API.</summary>
 public class LocationService : ILocationService
 {
+    /// <summary>Retrieves the device's current GPS coordinates with medium accuracy within a 10-second timeout.</summary>
+    /// <returns>A LocationInfo with latitude/longitude, or null if location could not be obtained.</returns>
     public async Task<LocationInfo?> GetCurrentLocationAsync()
     {
         try
@@ -32,6 +34,10 @@ public class LocationService : ILocationService
         }
     }
 
+    /// <summary>Resolves GPS coordinates to a human-readable address using built-in Geocoding with a mock fallback.</summary>
+    /// <param name="latitude">The latitude coordinate.</param>
+    /// <param name="longitude">The longitude coordinate.</param>
+    /// <returns>A formatted address string.</returns>
     public async Task<string> GetAddressFromLocationAsync(double latitude, double longitude)
     {
         // Try built-in Geocoding first (works on phones with Google Play Services)
@@ -91,6 +97,9 @@ public class LocationService : ILocationService
     }
 
     /// <summary>Returns a curated list of nearby grocery stores with pre-defined names and calculated distances.</summary>
+    /// <param name="latitude">The reference latitude coordinate.</param>
+    /// <param name="longitude">The reference longitude coordinate.</param>
+    /// <returns>A list of nearby places sorted by distance.</returns>
     public Task<List<NearbyPlace>> GetNearbyGroceryStoresAsync(double latitude, double longitude)
     {
         var stores = new List<NearbyPlace>
@@ -145,6 +154,8 @@ public class LocationService : ILocationService
         return Task.FromResult(stores.OrderBy(s => s.DistanceKm).ToList());
     }
 
+    /// <summary>Checks and requests location (when-in-use) permission from the user if not already granted.</summary>
+    /// <returns>True if location permission is granted; otherwise false.</returns>
     public async Task<bool> RequestLocationPermissionAsync()
     {
         var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();

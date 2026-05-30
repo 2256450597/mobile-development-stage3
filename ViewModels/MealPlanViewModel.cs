@@ -11,12 +11,17 @@ public class MealPlanViewModel : BaseViewModel
     private readonly IDataService _dataService;
     private readonly IHapticService _haptic;
 
+    /// <summary>Gets the collection of day-plan groups representing the full weekly meal plan.</summary>
     public ObservableCollection<DayPlanGroup> WeekPlan { get; } = new();
 
+    /// <summary>Command to remove a meal plan entry after user confirmation.</summary>
     public ICommand RemoveMealCommand { get; }
+    /// <summary>Command to navigate to the recipe detail page for a meal plan entry.</summary>
     public ICommand NavigateToDetailCommand { get; }
+    /// <summary>Command to add a meal to a specific day by navigating to the recipes page.</summary>
     public ICommand AddMealCommand { get; }
 
+    /// <summary>Initialises a new instance of the <see cref="MealPlanViewModel"/> class with data and haptic services, then loads the week plan.</summary>
     public MealPlanViewModel(IDataService dataService, IHapticService haptic)
     {
         _dataService = dataService;
@@ -83,9 +88,14 @@ public class MealPlanViewModel : BaseViewModel
 /// <summary>Groups meal plan entries by day of the week for display in the collection view.</summary>
 public class DayPlanGroup
 {
+    /// <summary>Gets or sets the day of the week for this group.</summary>
     public DayOfWeek Day { get; set; }
+    /// <summary>Gets or sets the abbreviated display name of the day (e.g. "Mon", "Tue").</summary>
     public string DayName { get; set; } = string.Empty;
+    /// <summary>Gets or sets the zero-based index of this day in the week.</summary>
     public int Index { get; set; }
+    /// <summary>Gets or sets the collection of meal plan entries assigned to this day.</summary>
     public ObservableCollection<MealPlanEntry> Entries { get; set; } = new();
+    /// <summary>Gets whether this day has an even index, used for alternating row styling.</summary>
     public bool IsEven => Index % 2 == 0;
 }

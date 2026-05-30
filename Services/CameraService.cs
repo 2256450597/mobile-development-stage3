@@ -3,8 +3,11 @@ namespace TastyMealPlanner.Services;
 /// <summary>Wraps MAUI MediaPicker for camera capture and gallery selection with permission handling.</summary>
 public class CameraService : ICameraService
 {
+    /// <summary>Indicates whether the device supports taking photos via the camera.</summary>
     public bool IsCaptureSupported => MediaPicker.Default.IsCaptureSupported;
 
+    /// <summary>Checks and requests camera permission from the user if not already granted.</summary>
+    /// <returns>True if camera permission is granted; otherwise false.</returns>
     public async Task<bool> RequestCameraPermissionAsync()
     {
         var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
@@ -15,6 +18,8 @@ public class CameraService : ICameraService
         return status == PermissionStatus.Granted;
     }
 
+    /// <summary>Opens the device camera to capture a photo and returns the result saved to app cache.</summary>
+    /// <returns>A PhotoResult with the captured file info, or null if the user cancelled.</returns>
     public async Task<PhotoResult?> CapturePhotoAsync()
     {
         // Request permission before attempting capture
@@ -52,6 +57,8 @@ public class CameraService : ICameraService
         }
     }
 
+    /// <summary>Opens the device gallery for the user to pick an existing photo and returns the result saved to app cache.</summary>
+    /// <returns>A PhotoResult with the selected file info, or null if the user cancelled.</returns>
     public async Task<PhotoResult?> PickPhotoAsync()
     {
         try

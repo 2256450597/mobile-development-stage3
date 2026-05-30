@@ -11,10 +11,13 @@ public class RecipesViewModel : BaseViewModel
     private readonly IDataService _dataService;
     private readonly IHapticService _haptic;
 
+    /// <summary>Gets the collection of filtered recipes currently displayed to the user.</summary>
     public ObservableCollection<Recipe> Recipes { get; } = new();
+    /// <summary>Gets the collection of available food categories used for filtering.</summary>
     public ObservableCollection<FoodCategory> Categories { get; } = new();
 
     private string _searchText = string.Empty;
+    /// <summary>Gets or sets the search text used to filter recipes in real time.</summary>
     public string SearchText
     {
         get => _searchText;
@@ -26,6 +29,7 @@ public class RecipesViewModel : BaseViewModel
     }
 
     private FoodCategory? _selectedCategory;
+    /// <summary>Gets or sets the selected food category filter, triggering a re-filter on change.</summary>
     public FoodCategory? SelectedCategory
     {
         get => _selectedCategory;
@@ -37,15 +41,18 @@ public class RecipesViewModel : BaseViewModel
     }
 
     // Meal plan selection mode — set via static method before navigating from MealPlan
+    /// <summary>Gets or sets the day for which a recipe is being selected from the meal plan view.</summary>
     public static DayOfWeek? PendingSelectionDay;
 
     private string _mealPlanDay = string.Empty;
+    /// <summary>Gets or sets the display string for the selected meal plan day.</summary>
     public string MealPlanDay
     {
         get => _mealPlanDay;
         set => SetProperty(ref _mealPlanDay, value);
     }
 
+    /// <summary>Configures the view model for meal plan selection mode for the specified day of the week.</summary>
     public void EnterSelectionMode(DayOfWeek day)
     {
         var dayStr = day.ToString();
@@ -55,6 +62,7 @@ public class RecipesViewModel : BaseViewModel
         Title = $"Pick for {dayStr}";
     }
 
+    /// <summary>Resets the view model from meal plan selection mode back to normal recipe browsing.</summary>
     public void ExitSelectionMode()
     {
         IsSelectionMode = false;
@@ -63,6 +71,7 @@ public class RecipesViewModel : BaseViewModel
     }
 
     private bool _isSelectionMode;
+    /// <summary>Gets or sets whether the view is in meal plan selection mode.</summary>
     public bool IsSelectionMode
     {
         get => _isSelectionMode;
@@ -70,16 +79,21 @@ public class RecipesViewModel : BaseViewModel
     }
 
     private DayOfWeek _selectedDay;
+    /// <summary>Gets or sets the selected day of the week for meal plan assignment.</summary>
     public DayOfWeek SelectedDay
     {
         get => _selectedDay;
         set => SetProperty(ref _selectedDay, value);
     }
 
+    /// <summary>Command to select or toggle a food category as a filter.</summary>
     public ICommand SelectCategoryCommand { get; }
+    /// <summary>Command to clear the current category filter and show all recipes.</summary>
     public ICommand ClearCategoryCommand { get; }
+    /// <summary>Command to navigate to a recipe detail page or add it to the meal plan in selection mode.</summary>
     public ICommand NavigateToRecipeCommand { get; }
 
+    /// <summary>Initialises a new instance of the <see cref="RecipesViewModel"/> class with data and haptic services, loading categories and recipes.</summary>
     public RecipesViewModel(IDataService dataService, IHapticService haptic)
     {
         _dataService = dataService;
@@ -133,6 +147,7 @@ public class RecipesViewModel : BaseViewModel
         LoadAllRecipes();
     }
 
+    /// <summary>Populates the Categories collection with all values from the FoodCategory enum.</summary>
     private void LoadCategories()
     {
         Categories.Clear();
@@ -140,8 +155,10 @@ public class RecipesViewModel : BaseViewModel
             Categories.Add(cat);
     }
 
+    /// <summary>Triggers a re-filter of the recipe list. Called when returning to the page.</summary>
     public void Reload() => FilterRecipes();
 
+    /// <summary>Loads all recipes into the displayed list by applying the current filters.</summary>
     private void LoadAllRecipes() => FilterRecipes();
 
     /// <summary>Applies current search text and category filter to the displayed recipe list.</summary>
