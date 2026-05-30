@@ -114,15 +114,21 @@ public class HomeViewModel : BaseViewModel
     private void OnShakeDetected(object? sender, EventArgs e)
     {
         // Accelerometer events fire on a background sensor thread.
-        // Vibration and HapticFeedback must run on the main/UI thread.
-        MainThread.BeginInvokeOnMainThread(() =>
+        // Use Dispatcher to run UI/Vibration calls on the main looper thread.
+        var dispatcher = Application.Current?.Dispatcher;
+        if (dispatcher == null) return;
+
+        dispatcher.Dispatch(() =>
         {
             try
             {
                 Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(450));
                 HapticFeedback.Default.Perform(HapticFeedbackType.LongPress);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Shake feedback error: {ex.Message}");
+            }
 
             var recipes = _dataService.GetAllRecipes();
             ShakeResult = recipes[new Random().Next(recipes.Count)];
