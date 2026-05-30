@@ -111,18 +111,19 @@ public class HomeViewModel : BaseViewModel
         LoadAllRecipes();
     }
 
-    /// <summary>Handles accelerometer shake gesture — opens a random recipe detail page.</summary>
     private void OnShakeDetected(object? sender, EventArgs e)
     {
-        // Strong vibration + haptic feedback
-        _haptic.PerformLongPress();
-        try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(200)); } catch { }
+        // Accelerometer events come from a sensor thread.
+        // Vibration, haptic, and UI updates must run on the main thread.
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(300)); } catch { }
+            try { HapticFeedback.Default.Perform(HapticFeedbackType.LongPress); } catch { }
+            PlayShakeSound();
 
-        // Play a system notification sound
-        PlayShakeSound();
-
-        var recipes = _dataService.GetAllRecipes();
-        ShakeResult = recipes[new Random().Next(recipes.Count)];
+            var recipes = _dataService.GetAllRecipes();
+            ShakeResult = recipes[new Random().Next(recipes.Count)];
+        });
     }
 
     private static void PlayShakeSound()
@@ -130,11 +131,9 @@ public class HomeViewModel : BaseViewModel
 #if ANDROID
         try
         {
-            var toneGen = new Android.Media.ToneGenerator(
-                Android.Media.Stream.Notification, 80);
-            toneGen.StartTone(Android.Media.Tone.PropBeep, 200);
-            // Dispose after the tone finishes playing
-            Task.Delay(300).ContinueWith(_ => toneGen.Dispose());
+            using var toneGen = new Android.Media.ToneGenerator(
+                Android.Media.Stream.Notification, 100);
+            toneGen.StartTone(Android.Media.Tone.PropBeep, 250);
         }
         catch { }
 #endif
