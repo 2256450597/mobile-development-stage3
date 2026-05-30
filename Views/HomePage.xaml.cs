@@ -8,12 +8,14 @@ public partial class HomePage : ContentPage
 {
     private readonly HomeViewModel _viewModel;
     private readonly ThemeService _theme;
+    private readonly IHapticService _haptic;
 
-    public HomePage(HomeViewModel viewModel, ThemeService theme)
+    public HomePage(HomeViewModel viewModel, ThemeService theme, IHapticService haptic)
     {
         InitializeComponent();
         BindingContext = _viewModel = viewModel;
         _theme = theme;
+        _haptic = haptic;
         _viewModel.PropertyChanged += OnViewModelPropertyChanged;
     }
 
@@ -36,6 +38,7 @@ public partial class HomePage : ContentPage
 
     private async void OnLogoTapped(object? sender, EventArgs e)
     {
+        _haptic.PerformClick();
         await Shell.Current.GoToAsync("//home");
     }
 }

@@ -9,6 +9,7 @@ public partial class HeaderLogo : ContentView
 
     private async void OnLogoTapped(object? sender, EventArgs e)
     {
+        try { HapticFeedback.Default.Perform(HapticFeedbackType.Click); } catch { }
         await Shell.Current.GoToAsync("//home");
     }
 }

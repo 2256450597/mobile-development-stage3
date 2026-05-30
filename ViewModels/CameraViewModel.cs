@@ -55,6 +55,7 @@ public class CameraViewModel : BaseViewModel
         PickPhotoCommand = new Command(async () => await OnPickPhoto());
         ClearPhotoCommand = new Command(() =>
         {
+            _haptic.PerformClick();
             PhotoPath = string.Empty;
             HasPhoto = false;
             StatusMessage = "Ready to capture";
@@ -64,6 +65,7 @@ public class CameraViewModel : BaseViewModel
 
         UsePhotoCommand = new Command(async () =>
         {
+            _haptic.PerformClick();
             if (!string.IsNullOrEmpty(PhotoPath))
             {
                 var encoded = Uri.EscapeDataString(PhotoPath);
@@ -112,6 +114,8 @@ public class CameraViewModel : BaseViewModel
 
     private async Task OnSaveToGallery()
     {
+        _haptic.PerformClick();
+
         if (string.IsNullOrEmpty(PhotoPath) || !File.Exists(PhotoPath))
         {
             StatusMessage = "No photo to save.";
@@ -120,7 +124,6 @@ public class CameraViewModel : BaseViewModel
 
         try
         {
-            _haptic.PerformClick();
             // Copy to device Pictures folder so it shows in the Gallery app
             var fileName = $"tasty_{DateTime.Now:yyyyMMdd_HHmmss}.jpg";
             var publicDir = Path.Combine(

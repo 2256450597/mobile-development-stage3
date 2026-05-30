@@ -85,6 +85,7 @@ public class HomeViewModel : BaseViewModel
 
         RefreshCommand = new Command(() =>
         {
+            _haptic.PerformClick();
             Reload();
             IsBusy = false;
         });
