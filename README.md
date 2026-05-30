@@ -14,15 +14,16 @@ Tasty Meal Planner helps users organise their weekly meals, discover new recipes
 - **Dark Mode** — Full light/dark theme switching with persisted preferences
 - **Accessibility** — WCAG 2.1 AA compliant with screen reader support, adjustable font sizes, and 44pt+ touch targets
 
-### Hardware Features (5 implemented)
+### Hardware Features (6 implemented)
 
 | Feature | Description |
 |---------|-------------|
 | **Camera** | Capture food photos or pick from gallery with preview |
+| **Flash / Torch** | Control device flashlight via CameraManager (Android) / AVCaptureDevice (iOS) |
 | **GPS Location** | Get current location and discover nearby grocery stores (5 mock stores with distances) |
-| **Text-to-Speech** | Read recipes aloud with adjustable speed (0.5x–2.0x) and pitch controls |
-| **Accelerometer** | Shake the device to get a random recipe suggestion (debounced at 500ms) |
-| **Haptic Feedback** | Tactile click and long-press feedback throughout all interactive elements |
+| **Text-to-Speech** | Read recipes aloud with adjustable pitch controls |
+| **Accelerometer / Shake** | Shake the device to get a random recipe suggestion (debounced at 500ms) |
+| **Haptic Feedback / Vibration** | Tactile click and long-press feedback + short vibration on all interactive elements |
 
 ## Getting Started
 
@@ -113,7 +114,7 @@ This app follows **WCAG 2.1** accessibility guidelines:
 | Step | Focus | Status |
 |------|-------|--------|
 | Step 1 | Main Interface — Project scaffold, MVVM, 5 tabs, 15 recipes, Shell navigation | Done |
-| Step 2 | Hardware — Camera, GPS, TTS, Accelerometer, Haptic (5 features) | Done |
+| Step 2 | Hardware — Camera, Flash, GPS, TTS, Accelerometer, Haptic (6 features) | Done |
 | Step 3 | Themes & Accessibility — Dark mode, font scaling, WCAG, AppThemeBinding | Done |
 | Step 4 | Polish — Validation, error handling, XML docs, README, code quality | Done |
 
@@ -132,7 +133,7 @@ Required permissions:
 
 ## Author
 
-Built for 6G6Z0014 Mobile Computing, Manchester Metropolitan University (2024/25).
+RongXiao Liu — Built for 6G6Z0014 Mobile Computing, Manchester Metropolitan University (2024/25).
 
 ## Technologies
 

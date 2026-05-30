@@ -116,31 +116,39 @@ public class QuickAddViewModel : BaseViewModel
 
         _haptic.PerformLongPress();
 
-        int.TryParse(CaloriesText, out var calories);
-        if (calories <= 0) calories = 0;
-
-        int.TryParse(PrepTimeText, out var prepTime);
-        if (prepTime <= 0) prepTime = 0;
-
-        int.TryParse(ServingsText, out var servings);
-        if (servings <= 0) servings = 0;
-
-        var recipe = new Recipe
+        try
         {
-            Name = RecipeName.Trim(),
-            Category = SelectedCategory,
-            ImageUrl = PhotoPath,
-            Description = "Added from camera capture.",
-            Ingredients = new List<string> { "Add ingredients later" },
-            Instructions = new List<string> { "Add instructions later" },
-            Calories = calories,
-            PrepTimeMinutes = prepTime,
-            Servings = servings,
-            Difficulty = SelectedDifficulty
-        };
+            int.TryParse(CaloriesText, out var calories);
+            if (calories <= 0) calories = 0;
 
-        _dataService.AddRecipe(recipe);
-        await Shell.Current.DisplayAlert("Saved", $"{recipe.Name} has been added to your recipes.", "OK");
-        await Shell.Current.GoToAsync("../..");
+            int.TryParse(PrepTimeText, out var prepTime);
+            if (prepTime <= 0) prepTime = 0;
+
+            int.TryParse(ServingsText, out var servings);
+            if (servings <= 0) servings = 0;
+
+            var recipe = new Recipe
+            {
+                Name = RecipeName.Trim(),
+                Category = SelectedCategory,
+                ImageUrl = PhotoPath,
+                Description = "Added from camera capture.",
+                Ingredients = new List<string> { "Add ingredients later" },
+                Instructions = new List<string> { "Add instructions later" },
+                Calories = calories,
+                PrepTimeMinutes = prepTime,
+                Servings = servings,
+                Difficulty = SelectedDifficulty
+            };
+
+            _dataService.AddRecipe(recipe);
+            await Shell.Current.DisplayAlert("Saved", $"{recipe.Name} has been added to your recipes.", "OK");
+            await Shell.Current.GoToAsync("../..");
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Save Failed",
+                $"Could not save the recipe. {ex.Message}", "OK");
+        }
     }
 }

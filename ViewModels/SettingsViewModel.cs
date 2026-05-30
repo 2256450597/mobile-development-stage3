@@ -103,16 +103,24 @@ public class SettingsViewModel : BaseViewModel
         TestTtsCommand = new Command(async () =>
         {
             _haptic.PerformClick();
-            if (_tts.IsSpeaking)
+            try
             {
-                await _tts.StopAsync();
+                if (_tts.IsSpeaking)
+                {
+                    await _tts.StopAsync();
+                }
+                else
+                {
+                    await _tts.SpeakAsync(
+                        "This is a test of the text-to-speech feature. " +
+                        "You can adjust the pitch to change the voice tone.",
+                        1.0f, TtsPitch);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await _tts.SpeakAsync(
-                    "This is a test of the text-to-speech feature. " +
-                    "You can adjust the pitch to change the voice tone.",
-                    1.0f, TtsPitch);
+                await Shell.Current.DisplayAlert("TTS Error",
+                    $"Text-to-speech is unavailable: {ex.Message}", "OK");
             }
         });
 
