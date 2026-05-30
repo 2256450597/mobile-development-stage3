@@ -113,26 +113,23 @@ public class HomeViewModel : BaseViewModel
 
     private void OnShakeDetected(object? sender, EventArgs e)
     {
-        // Accelerometer events fire on a background sensor thread.
-        // Use Dispatcher to run UI/Vibration calls on the main looper thread.
-        var dispatcher = Application.Current?.Dispatcher;
-        if (dispatcher == null) return;
-
-        dispatcher.Dispatch(() =>
+        // Accelerometer events fire on a native sensor thread.
+        // Use Android's main-looper Handler to post back to the UI thread.
+#if ANDROID
+        using var handler = new Android.OS.Handler(Android.OS.Looper.MainLooper);
+        handler.Post(() =>
         {
             try
             {
                 Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(450));
                 HapticFeedback.Default.Perform(HapticFeedbackType.LongPress);
             }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Shake feedback error: {ex.Message}");
-            }
+            catch { }
 
             var recipes = _dataService.GetAllRecipes();
             ShakeResult = recipes[new Random().Next(recipes.Count)];
         });
+#endif
     }
 
     /// <summary>Loads meals planned for the current day of the week.</summary>
