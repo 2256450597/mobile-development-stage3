@@ -112,11 +112,32 @@ public class HomeViewModel : BaseViewModel
     }
 
     /// <summary>Handles accelerometer shake gesture — opens a random recipe detail page.</summary>
-    private async void OnShakeDetected(object? sender, EventArgs e)
+    private void OnShakeDetected(object? sender, EventArgs e)
     {
+        // Strong vibration + haptic feedback
         _haptic.PerformLongPress();
+        try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(200)); } catch { }
+
+        // Play a system notification sound
+        PlayShakeSound();
+
         var recipes = _dataService.GetAllRecipes();
         ShakeResult = recipes[new Random().Next(recipes.Count)];
+    }
+
+    private static void PlayShakeSound()
+    {
+#if ANDROID
+        try
+        {
+            var toneGen = new Android.Media.ToneGenerator(
+                Android.Media.Stream.Notification, 80);
+            toneGen.StartTone(Android.Media.Tone.PropBeep, 200);
+            // Dispose after the tone finishes playing
+            Task.Delay(300).ContinueWith(_ => toneGen.Dispose());
+        }
+        catch { }
+#endif
     }
 
     /// <summary>Loads meals planned for the current day of the week.</summary>
