@@ -116,6 +116,9 @@ public class HomeViewModel : BaseViewModel
 
     private void OnShakeDetected(object? sender, EventArgs e)
     {
+        try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(450)); } catch { }
+        try { HapticFeedback.Default.Perform(HapticFeedbackType.LongPress); } catch { }
+
         var recipes = _dataService.GetAllRecipes();
         ShakeResult = recipes[new Random().Next(recipes.Count)];
     }
