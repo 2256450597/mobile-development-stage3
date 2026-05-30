@@ -26,7 +26,11 @@ public static class MauiProgram
         builder.Services.AddSingleton<ILocationService, LocationService>();
         builder.Services.AddSingleton<ITextToSpeechService, TextToSpeechService>();
         builder.Services.AddSingleton<IAccelerometerService, AccelerometerService>();
+#if ANDROID
+        builder.Services.AddSingleton<IHapticService, AndroidHapticService>();
+#else
         builder.Services.AddSingleton<IHapticService, HapticService>();
+#endif
         builder.Services.AddSingleton<ThemeService>();
 
         // ViewModels
