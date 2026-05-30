@@ -113,18 +113,17 @@ public class HomeViewModel : BaseViewModel
 
     private void OnShakeDetected(object? sender, EventArgs e)
     {
-#if ANDROID
-        using var handler = new Android.OS.Handler(Android.OS.Looper.MainLooper);
+        // Post to Android main looper — DO NOT dispose the handler
+        // before the posted action executes, or it gets cancelled.
+        var handler = new Android.OS.Handler(Android.OS.Looper.MainLooper);
         handler.Post(() =>
         {
-            // Use the same service that powers button clicks throughout the app
             _haptic.PerformLongPress();
             try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(450)); } catch { }
 
             var recipes = _dataService.GetAllRecipes();
             ShakeResult = recipes[new Random().Next(recipes.Count)];
         });
-#endif
     }
 
     /// <summary>Loads meals planned for the current day of the week.</summary>
