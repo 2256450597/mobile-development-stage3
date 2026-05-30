@@ -1,10 +1,10 @@
 namespace TastyMealPlanner.Services;
 
-/// <summary>Detects device shake gestures using the accelerometer with 500ms debounce.</summary>
+/// <summary>Detects device shake gestures by monitoring accelerometer readings directly.</summary>
 public class AccelerometerService : IAccelerometerService
 {
-    private const double ShakeThreshold = 1.5;
-    private const int ShakeWindowMs = 500;
+    private const double ShakeThreshold = 1.2;
+    private const int ShakeCooldownMs = 800;
 
     private DateTime _lastShakeTime = DateTime.MinValue;
     private bool _isMonitoring;
@@ -20,7 +20,7 @@ public class AccelerometerService : IAccelerometerService
         {
             if (Accelerometer.Default.IsSupported)
             {
-                Accelerometer.Default.ShakeDetected += OnShakeDetected;
+                Accelerometer.Default.ReadingChanged += OnReadingChanged;
                 Accelerometer.Default.Start(SensorSpeed.Game);
                 _isMonitoring = true;
             }
@@ -37,7 +37,7 @@ public class AccelerometerService : IAccelerometerService
 
         try
         {
-            Accelerometer.Default.ShakeDetected -= OnShakeDetected;
+            Accelerometer.Default.ReadingChanged -= OnReadingChanged;
             Accelerometer.Default.Stop();
         }
         catch (Exception ex)
@@ -50,15 +50,20 @@ public class AccelerometerService : IAccelerometerService
         }
     }
 
-    /// <summary>Debounced shake handler — raises ShakeDetected event at most once per 500ms window.</summary>
-    private void OnShakeDetected(object? sender, EventArgs e)
+    private void OnReadingChanged(object? sender, AccelerometerChangedEventArgs e)
     {
-        // Debounce shake events
-        var now = DateTime.Now;
-        if ((now - _lastShakeTime).TotalMilliseconds < ShakeWindowMs)
-            return;
+        var acc = e.Reading.Acceleration;
+        // Calculate total acceleration magnitude (ignoring gravity)
+        var magnitude = Math.Sqrt(acc.X * acc.X + acc.Y * acc.Y + acc.Z * acc.Z);
 
-        _lastShakeTime = now;
-        ShakeDetected?.Invoke(this, EventArgs.Empty);
+        if (magnitude > ShakeThreshold)
+        {
+            var now = DateTime.Now;
+            if ((now - _lastShakeTime).TotalMilliseconds < ShakeCooldownMs)
+                return;
+
+            _lastShakeTime = now;
+            ShakeDetected?.Invoke(this, EventArgs.Empty);
+        }
     }
 }
