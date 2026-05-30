@@ -1,10 +1,9 @@
 namespace TastyMealPlanner.Services;
 
-/// <summary>Detects device shake gestures using both platform event and manual accelerometer readings.</summary>
+/// <summary>Detects device shake gestures via the platform ShakeDetected event.</summary>
 public class AccelerometerService : IAccelerometerService
 {
-    private const double ShakeThreshold = 1.3;
-    private const int ShakeCooldownMs = 800;
+    private const int ShakeCooldownMs = 1000;
     private DateTime _lastShake = DateTime.MinValue;
     private bool _monitoring;
 
@@ -18,10 +17,8 @@ public class AccelerometerService : IAccelerometerService
         {
             if (Accelerometer.Default.IsSupported)
             {
-                // Subscribe to both built-in shake detection AND manual readings
                 Accelerometer.Default.ShakeDetected += OnShake;
-                Accelerometer.Default.ReadingChanged += OnReadingChanged;
-                Accelerometer.Default.Start(SensorSpeed.Game);
+                Accelerometer.Default.Start(SensorSpeed.UI);
                 _monitoring = true;
             }
         }
@@ -37,23 +34,13 @@ public class AccelerometerService : IAccelerometerService
         try
         {
             Accelerometer.Default.ShakeDetected -= OnShake;
-            Accelerometer.Default.ReadingChanged -= OnReadingChanged;
             Accelerometer.Default.Stop();
         }
         catch { }
         finally { _monitoring = false; }
     }
 
-    private void OnShake(object? s, EventArgs e) => TryFire();
-
-    private void OnReadingChanged(object? s, AccelerometerChangedEventArgs e)
-    {
-        var a = e.Reading.Acceleration;
-        var mag = Math.Sqrt(a.X * a.X + a.Y * a.Y + a.Z * a.Z);
-        if (mag > ShakeThreshold) TryFire();
-    }
-
-    private void TryFire()
+    private void OnShake(object? s, EventArgs e)
     {
         var now = DateTime.Now;
         if ((now - _lastShake).TotalMilliseconds < ShakeCooldownMs) return;
