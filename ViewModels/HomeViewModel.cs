@@ -98,6 +98,9 @@ public class HomeViewModel : BaseViewModel
         ViewShakeResultCommand = new Command(async () =>
         {
             if (ShakeResult == null) return;
+            // NutriBite-style: vibration/haptic on button click runs on UI thread
+            try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(450)); } catch { }
+            try { HapticFeedback.Default.Perform(HapticFeedbackType.LongPress); } catch { }
             var id = ShakeResult.Id;
             ShakeResult = null;
             await Shell.Current.GoToAsync($"recipedetail?id={id}");
@@ -113,17 +116,8 @@ public class HomeViewModel : BaseViewModel
 
     private void OnShakeDetected(object? sender, EventArgs e)
     {
-        // Post to Android main looper — DO NOT dispose the handler
-        // before the posted action executes, or it gets cancelled.
-        var handler = new Android.OS.Handler(Android.OS.Looper.MainLooper);
-        handler.Post(() =>
-        {
-            _haptic.PerformLongPress();
-            try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(450)); } catch { }
-
-            var recipes = _dataService.GetAllRecipes();
-            ShakeResult = recipes[new Random().Next(recipes.Count)];
-        });
+        var recipes = _dataService.GetAllRecipes();
+        ShakeResult = recipes[new Random().Next(recipes.Count)];
     }
 
     /// <summary>Loads meals planned for the current day of the week.</summary>
