@@ -120,7 +120,7 @@ public class RecipesViewModel : BaseViewModel
                     });
                     await Shell.Current.DisplayAlert("Added",
                         $"{recipe.Name} added to {MealPlanDay} {mealType}.", "OK");
-                    await Shell.Current.GoToAsync("..");
+                    await Shell.Current.GoToAsync("//mealplan");
                 }
             }
             else
