@@ -134,7 +134,7 @@ public class HomeViewModel : BaseViewModel
             TodayMeals.Add(entry);
     }
 
-    /// <summary>Builds curated recipe collections: Quick & Easy, Weekend Indulgence, High Protein.</summary>
+    /// <summary>Builds curated recipe collections: Quick and Easy, Weekend Indulgence, High Protein.</summary>
     private void LoadCollections()
     {
         Collections.Clear();
@@ -182,7 +182,7 @@ public class HomeViewModel : BaseViewModel
     }
 }
 
-/// <summary>Represents a curated horizontal-scrolling collection of recipes (e.g. Quick & Easy).</summary>
+/// <summary>Represents a curated horizontal-scrolling collection of recipes (e.g. Quick and Easy).</summary>
 public class CuratedCollection
 {
     public string Title { get; set; } = string.Empty;

@@ -180,7 +180,15 @@
                 </HorizontalStackLayout>
                 <CollectionView ItemsSource="{Binding RecipeGrid}" Margin="0,0,0,0">
                     <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="0" />
+                        <OnIdiom x:TypeArguments="ItemsLayout">
+                            <OnIdiom.Phone>
+                                <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
+                            </OnIdiom.Phone>
+                            <OnIdiom.Tablet>
+                                <GridItemsLayout Orientation="Vertical" Span="2"
+                                                 HorizontalItemSpacing="8" VerticalItemSpacing="8" />
+                            </OnIdiom.Tablet>
+                        </OnIdiom>
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Recipe">

@@ -26,6 +26,10 @@ Tasty Meal Planner helps users organise their weekly meals, discover new recipes
 | **Compass** | Show current device heading direction (N/NE/E/SE/S/SW/W/NW) on Nearby page |
 | **Haptic Feedback / Vibration** | Tactile click and long-press feedback + short vibration on all interactive elements |
 
+## Screenshots
+
+> Add app screenshots here before final submission. Recommended: home screen, recipe detail, meal planner, shopping list, nearby stores, and settings page. Show both light and dark mode.
+
 ## Getting Started
 
 ### Prerequisites

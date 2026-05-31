@@ -94,7 +94,7 @@ public class ShoppingListViewModel : BaseViewModel
     }
 
     /// <summary>Validates and adds a new item to the shopping list.</summary>
-    private async void OnAddItem()
+    private void OnAddItem()
     {
         var (isValid, error) = ValidationHelper.ValidateShoppingItem(NewItemName, NewItemQuantity);
         if (!isValid)

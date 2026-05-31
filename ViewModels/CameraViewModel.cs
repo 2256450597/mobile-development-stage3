@@ -90,7 +90,7 @@ public class CameraViewModel : BaseViewModel
             StatusMessage = "Ready to capture";
         });
 
-        SaveToGalleryCommand = new Command(async () => await OnSaveToGallery());
+        SaveToGalleryCommand = new Command(OnSaveToGallery);
 
         UsePhotoCommand = new Command(async () =>
         {
@@ -157,7 +157,7 @@ public class CameraViewModel : BaseViewModel
     }
 
     /// <summary>Saves the captured photo to the device Pictures folder with a timestamped filename.</summary>
-    private async Task OnSaveToGallery()
+    private void OnSaveToGallery()
     {
         _haptic.PerformClick();
 

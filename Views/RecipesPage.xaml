@@ -11,6 +11,9 @@
 
     <Grid RowDefinitions="Auto,Auto,Auto,*" Padding="0">
         <views:HeaderLogo Grid.Row="0" />
+        <Label Text="Search and filter recipes — tap any recipe to view details"
+               FontSize="12" HorizontalTextAlignment="Center"
+               TextColor="{StaticResource TextTertiary}" Margin="0,0,0,10" />
 
         <!-- Search Bar -->
         <SearchBar Grid.Row="1" Placeholder="Search recipes..."
@@ -79,7 +82,15 @@
             </CollectionView.EmptyView>
 
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="0" />
+                <OnIdiom x:TypeArguments="ItemsLayout">
+                    <OnIdiom.Phone>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
+                    </OnIdiom.Phone>
+                    <OnIdiom.Tablet>
+                        <GridItemsLayout Orientation="Vertical" Span="2"
+                                         HorizontalItemSpacing="8" VerticalItemSpacing="8" />
+                    </OnIdiom.Tablet>
+                </OnIdiom>
             </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>

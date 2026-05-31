@@ -10,6 +10,9 @@
 
     <Grid RowDefinitions="Auto,*" Padding="0">
         <views:HeaderLogo Grid.Row="0" />
+        <Label Text="Customise your app experience — theme, font size, and TTS"
+               FontSize="12" HorizontalTextAlignment="Center"
+               TextColor="{StaticResource TextTertiary}" Margin="0,0,0,10" />
     <ScrollView Grid.Row="1">
         <VerticalStackLayout Spacing="0" Padding="0">
 

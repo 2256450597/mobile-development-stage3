@@ -5,8 +5,8 @@ using TastyMealPlanner.Services;
 
 namespace TastyMealPlanner.ViewModels;
 
-[QueryProperty(nameof(RecipeId), "id")]
 /// <summary>Displays a single recipe with ingredients, instructions, and TTS/hardware actions.</summary>
+[QueryProperty(nameof(RecipeId), "id")]
 public class RecipeDetailViewModel : BaseViewModel
 {
     private readonly IDataService _dataService;

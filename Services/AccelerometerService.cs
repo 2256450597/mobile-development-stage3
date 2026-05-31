@@ -51,7 +51,7 @@ public class AccelerometerService : IAccelerometerService
         if ((now - _lastShake).TotalMilliseconds < ShakeCooldownMs) return;
         _lastShake = now;
 
-        Device.BeginInvokeOnMainThread(() =>
+        MainThread.BeginInvokeOnMainThread(() =>
             ShakeDetected?.Invoke(this, EventArgs.Empty));
     }
 }

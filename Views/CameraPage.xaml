@@ -11,6 +11,9 @@
     <ScrollView>
         <Grid RowDefinitions="Auto,Auto,250,Auto" Padding="16,16,16,24">
             <views:HeaderLogo Grid.Row="0" />
+            <Label Grid.Row="0" Text="Capture or select a photo to create a new recipe"
+                   FontSize="12" HorizontalTextAlignment="Center"
+                   TextColor="{StaticResource TextTertiary}" Margin="0,30,0,10" />
 
             <!-- Status -->
             <Label Grid.Row="1" Text="{Binding StatusMessage}" FontSize="14"

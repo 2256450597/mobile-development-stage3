@@ -11,6 +11,10 @@
 
     <Grid RowDefinitions="Auto,Auto,*" Padding="0">
         <views:HeaderLogo Grid.Row="0" />
+        <Label Text="Tap a day to add meals — long press to remove"
+               FontSize="12" HorizontalTextAlignment="Center"
+               TextColor="{StaticResource TextTertiary}" Margin="0,0,0,10"
+               SemanticProperties.Description="User guidance for the meal planner page" />
 
         <Label Grid.Row="1" Text="Week Plan" Style="{StaticResource VintageTitle}"
                Padding="16,12"
