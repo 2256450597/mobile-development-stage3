@@ -1,8 +1,15 @@
+using System.Text.Json;
+
 namespace TastyMealPlanner.Services;
 
 /// <summary>Provides GPS location, reverse geocoding (Google/Nominatim fallback), and nearby store discovery via Overpass API.</summary>
 public class LocationService : ILocationService
 {
+    private static readonly List<StoreTemplate>? _storeTemplates = LoadStoreTemplates();
+
+    private record StoreTemplate(string Name, string Address, double BaseDistance,
+        double LatOffset, double LonOffset, string IconGlyph);
+
     /// <summary>Retrieves the device's current GPS coordinates with medium accuracy within a 10-second timeout.</summary>
     /// <returns>A LocationInfo with latitude/longitude, or null if location could not be obtained.</returns>
     public async Task<LocationInfo?> GetCurrentLocationAsync()
@@ -30,17 +37,13 @@ public class LocationService : ILocationService
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException($"Failed to get location: {ex.Message}", ex);
+            throw new InvalidOperationException("Unable to determine your location. Please ensure location services are enabled.", ex);
         }
     }
 
     /// <summary>Resolves GPS coordinates to a human-readable address using built-in Geocoding with a mock fallback.</summary>
-    /// <param name="latitude">The latitude coordinate.</param>
-    /// <param name="longitude">The longitude coordinate.</param>
-    /// <returns>A formatted address string.</returns>
     public async Task<string> GetAddressFromLocationAsync(double latitude, double longitude)
     {
-        // Try built-in Geocoding first (works on phones with Google Play Services)
         try
         {
             var placemarks = await Geocoding.Default.GetPlacemarksAsync(latitude, longitude);
@@ -66,137 +69,63 @@ public class LocationService : ILocationService
         }
         catch
         {
-            // Google Play Services not available, use mock
+            // Geocoding unavailable, use mock
         }
 
-        // Use mock address based on coordinates — avoids network dependency
         return GenerateMockAddress(latitude, longitude);
     }
+
+    private static readonly (double Lat, double Lon, double Radius, string Address)[] _knownLocations =
+    {
+        (37.422, -122.084, 0.1, "Amphitheatre Parkway, Mountain View, CA 94043, USA"),
+        (30.55, 114.35, 0.1, "Youyi Avenue, Wuchang District, Wuhan, Hubei, China"),
+        (53.5, -2.2, 0.1, "Oxford Road, Manchester, Greater Manchester, UK"),
+    };
 
     /// <summary>Returns a human-readable address from coordinates, recognising well-known locations.</summary>
     private static string GenerateMockAddress(double latitude, double longitude)
     {
-        // Recognise a few well-known locations
-        if (Math.Abs(latitude - 37.422) < 0.1 && Math.Abs(longitude - -122.084) < 0.1)
-            return "Amphitheatre Parkway, Mountain View, CA 94043, USA";
+        foreach (var (lat, lon, radius, address) in _knownLocations)
+        {
+            if (Math.Abs(latitude - lat) < radius && Math.Abs(longitude - lon) < radius)
+                return address;
+        }
 
-        if (latitude >= 30.5 && latitude <= 30.6 && longitude >= 114.3 && longitude <= 114.4)
-            return "Youyi Avenue, Wuchang District, Wuhan, Hubei, China";
-
-        if (latitude >= 53.4 && latitude <= 53.6 && longitude >= -2.3 && longitude <= -2.1)
-            return "Oxford Road, Manchester, Greater Manchester, UK";
-
-        // Generic: construct approximate address from coordinates
         var latDir = latitude >= 0 ? "N" : "S";
         var lonDir = longitude >= 0 ? "E" : "W";
-        var approxAddr = Math.Abs(latitude) < 42 && Math.Abs(longitude) > 70
+        return Math.Abs(latitude) < 42 && Math.Abs(longitude) > 70
             ? $"Downtown area, {latitude:F2}°{latDir}, {longitude:F2}°{lonDir}"
             : $"City vicinity, {latitude:F2}°{latDir}, {longitude:F2}°{lonDir}";
-
-        return approxAddr;
     }
 
-    /// <summary>Returns a curated list of nearby grocery stores with pre-defined names and calculated distances.</summary>
-    /// <param name="latitude">The reference latitude coordinate.</param>
-    /// <param name="longitude">The reference longitude coordinate.</param>
-    /// <returns>A list of nearby places sorted by distance.</returns>
+    /// <summary>Returns a curated list of nearby grocery stores loaded from stores.json with calculated distances.</summary>
     public Task<List<NearbyPlace>> GetNearbyGroceryStoresAsync(double latitude, double longitude)
     {
-        var stores = new List<NearbyPlace>
+        var rng = new Random();
+        var templates = _storeTemplates ?? new();
+        var stores = templates.Select(t => new NearbyPlace
         {
-            new()
-            {
-                Name = "FreshChoice Market",
-                Address = "201 Main Street, 0.3 km",
-                DistanceKm = 0.3 + new Random().NextDouble() * 0.3,
-                Latitude = latitude + 0.002,
-                Longitude = longitude + 0.001,
-                IconGlyph = "◉"
-            },
-            new()
-            {
-                Name = "GreenLeaf Organics",
-                Address = "58 Elm Avenue, 0.6 km",
-                DistanceKm = 0.6 + new Random().NextDouble() * 0.4,
-                Latitude = latitude - 0.001,
-                Longitude = longitude + 0.003,
-                IconGlyph = "◉"
-            },
-            new()
-            {
-                Name = "CityMart Express",
-                Address = "800 Commerce Blvd, 1.1 km",
-                DistanceKm = 1.1 + new Random().NextDouble() * 0.5,
-                Latitude = latitude + 0.004,
-                Longitude = longitude - 0.002,
-                IconGlyph = "◉"
-            },
-            new()
-            {
-                Name = "Baker's Square",
-                Address = "142 Park Road, 0.8 km",
-                DistanceKm = 0.8 + new Random().NextDouble() * 0.4,
-                Latitude = latitude - 0.003,
-                Longitude = longitude - 0.001,
-                IconGlyph = "◉"
-            },
-            new()
-            {
-                Name = "Pacific Asian Mart",
-                Address = "72 Bridge Lane, 1.4 km",
-                DistanceKm = 1.4 + new Random().NextDouble() * 0.5,
-                Latitude = latitude + 0.001,
-                Longitude = longitude - 0.004,
-                IconGlyph = "◉"
-            },
-            new()
-            {
-                Name = "DailyFresh Supermarket",
-                Address = "315 Oak Street, 1.8 km",
-                DistanceKm = 1.8 + new Random().NextDouble() * 0.6,
-                Latitude = latitude - 0.005,
-                Longitude = longitude + 0.002,
-                IconGlyph = "◆"
-            },
-            new()
-            {
-                Name = "Sunrise Health Foods",
-                Address = "90 Wellness Way, 2.1 km",
-                DistanceKm = 2.1 + new Random().NextDouble() * 0.5,
-                Latitude = latitude + 0.006,
-                Longitude = longitude - 0.003,
-                IconGlyph = "◆"
-            },
-            new()
-            {
-                Name = "Metro Grocers",
-                Address = "500 Central Avenue, 2.4 km",
-                DistanceKm = 2.4 + new Random().NextDouble() * 0.7,
-                Latitude = latitude - 0.002,
-                Longitude = longitude - 0.005,
-                IconGlyph = "◆"
-            },
-            new()
-            {
-                Name = "Cornerstone Deli & Market",
-                Address = "12 High Street, 0.9 km",
-                DistanceKm = 0.9 + new Random().NextDouble() * 0.3,
-                Latitude = latitude + 0.003,
-                Longitude = longitude + 0.004,
-                IconGlyph = "◆"
-            },
-            new()
-            {
-                Name = "Harvest Wholefoods",
-                Address = "78 Green Lane, 2.8 km",
-                DistanceKm = 2.8 + new Random().NextDouble() * 0.8,
-                Latitude = latitude - 0.004,
-                Longitude = longitude + 0.005,
-                IconGlyph = "◆"
-            }
-        };
+            Name = t.Name,
+            Address = $"{t.Address}, {t.BaseDistance:F1} km",
+            DistanceKm = t.BaseDistance + rng.NextDouble() * t.BaseDistance * 0.5,
+            Latitude = latitude + t.LatOffset,
+            Longitude = longitude + t.LonOffset,
+            IconGlyph = t.IconGlyph
+        }).OrderBy(s => s.DistanceKm).ToList();
 
-        return Task.FromResult(stores.OrderBy(s => s.DistanceKm).ToList());
+        return Task.FromResult(stores);
+    }
+
+    private static List<StoreTemplate>? LoadStoreTemplates()
+    {
+        try
+        {
+            using var stream = FileSystem.OpenAppPackageFileAsync("stores.json").Result;
+            using var reader = new StreamReader(stream);
+            return JsonSerializer.Deserialize<List<StoreTemplate>>(reader.ReadToEnd(),
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+        catch { return null; }
     }
 
     /// <summary>Checks and requests location (when-in-use) permission from the user if not already granted.</summary>

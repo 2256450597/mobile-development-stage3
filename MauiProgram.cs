@@ -18,16 +18,22 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 fonts.AddFont("Pacifico-Regular.ttf", "Pacifico");
+                fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
+                fonts.AddFont("PlayfairDisplay-Regular.ttf", "PlayfairDisplay");
+                fonts.AddFont("PlayfairDisplay-Bold.ttf", "PlayfairDisplayBold");
             });
 
         // Services
-        builder.Services.AddSingleton<IDataService, DataService>();
+        builder.Services.AddSingleton<IRecipeService, RecipeService>();
+        builder.Services.AddSingleton<IMealPlanService, MealPlanService>();
+        builder.Services.AddSingleton<IShoppingListService, ShoppingListService>();
         builder.Services.AddSingleton<ICameraService, CameraService>();
         builder.Services.AddSingleton<ILocationService, LocationService>();
         builder.Services.AddSingleton<ITextToSpeechService, TextToSpeechService>();
         builder.Services.AddSingleton<IAccelerometerService, AccelerometerService>();
         builder.Services.AddSingleton<IFlashlightService, FlashlightService>();
         builder.Services.AddSingleton<ICompassService, CompassService>();
+        builder.Services.AddSingleton<IFoodClassifier, FoodClassifier>();
 #if ANDROID
         builder.Services.AddSingleton<IHapticService, AndroidHapticService>();
 #else

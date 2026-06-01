@@ -9,7 +9,8 @@ namespace TastyMealPlanner.ViewModels;
 [QueryProperty(nameof(RecipeId), "id")]
 public class RecipeDetailViewModel : BaseViewModel
 {
-    private readonly IDataService _dataService;
+    private readonly IRecipeService _recipes;
+    private readonly IMealPlanService _mealPlan;
     private readonly ITextToSpeechService _tts;
     private readonly IHapticService _haptic;
 
@@ -59,11 +60,13 @@ public class RecipeDetailViewModel : BaseViewModel
     public ICommand StopSpeakingCommand { get; }
     public ICommand GoBackCommand { get; }
 
-    public RecipeDetailViewModel(IDataService dataService,
+    public RecipeDetailViewModel(IRecipeService recipes,
+                                  IMealPlanService mealPlan,
                                   ITextToSpeechService tts,
                                   IHapticService haptic)
     {
-        _dataService = dataService;
+        _recipes = recipes;
+        _mealPlan = mealPlan;
         _tts = tts;
         _haptic = haptic;
 
@@ -81,7 +84,7 @@ public class RecipeDetailViewModel : BaseViewModel
     /// <summary>Fetches recipe by ID from the data service and populates all display collections.</summary>
     private void LoadRecipe(string id)
     {
-        var recipe = _dataService.GetRecipeById(id);
+        var recipe = _recipes.GetRecipeById(id);
         if (recipe == null) return;
 
         Recipe = recipe;
@@ -109,10 +112,17 @@ public class RecipeDetailViewModel : BaseViewModel
             MealType = MealType.Dinner,
             Recipe = Recipe
         };
-        _dataService.AddToMealPlan(entry);
+        _mealPlan.AddToMealPlan(entry);
 
         await Shell.Current.DisplayAlert("Added",
             $"{Recipe.Name} added to today's meal plan.", "OK");
+    }
+
+    private string _favoriteLabel = "Fav";
+    public string FavoriteLabel
+    {
+        get => _favoriteLabel;
+        set => SetProperty(ref _favoriteLabel, value);
     }
 
     private void OnToggleFavorite()
@@ -121,6 +131,7 @@ public class RecipeDetailViewModel : BaseViewModel
         if (Recipe != null)
         {
             Recipe.IsFavorite = !Recipe.IsFavorite;
+            FavoriteLabel = Recipe.IsFavorite ? "♥ Fav" : "Fav";
             OnPropertyChanged(nameof(Recipe));
         }
     }
@@ -144,7 +155,8 @@ public class RecipeDetailViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("TTS Error", ex.Message, "OK");
+            await Shell.Current.DisplayAlert("TTS Error",
+                "Unable to read the recipe aloud. Please check your device's text-to-speech settings.", "OK");
         }
         finally
         {

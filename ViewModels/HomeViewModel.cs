@@ -8,12 +8,14 @@ namespace TastyMealPlanner.ViewModels;
 /// <summary>Main discovery/home page. Shows today's meals, curated collections, and full recipe feed.</summary>
 public class HomeViewModel : BaseViewModel
 {
-    private readonly IDataService _dataService;
+    private readonly IRecipeService _recipes;
+    private readonly IMealPlanService _mealPlan;
     private readonly IAccelerometerService _accelerometer;
     private readonly IHapticService _haptic;
 
     // === Recipe grid (2-column waterfall) ===
     public ObservableCollection<Recipe> RecipeGrid { get; } = new();
+    public ObservableCollection<Recipe> FavoriteRecipes { get; } = new();
 
     // === Today's Meals (horizontal row) ===
     public ObservableCollection<MealPlanEntry> TodayMeals { get; } = new();
@@ -37,15 +39,23 @@ public class HomeViewModel : BaseViewModel
     // === Commands ===
     public ICommand NavigateToRecipeDetailCommand { get; }
     public ICommand ShowQuickMenuCommand { get; }
+    public ICommand OpenCameraCommand { get; }
+    public ICommand OpenNearbyCommand { get; }
+    public ICommand RandomRecipeCommand { get; }
+    public ICommand OpenRecipesCommand { get; }
+    public ICommand AddTodayMealCommand { get; }
+    public ICommand RemoveTodayMealCommand { get; }
     public ICommand RefreshCommand { get; }
     public ICommand DismissShakeResultCommand { get; }
     public ICommand ViewShakeResultCommand { get; }
 
-    public HomeViewModel(IDataService dataService,
+    public HomeViewModel(IRecipeService recipes,
+                         IMealPlanService mealPlan,
                          IAccelerometerService accelerometer,
                          IHapticService haptic)
     {
-        _dataService = dataService;
+        _recipes = recipes;
+        _mealPlan = mealPlan;
         _accelerometer = accelerometer;
         _haptic = haptic;
         Title = "Home";
@@ -73,7 +83,7 @@ public class HomeViewModel : BaseViewModel
                     await Shell.Current.GoToAsync("nearby");
                     break;
                 case "★  Surprise Me":
-                    var recipes = _dataService.GetAllRecipes();
+                    var recipes = _recipes.GetAllRecipes();
                     var r = recipes[new Random().Next(recipes.Count)];
                     await Shell.Current.GoToAsync($"recipedetail?id={r.Id}");
                     break;
@@ -83,10 +93,52 @@ public class HomeViewModel : BaseViewModel
             }
         });
 
-        RefreshCommand = new Command(() =>
+        OpenCameraCommand = new Command(async () =>
+        {
+            _haptic.PerformClick();
+            await Shell.Current.GoToAsync("camera");
+        });
+
+        OpenNearbyCommand = new Command(async () =>
+        {
+            _haptic.PerformClick();
+            await Shell.Current.GoToAsync("nearby");
+        });
+
+        RandomRecipeCommand = new Command(() =>
+        {
+            _haptic.PerformClick();
+            try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(450)); } catch { }
+            try { HapticFeedback.Default.Perform(HapticFeedbackType.LongPress); } catch { }
+            var recipes = _recipes.GetAllRecipes();
+            ShakeResult = recipes[new Random().Next(recipes.Count)];
+        });
+
+        OpenRecipesCommand = new Command(async () =>
+        {
+            _haptic.PerformClick();
+            await Shell.Current.GoToAsync("//recipes");
+        });
+
+        AddTodayMealCommand = new Command(async () =>
+        {
+            _haptic.PerformClick();
+            RecipesViewModel.PendingSelectionDay = DateTime.Now.DayOfWeek;
+            await Shell.Current.GoToAsync("//recipes");
+        });
+
+        RemoveTodayMealCommand = new Command<MealPlanEntry>(entry =>
+        {
+            _haptic.PerformClick();
+            _mealPlan.RemoveFromMealPlan(entry.Id);
+            TodayMeals.Remove(entry);
+        });
+
+        RefreshCommand = new Command(async () =>
         {
             _haptic.PerformClick();
             Reload();
+            await Task.Delay(400);
             IsBusy = false;
         });
 
@@ -120,7 +172,7 @@ public class HomeViewModel : BaseViewModel
         try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(450)); } catch { }
         try { HapticFeedback.Default.Perform(HapticFeedbackType.LongPress); } catch { }
 
-        var recipes = _dataService.GetAllRecipes();
+        var recipes = _recipes.GetAllRecipes();
         ShakeResult = recipes[new Random().Next(recipes.Count)];
     }
 
@@ -130,15 +182,18 @@ public class HomeViewModel : BaseViewModel
         TodayMeals.Clear();
         var today = DateTime.Now.DayOfWeek;
         var monday = DateTime.Now.AddDays(-(int)today + 1);
-        foreach (var entry in _dataService.GetMealPlanForWeek(monday).Where(e => e.Day == today))
+        foreach (var entry in _mealPlan.GetMealPlanForWeek(monday).Where(e => e.Day == today))
             TodayMeals.Add(entry);
+
+        // Always show the + Add Meal placeholder so the user can plan meals for today
+        TodayMeals.Add(new MealPlanEntry { Recipe = null, Day = today });
     }
 
     /// <summary>Builds curated recipe collections: Quick and Easy, Weekend Indulgence, High Protein.</summary>
     private void LoadCollections()
     {
         Collections.Clear();
-        var all = _dataService.GetAllRecipes();
+        var all = _recipes.GetAllRecipes();
         Collections.Add(new CuratedCollection
         {
             Title = "Quick & Easy",
@@ -148,8 +203,9 @@ public class HomeViewModel : BaseViewModel
         Collections.Add(new CuratedCollection
         {
             Title = "Weekend Indulgence",
-            Subtitle = "Desserts & drinks",
-            Recipes = all.Where(r => r.Category is FoodCategory.Dessert or FoodCategory.Drink).Take(8).ToList()
+            Subtitle = "Baked treats & fresh drinks",
+            Recipes = all.Where(r => r.Category is FoodCategory.Baked
+                || (r.Category is FoodCategory.Fresh && r.Name.Contains("Lemonade") || r.Name.Contains("Lassi") || r.Name.Contains("Smoothie"))).Take(8).ToList()
         });
         Collections.Add(new CuratedCollection
         {
@@ -163,7 +219,7 @@ public class HomeViewModel : BaseViewModel
     private void LoadAllRecipes()
     {
         RecipeGrid.Clear();
-        foreach (var recipe in _dataService.GetAllRecipes())
+        foreach (var recipe in _recipes.GetAllRecipes())
             RecipeGrid.Add(recipe);
     }
 
@@ -173,6 +229,14 @@ public class HomeViewModel : BaseViewModel
         LoadTodayMeals();
         LoadCollections();
         LoadAllRecipes();
+        LoadFavorites();
+    }
+
+    private void LoadFavorites()
+    {
+        FavoriteRecipes.Clear();
+        foreach (var r in _recipes.GetAllRecipes().Where(r => r.IsFavorite))
+            FavoriteRecipes.Add(r);
     }
 
     public void Cleanup()

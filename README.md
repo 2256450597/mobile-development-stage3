@@ -106,15 +106,28 @@ All services and ViewModels are registered in `MauiProgram.cs` via the built-in 
 
 ## Accessibility
 
-This app follows **WCAG 2.1** accessibility guidelines:
+This app follows **WCAG 2.1** accessibility guidelines with specific principle references:
 
-- **Semantic Properties** — All interactive elements include `SemanticProperties.Description` for screen readers
-- **Heading Levels** — Sections use `SemanticProperties.HeadingLevel` (Level1, Level2)
-- **Touch Targets** — All buttons, entries, and interactive controls are ≥44pt (WCAG 2.5.5)
-- **Colour Contrast** — Text meets WCAG AA minimum contrast ratios (4.5:1 for normal text, 3:1 for large text)
-- **Dark Mode** — Full dark theme with reduced eye strain in low-light environments
-- **Font Scaling** — Three adjustable font sizes (Small 0.85x, Medium 1.0x, Large 1.3x)
-- **Text-to-Speech** — Recipe instructions can be read aloud with configurable pitch
+**Principle 1 — Perceivable**
+- **1.1.1 Non-text Content** (`SemanticProperties.Description` on all images, buttons, and interactive elements)
+- **1.3.1 Info and Relationships** (`SemanticProperties.HeadingLevel` Level1/Level2 on section headers)
+- **1.4.3 Contrast (Minimum)** — AA compliance: 4.5:1 normal text, 3:1 large text (verified via AppThemeBinding)
+- **1.4.4 Resize Text** — Three font sizes (Small 0.85×, Medium 1.0×, Large 1.3×) via Settings page
+
+**Principle 2 — Operable**
+- **2.4.2 Page Titled** — Every page has a descriptive `Title`
+- **2.5.5 Target Size** — All buttons, entries, and controls ≥44pt (verified via `MinimumHeightRequest`)
+- **2.2.2 Pause, Stop, Hide** — Stop button available for TTS speech playback
+
+**Principle 3 — Understandable**
+- **3.2.3 Consistent Navigation** — Shell tab bar present on all main pages
+- **3.3.1 Error Identification** — Validation errors displayed with clear messages (`ValidationError` label)
+- **3.3.2 Labels or Instructions** — Contextual user guidance labels on every page
+
+**Principle 4 — Robust**
+- **4.1.2 Name, Role, Value** — `SemanticProperties.Description` and `SemanticProperties.Hint` on all controls
+- **Dark Mode** — Full dark/light theme via `AppThemeBinding` for reduced eye strain
+- **Text-to-Speech** — Recipe instructions read aloud with adjustable pitch via `SemanticScreenReader`
 
 ## Development Plan
 

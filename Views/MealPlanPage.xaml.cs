@@ -32,6 +32,6 @@ public partial class MealPlanPage : ContentPage
     {
         base.OnAppearing();
         _theme.ApplyFontScaleToPage(this);
-        _viewModel.LoadWeekPlan();
+        _viewModel.Reload();
     }
 }

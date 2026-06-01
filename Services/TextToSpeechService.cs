@@ -45,7 +45,7 @@ public class TextToSpeechService : ITextToSpeechService
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException($"Text-to-speech failed: {ex.Message}", ex);
+            throw new InvalidOperationException("Speech playback could not be started. Please try again.", ex);
         }
         finally
         {

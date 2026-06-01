@@ -53,7 +53,7 @@ public class CameraService : ICameraService
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException($"Could not capture photo: {ex.Message}", ex);
+            throw new InvalidOperationException("Unable to take a photo. Please ensure camera permission is granted.", ex);
         }
     }
 
@@ -84,7 +84,7 @@ public class CameraService : ICameraService
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException($"Could not pick photo: {ex.Message}", ex);
+            throw new InvalidOperationException("Unable to select a photo. Please check your storage permissions.", ex);
         }
     }
 }

@@ -21,7 +21,11 @@ public class NearbyViewModel : BaseViewModel
     /// <summary>Compass heading value formatted with degree symbol.</summary>
     public string HeadingDisplay => _compass.Heading.HasValue
         ? $"{_compass.Heading.Value:F0}°"
-        : "--";
+        : _compass.IsSupported ? "--°" : "N/A";
+    /// <summary>User-friendly compass status text.</summary>
+    public string CompassStatus => _compass.IsSupported
+        ? (_compass.Heading.HasValue ? "Active" : "Calibrating...")
+        : "Not available on this device";
 
     private string _locationInfo = "Fetching location...";
     /// <summary>Gets or sets the current location status message displayed to the user.</summary>
@@ -81,6 +85,7 @@ public class NearbyViewModel : BaseViewModel
         {
             OnPropertyChanged(nameof(CompassLabel));
             OnPropertyChanged(nameof(HeadingDisplay));
+            OnPropertyChanged(nameof(CompassStatus));
         };
         _compass.Start();
 
@@ -143,7 +148,7 @@ public class NearbyViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            LocationInfo = $"Error: {ex.Message}";
+            LocationInfo = "Unable to get your location. Please check that location services are enabled.";
         }
         finally
         {

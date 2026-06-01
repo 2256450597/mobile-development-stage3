@@ -9,6 +9,7 @@ public class CameraViewModel : BaseViewModel
     private readonly ICameraService _cameraService;
     private readonly IHapticService _haptic;
     private readonly IFlashlightService _flashlight;
+    private readonly IFoodClassifier _foodClassifier;
 
     private bool _hasCamera;
     /// <summary>Gets or sets whether the device has a camera available for capture.</summary>
@@ -56,8 +57,23 @@ public class CameraViewModel : BaseViewModel
     /// <summary>Gets the display label for the flashlight toggle button.</summary>
     public string FlashlightLabel => IsFlashlightOn ? "Flash On" : "Flash Off";
 
+    // Food image classification (ML / computer vision)
+    private string? _classificationResult;
+    /// <summary>Gets or sets the food classification result text from the ML model.</summary>
+    public string? ClassificationResult
+    {
+        get => _classificationResult;
+        set => SetProperty(ref _classificationResult, value);
+    }
+    /// <summary>Whether a classification result is available to display.</summary>
+    public bool HasClassification => !string.IsNullOrEmpty(ClassificationResult);
+    /// <summary>Whether the ML model is loaded and ready for inference.</summary>
+    public bool IsModelReady => _foodClassifier.IsModelLoaded;
+
     /// <summary>Command to capture a photo using the device camera.</summary>
     public ICommand TakePhotoCommand { get; }
+    /// <summary>Command to classify the captured food photo using the ML image classifier.</summary>
+    public ICommand ClassifyFoodCommand { get; }
     /// <summary>Command to pick an existing photo from the device gallery.</summary>
     public ICommand PickPhotoCommand { get; }
     /// <summary>Command to clear the current photo and reset the view to its initial state.</summary>
@@ -72,11 +88,12 @@ public class CameraViewModel : BaseViewModel
     public ICommand GoBackCommand { get; }
 
     /// <summary>Initialises a new instance of the <see cref="CameraViewModel"/> class with the required camera, haptic, and flashlight services.</summary>
-    public CameraViewModel(ICameraService cameraService, IHapticService haptic, IFlashlightService flashlight)
+    public CameraViewModel(ICameraService cameraService, IHapticService haptic, IFlashlightService flashlight, IFoodClassifier foodClassifier)
     {
         _cameraService = cameraService;
         _haptic = haptic;
         _flashlight = flashlight;
+        _foodClassifier = foodClassifier;
         Title = "Camera";
         HasCamera = _cameraService.IsCaptureSupported;
 
@@ -113,7 +130,33 @@ public class CameraViewModel : BaseViewModel
             }
             catch (Exception ex)
             {
-                StatusMessage = $"Flash error: {ex.Message}";
+                StatusMessage = "Unable to toggle the flashlight. Please try again.";
+            }
+        });
+
+        ClassifyFoodCommand = new Command(async () =>
+        {
+            if (string.IsNullOrEmpty(PhotoPath) || !HasPhoto) return;
+            if (!_foodClassifier.IsModelLoaded)
+            {
+                StatusMessage = "ML model not found. Please add food_model.onnx to Resources/Raw.";
+                return;
+            }
+            _haptic.PerformClick();
+            StatusMessage = "Running ML image classification...";
+            var result = await _foodClassifier.ClassifyAsync(PhotoPath);
+            if (result.Success && result.Predictions.Count > 0)
+            {
+                ClassificationResult = result.Summary;
+                OnPropertyChanged(nameof(HasClassification));
+                var top = result.Predictions[0];
+                StatusMessage = $"ML result: {top.Label} ({top.Confidence:F1}%)";
+            }
+            else
+            {
+                StatusMessage = "Classification failed. Try a clearer photo.";
+                ClassificationResult = null;
+                OnPropertyChanged(nameof(HasClassification));
             }
         });
 
@@ -150,9 +193,9 @@ public class CameraViewModel : BaseViewModel
                 StatusMessage = "Camera was closed without capturing a photo.";
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            StatusMessage = ex.Message;
+            StatusMessage = "Unable to take a photo. Please check that camera permission is granted.";
         }
     }
 
@@ -178,7 +221,7 @@ public class CameraViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Could not save: {ex.Message}";
+            StatusMessage = "Unable to save the photo. Please check that the app has storage permission.";
         }
     }
 
@@ -202,9 +245,9 @@ public class CameraViewModel : BaseViewModel
                 StatusMessage = "No photo was selected.";
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            StatusMessage = ex.Message;
+            StatusMessage = "Unable to open the photo gallery. Please check that storage permission is granted.";
         }
     }
 }

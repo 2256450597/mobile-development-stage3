@@ -9,14 +9,14 @@
              Shell.NavBarIsVisible="False" Title="Recipes"
              BackgroundColor="{AppThemeBinding Light={StaticResource Light_Background}, Dark={StaticResource Dark_Background}}">
 
-    <Grid RowDefinitions="Auto,Auto,Auto,*" Padding="0">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*" Padding="0">
         <views:HeaderLogo Grid.Row="0" />
-        <Label Text="Search and filter recipes — tap any recipe to view details"
-               FontSize="12" HorizontalTextAlignment="Center"
-               TextColor="{StaticResource TextTertiary}" Margin="0,0,0,10" />
+        <Label Grid.Row="1" Text="Search and filter recipes - tap any recipe to view details"
+               FontSize="11" HorizontalTextAlignment="Center"
+               TextColor="{StaticResource TextTertiary}" Margin="0,-4,0,6" />
 
         <!-- Search Bar -->
-        <SearchBar Grid.Row="1" Placeholder="Search recipes..."
+        <SearchBar Grid.Row="2" Placeholder="Search recipes..."
                    Text="{Binding SearchText}"
                    PlaceholderColor="{StaticResource TextTertiary}"
                    TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}"
@@ -25,7 +25,7 @@
                    SemanticProperties.Description="Search for recipes by name or ingredient" />
 
         <!-- Sticky Category Tabs with background -->
-        <Border Grid.Row="2" StrokeThickness="0"
+        <Border Grid.Row="3" StrokeThickness="0"
                 BackgroundColor="{AppThemeBinding Light=#F0EAE6, Dark=#1E1E1B}"
                 Padding="0,6">
             <CollectionView ItemsSource="{Binding Categories}"
@@ -34,7 +34,36 @@
                     <LinearItemsLayout Orientation="Horizontal" ItemSpacing="6" />
                 </CollectionView.ItemsLayout>
                 <CollectionView.Header>
-                    <BoxView WidthRequest="8" Color="Transparent" />
+                    <HorizontalStackLayout Spacing="6">
+                        <BoxView WidthRequest="8" Color="Transparent" />
+                        <!-- All category chip -->
+                        <Border StrokeShape="RoundRectangle 18" StrokeThickness="1"
+                                HeightRequest="34" Padding="14,0"
+                                Stroke="{AppThemeBinding Light=#D5CEC8, Dark=#444}"
+                                BackgroundColor="Transparent">
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding Source={RelativeSource AncestorType={x:Type vm:RecipesViewModel}}, Path=SelectedCategory}"
+                                             Value="{x:Null}">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                    <Setter Property="Stroke" Value="{StaticResource Primary}" />
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Label Text="All" FontSize="12" FontAttributes="Bold"
+                                   VerticalTextAlignment="Center"
+                                   TextColor="{AppThemeBinding Light=#666, Dark=#AAA}">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding Source={RelativeSource AncestorType={x:Type vm:RecipesViewModel}}, Path=SelectedCategory}"
+                                                 Value="{x:Null}">
+                                        <Setter Property="TextColor" Value="White" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RecipesViewModel}}, Path=ClearCategoryCommand}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </HorizontalStackLayout>
                 </CollectionView.Header>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:FoodCategory">
@@ -70,8 +99,8 @@
             </CollectionView>
         </Border>
 
-        <!-- Single-Column Recipe Feed -->
-        <RefreshView Grid.Row="3" IsRefreshing="{Binding IsBusy}">
+        <!-- 2-Column Recipe Grid -->
+        <RefreshView Grid.Row="4" Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
         <CollectionView ItemsSource="{Binding Recipes}" Margin="0,0,0,0">
             <CollectionView.EmptyView>
                 <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="8">
@@ -82,53 +111,46 @@
             </CollectionView.EmptyView>
 
             <CollectionView.ItemsLayout>
-                <OnIdiom x:TypeArguments="ItemsLayout">
-                    <OnIdiom.Phone>
-                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
-                    </OnIdiom.Phone>
-                    <OnIdiom.Tablet>
-                        <GridItemsLayout Orientation="Vertical" Span="2"
-                                         HorizontalItemSpacing="8" VerticalItemSpacing="8" />
-                    </OnIdiom.Tablet>
-                </OnIdiom>
+                <GridItemsLayout Orientation="Vertical" Span="2"
+                                 HorizontalItemSpacing="8" VerticalItemSpacing="8" />
             </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Recipe">
-                    <Border StrokeShape="RoundRectangle 4"
+                    <Border StrokeShape="RoundRectangle 12"
                             Stroke="Transparent" StrokeThickness="0"
-                            Padding="0" Margin="0,0,0,1"
+                            Padding="0"
                             BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Dark_Card}}">
+                        <Border.Shadow>
+                            <Shadow Brush="#18000000" Offset="0,2" Radius="8" Opacity="0.3" />
+                        </Border.Shadow>
                         <VerticalStackLayout>
                             <Grid>
-                                <Image Source="{Binding ImageUrl}" HeightRequest="220"
+                                <Image Source="{Binding ImageUrl}" HeightRequest="140"
                                        Aspect="AspectFill" />
                                 <Border StrokeThickness="0" StrokeShape="RoundRectangle 3"
                                         BackgroundColor="{Binding Category, Converter={StaticResource CategoryToColor}}"
                                         Padding="8,3" HorizontalOptions="End" VerticalOptions="End"
-                                        Margin="0,0,12,12">
+                                        Margin="0,0,8,8">
                                     <Label Text="{Binding Category}" FontSize="10"
                                            TextColor="White" FontAttributes="Bold" />
                                 </Border>
                             </Grid>
-                            <VerticalStackLayout Padding="16,12" Spacing="4">
-                                <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold"
+                            <VerticalStackLayout Padding="12,10" Spacing="4">
+                                <Label Text="{Binding Name}" FontSize="14" FontAttributes="Bold"
                                        LineBreakMode="TailTruncation" MaxLines="2"
                                        TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
-                                <HorizontalStackLayout Spacing="10">
-                                    <Label FontSize="13" TextColor="{StaticResource TextSecondary}">
+                                <HorizontalStackLayout Spacing="8">
+                                    <Label FontSize="11" TextColor="{StaticResource TextSecondary}">
                                         <Label.Text>
                                             <MultiBinding StringFormat="{}{0} min">
                                                 <Binding Path="PrepTimeMinutes" />
                                             </MultiBinding>
                                         </Label.Text>
                                     </Label>
-                                    <Label Text="·" FontSize="13" TextColor="{StaticResource TextTertiary}" />
-                                    <Label FontSize="13" TextColor="{StaticResource TextSecondary}"
+                                    <Label Text="·" FontSize="11" TextColor="{StaticResource TextTertiary}" />
+                                    <Label FontSize="11" TextColor="{StaticResource TextSecondary}"
                                            Text="{Binding Calories, StringFormat='{0} cal'}" />
-                                    <Label Text="·" FontSize="13" TextColor="{StaticResource TextTertiary}" />
-                                    <Label FontSize="13" TextColor="{StaticResource TextSecondary}"
-                                           Text="{Binding Difficulty}" />
                                 </HorizontalStackLayout>
                             </VerticalStackLayout>
                         </VerticalStackLayout>

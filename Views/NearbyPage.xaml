@@ -13,8 +13,8 @@
 
         <!-- User guidance -->
         <Label Grid.Row="1" Text="Discover grocery stores near your current location"
-               FontSize="12" HorizontalTextAlignment="Center"
-               TextColor="{StaticResource TextTertiary}" Margin="0,0,0,10" />
+               FontSize="11" HorizontalTextAlignment="Center"
+               TextColor="{StaticResource TextTertiary}" Margin="0,-4,0,6" />
 
         <!-- Location Status + Compass Card -->
         <Frame Grid.Row="2" Style="{StaticResource CardFrame}" Margin="0,0,0,8">
@@ -33,15 +33,20 @@
                        TextColor="{StaticResource Primary}" />
 
                 <!-- Compass heading (magnetometer hardware) -->
-                <HorizontalStackLayout Spacing="8" Padding="0,4" HorizontalOptions="Center">
-                    <Label Text="🧭" FontSize="20" VerticalTextAlignment="Center" />
-                    <Label Text="Compass:" FontSize="14"
-                           TextColor="{StaticResource TextSecondary}" VerticalTextAlignment="Center" />
-                    <Label Text="{Binding HeadingDisplay}" FontSize="20" FontAttributes="Bold"
-                           TextColor="{StaticResource TextPrimary}" VerticalTextAlignment="Center" />
-                    <Label Text="{Binding CompassLabel}" FontSize="16"
-                           TextColor="{StaticResource Primary}" VerticalTextAlignment="Center" />
-                </HorizontalStackLayout>
+                <VerticalStackLayout Spacing="4" HorizontalOptions="Center" Padding="0,4">
+                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Label Text="🧭" FontSize="20" VerticalTextAlignment="Center" />
+                        <Label Text="Compass:" FontSize="14"
+                               TextColor="{StaticResource TextSecondary}" VerticalTextAlignment="Center" />
+                        <Label Text="{Binding HeadingDisplay}" FontSize="20" FontAttributes="Bold"
+                               TextColor="{StaticResource TextPrimary}" VerticalTextAlignment="Center" />
+                        <Label Text="{Binding CompassLabel}" FontSize="16"
+                               TextColor="{StaticResource Primary}" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding CompassStatus}" FontSize="11"
+                           TextColor="{StaticResource TextTertiary}"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
 
                 <ActivityIndicator IsRunning="{Binding IsLocating}"
                                    IsVisible="{Binding IsLocating}"

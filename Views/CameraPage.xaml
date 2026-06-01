@@ -8,61 +8,115 @@
              Title="Camera"
              BackgroundColor="{AppThemeBinding Light={StaticResource Light_Background}, Dark={StaticResource Dark_Background}}">
 
-    <ScrollView>
-        <Grid RowDefinitions="Auto,Auto,250,Auto" Padding="16,16,16,24">
-            <views:HeaderLogo Grid.Row="0" />
-            <Label Grid.Row="0" Text="Capture or select a photo to create a new recipe"
-                   FontSize="12" HorizontalTextAlignment="Center"
-                   TextColor="{StaticResource TextTertiary}" Margin="0,30,0,10" />
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="16,16,16,24" RowSpacing="0">
+        <views:HeaderLogo Grid.Row="0" />
 
-            <!-- Status -->
-            <Label Grid.Row="1" Text="{Binding StatusMessage}" FontSize="14"
-                   HorizontalTextAlignment="Center"
-                   TextColor="{StaticResource TextSecondary}" Margin="0,0,0,12" />
+        <!-- Status message -->
+        <Label Grid.Row="1" Text="{Binding StatusMessage}" FontSize="13"
+               HorizontalTextAlignment="Center"
+               TextColor="{StaticResource TextSecondary}" Margin="0,0,0,8"
+               LineBreakMode="TailTruncation" MaxLines="2" />
 
-            <!-- Preview area -->
-            <Frame Grid.Row="2" BackgroundColor="#1A1A2E" CornerRadius="4" Padding="0">
-                <Grid>
-                    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center"
-                                         IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}" Spacing="8">
-                        <Label Text="Camera Preview" FontSize="18" TextColor="White" HorizontalTextAlignment="Center" />
-                        <Label Text="Tap a button below to get started" FontSize="13" TextColor="#AAAAAA" HorizontalTextAlignment="Center" />
-                    </VerticalStackLayout>
-                    <Image Source="{Binding PhotoPath}" Aspect="AspectFill"
-                           IsVisible="{Binding HasPhoto}" />
-                </Grid>
-            </Frame>
+        <!-- === Preview Area (fills remaining space) === -->
+        <Frame Grid.Row="2" BackgroundColor="#1A1A2E" CornerRadius="12"
+               Padding="0" HasShadow="False" Margin="0,0,0,16" BorderColor="Transparent">
+            <Grid>
+                <!-- No photo yet -->
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center"
+                                     IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}"
+                                     Spacing="16" Padding="24">
+                    <Label Text="Camera Preview" FontSize="20"
+                           TextColor="White" HorizontalTextAlignment="Center"
+                           FontAttributes="Bold" />
+                    <Label Text="Tap the large button below to capture your meal"
+                           FontSize="14" TextColor="#999999"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
 
-            <!-- Before photo: capture options -->
-            <VerticalStackLayout Grid.Row="3" Spacing="10" Margin="0,16,0,0"
-                                 IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}">
-                <Button Text="Take Photo" Style="{StaticResource PrimaryButton}"
-                        Command="{Binding TakePhotoCommand}"
-                        SemanticProperties.Description="Capture a photo with the camera" />
-                <Button Text="Pick from Gallery" Style="{StaticResource SecondaryButton}"
-                        Command="{Binding PickPhotoCommand}" />
-                <Button Text="{Binding FlashlightLabel}" Style="{StaticResource SecondaryButton}"
-                        Command="{Binding ToggleFlashlightCommand}"
-                        IsVisible="{Binding HasFlashlight}"
-                        SemanticProperties.Description="Toggle the device flashlight on or off" />
-            </VerticalStackLayout>
+                <!-- Photo captured -->
+                <Image Source="{Binding PhotoPath}" Aspect="AspectFill"
+                       IsVisible="{Binding HasPhoto}" />
 
-            <!-- After photo: action options -->
-            <VerticalStackLayout Grid.Row="3" Spacing="10" Margin="0,16,0,0"
-                                 IsVisible="{Binding HasPhoto}">
-                <Button Text="Use This Photo" Style="{StaticResource PrimaryButton}"
-                        Command="{Binding UsePhotoCommand}"
-                        SemanticProperties.Description="Create a new recipe with this photo" />
-                <Button Text="Save to Gallery" Style="{StaticResource SecondaryButton}"
-                        Command="{Binding SaveToGalleryCommand}" />
-                <Button Text="Take Another" Style="{StaticResource SecondaryButton}"
-                        Command="{Binding TakePhotoCommand}" />
-                <Button Text="Discard" Style="{StaticResource SecondaryButton}"
-                        Command="{Binding ClearPhotoCommand}"
-                        TextColor="{StaticResource Error}" BorderColor="{StaticResource Error}" />
-            </VerticalStackLayout>
+                <!-- ML classification chip -->
+                <Border VerticalOptions="Start" HorizontalOptions="Center"
+                        Margin="0,12,0,0" Padding="12,8"
+                        StrokeShape="RoundRectangle 14" StrokeThickness="0"
+                        BackgroundColor="#CC1A1A2E"
+                        IsVisible="{Binding HasClassification}">
+                    <HorizontalStackLayout Spacing="6">
+                        <Label Text="ML" FontSize="11" TextColor="{StaticResource Primary}"
+                               FontAttributes="Bold" VerticalTextAlignment="Center" />
+                        <Label Text="{Binding ClassificationResult}" FontSize="12"
+                               TextColor="White" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+            </Grid>
+        </Frame>
 
+        <!-- === Bottom Bar: BEFORE photo === -->
+        <Grid Grid.Row="3" ColumnDefinitions="*,Auto,*"
+              HeightRequest="88"
+              IsVisible="{Binding HasPhoto, Converter={StaticResource InverseBool}}">
+            <!-- Gallery button -->
+            <Button Grid.Column="0" Text="Gallery"
+                    Style="{StaticResource SecondaryButton}"
+                    VerticalOptions="Center" HorizontalOptions="Center"
+                    Command="{Binding PickPhotoCommand}"
+                    SemanticProperties.Description="Pick a photo from the device gallery" />
+            <!-- Shutter button -->
+            <Button Grid.Column="1" Text="Capture" FontAttributes="Bold"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White" FontSize="16" FontFamily="OpenSansSemibold"
+                    WidthRequest="80" HeightRequest="80" CornerRadius="40"
+                    Padding="0" BorderWidth="0"
+                    VerticalOptions="Center" HorizontalOptions="Center"
+                    Command="{Binding TakePhotoCommand}"
+                    SemanticProperties.Description="Capture a photo with the camera" />
+            <!-- Flash toggle -->
+            <Button Grid.Column="2" Text="{Binding FlashlightLabel}"
+                    Style="{StaticResource SecondaryButton}"
+                    VerticalOptions="Center" HorizontalOptions="Center"
+                    Command="{Binding ToggleFlashlightCommand}"
+                    IsVisible="{Binding HasFlashlight}"
+                    SemanticProperties.Description="Toggle the device flashlight on or off" />
         </Grid>
-    </ScrollView>
+
+        <!-- === Bottom Bar: AFTER photo === -->
+        <Grid Grid.Row="3" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto"
+              RowSpacing="10" ColumnSpacing="10"
+              IsVisible="{Binding HasPhoto}">
+
+            <!-- Use Photo (primary) -->
+            <Button Grid.Row="0" Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Text="Use Photo"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding UsePhotoCommand}"
+                    SemanticProperties.Description="Create a new recipe with this photo" />
+
+            <!-- ML Classify (secondary) -->
+            <Button Grid.Row="1" Grid.Column="0"
+                    Text="Classify Food (ML)"
+                    Style="{StaticResource SecondaryButton}" FontSize="13"
+                    Command="{Binding ClassifyFoodCommand}"
+                    IsVisible="{Binding IsModelReady}"
+                    SemanticProperties.Description="Classify food using machine learning" />
+
+            <!-- Retake (secondary) -->
+            <Button Grid.Row="1" Grid.Column="0"
+                    Text="Retake"
+                    Style="{StaticResource SecondaryButton}" FontSize="13"
+                    Command="{Binding TakePhotoCommand}"
+                    IsVisible="{Binding IsModelReady, Converter={StaticResource InverseBool}}" />
+
+            <!-- Discard (danger) -->
+            <Button Grid.Row="1" Grid.Column="1"
+                    Text="Discard"
+                    Style="{StaticResource SecondaryButton}" FontSize="13"
+                    Command="{Binding ClearPhotoCommand}"
+                    TextColor="{StaticResource Error}" BorderColor="{StaticResource Error}"
+                    SemanticProperties.Description="Discard the current photo" />
+        </Grid>
+    </Grid>
 
 </ContentPage>

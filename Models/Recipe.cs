@@ -10,7 +10,7 @@ public class Recipe
     public string Id { get; set; } = Guid.NewGuid().ToString();
     /// <summary>Display name of the recipe.</summary>
     public string Name { get; set; } = string.Empty;
-    /// <summary>Food category (Breakfast, Lunch, Dinner, Dessert, Snack, Drink).</summary>
+    /// <summary>Cooking method category (Fresh, Stovetop, or Baked).</summary>
     public FoodCategory Category { get; set; }
     /// <summary>Short description of the dish.</summary>
     public string Description { get; set; } = string.Empty;

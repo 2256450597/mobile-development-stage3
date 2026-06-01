@@ -1,0 +1,310 @@
+[
+  {
+    "Id": "1",
+    "Name": "Classic Pancakes",
+    "Category": "Stovetop",
+    "Description": "Fluffy golden pancakes perfect for a weekend breakfast.",
+    "ImageUrl": "pancakes.jpg",
+    "Ingredients": ["1 cup flour", "2 tbsp sugar", "1 egg", "1 cup milk", "2 tbsp butter", "1 tsp baking powder"],
+    "Instructions": [
+      "Mix flour, sugar, and baking powder in a bowl.",
+      "Whisk egg and milk together, then combine with dry ingredients.",
+      "Heat a pan and melt butter.",
+      "Pour batter and cook until bubbles form, then flip.",
+      "Serve with maple syrup and fresh berries."
+    ],
+    "PrepTimeMinutes": 10,
+    "CookTimeMinutes": 15,
+    "Calories": 350,
+    "Servings": 4,
+    "Difficulty": "Easy"
+  },
+  {
+    "Id": "2",
+    "Name": "Avocado Toast",
+    "Category": "Fresh",
+    "Description": "Simple and nutritious smashed avocado on sourdough toast.",
+    "ImageUrl": "avocado_toast.jpg",
+    "Ingredients": ["2 slices sourdough bread", "1 ripe avocado", "1 lime", "Salt", "Red pepper flakes", "Cherry tomatoes"],
+    "Instructions": [
+      "Toast the sourdough bread until golden.",
+      "Halve the avocado, remove pit, and scoop into a bowl.",
+      "Mash avocado with lime juice and salt.",
+      "Spread onto toast and top with sliced cherry tomatoes.",
+      "Sprinkle with red pepper flakes."
+    ],
+    "PrepTimeMinutes": 5,
+    "CookTimeMinutes": 3,
+    "Calories": 280,
+    "Servings": 1,
+    "Difficulty": "Easy"
+  },
+  {
+    "Id": "3",
+    "Name": "Caesar Salad",
+    "Category": "Fresh",
+    "Description": "Crisp romaine lettuce with classic Caesar dressing and croutons.",
+    "ImageUrl": "caesar_salad.jpg",
+    "Ingredients": ["1 head romaine lettuce", "Caesar dressing", "Croutons", "Parmesan cheese", "1 lemon", "Grilled chicken (optional)"],
+    "Instructions": [
+      "Wash and chop romaine lettuce.",
+      "Grill chicken breast if using, then slice.",
+      "Toss lettuce with Caesar dressing.",
+      "Top with croutons, shaved parmesan, and lemon juice.",
+      "Add grilled chicken slices on top."
+    ],
+    "PrepTimeMinutes": 15,
+    "CookTimeMinutes": 10,
+    "Calories": 420,
+    "Servings": 2,
+    "Difficulty": "Easy"
+  },
+  {
+    "Id": "4",
+    "Name": "Classic Margherita Pizza",
+    "Category": "Baked",
+    "Description": "Authentic Italian pizza with fresh mozzarella and basil.",
+    "ImageUrl": "pizza.jpg",
+    "Ingredients": ["Pizza dough", "San Marzano tomatoes", "Fresh mozzarella", "Fresh basil", "Olive oil", "Salt"],
+    "Instructions": [
+      "Preheat oven to 250 C / 480 F.",
+      "Stretch pizza dough into a thin round.",
+      "Spread crushed tomatoes over the base.",
+      "Tear mozzarella and distribute evenly.",
+      "Bake for 8-10 minutes until crust is golden.",
+      "Top with fresh basil and a drizzle of olive oil."
+    ],
+    "PrepTimeMinutes": 20,
+    "CookTimeMinutes": 10,
+    "Calories": 680,
+    "Servings": 2,
+    "Difficulty": "Medium"
+  },
+  {
+    "Id": "5",
+    "Name": "Grilled Salmon",
+    "Category": "Stovetop",
+    "Description": "Perfectly grilled salmon fillet with lemon herb butter.",
+    "ImageUrl": "salmon.jpg",
+    "Ingredients": ["2 salmon fillets", "2 tbsp butter", "1 lemon", "Fresh dill", "Garlic cloves", "Asparagus", "Salt and pepper"],
+    "Instructions": [
+      "Season salmon with salt, pepper, and lemon juice.",
+      "Melt butter and mix with minced garlic and dill.",
+      "Grill salmon skin-side down for 4-5 minutes.",
+      "Flip and cook for another 3 minutes.",
+      "Grill asparagus alongside with olive oil.",
+      "Serve salmon topped with herb butter and asparagus."
+    ],
+    "PrepTimeMinutes": 10,
+    "CookTimeMinutes": 12,
+    "Calories": 450,
+    "Servings": 2,
+    "Difficulty": "Medium"
+  },
+  {
+    "Id": "6",
+    "Name": "Beef Stir Fry",
+    "Category": "Stovetop",
+    "Description": "Quick and flavourful beef stir fry with vegetables.",
+    "ImageUrl": "stirfry.jpg",
+    "Ingredients": ["Beef sirloin", "Broccoli", "Bell peppers", "Soy sauce", "Ginger", "Garlic", "Sesame oil", "Rice"],
+    "Instructions": [
+      "Slice beef thinly against the grain.",
+      "Chop broccoli and bell peppers.",
+      "Heat wok with sesame oil until smoking.",
+      "Stir fry beef for 2 minutes, then remove.",
+      "Cook vegetables with ginger and garlic for 3 minutes.",
+      "Return beef, add soy sauce, and serve over rice."
+    ],
+    "PrepTimeMinutes": 15,
+    "CookTimeMinutes": 10,
+    "Calories": 520,
+    "Servings": 2,
+    "Difficulty": "Medium"
+  },
+  {
+    "Id": "7",
+    "Name": "Chocolate Lava Cake",
+    "Category": "Baked",
+    "Description": "Rich molten chocolate cake with a gooey centre.",
+    "ImageUrl": "lava_cake.jpg",
+    "Ingredients": ["Dark chocolate 200g", "Butter 100g", "2 eggs", "2 egg yolks", "Sugar 50g", "Flour 30g"],
+    "Instructions": [
+      "Melt chocolate and butter together in a double boiler.",
+      "Whisk eggs, yolks, and sugar until thick.",
+      "Fold chocolate mixture into egg mixture.",
+      "Sift in flour and fold gently.",
+      "Pour into greased ramekins.",
+      "Bake at 200 C for exactly 12 minutes."
+    ],
+    "PrepTimeMinutes": 15,
+    "CookTimeMinutes": 12,
+    "Calories": 480,
+    "Servings": 4,
+    "Difficulty": "Hard"
+  },
+  {
+    "Id": "8",
+    "Name": "Tiramisu",
+    "Category": "Baked",
+    "Description": "Classic Italian layered coffee dessert with mascarpone cream.",
+    "ImageUrl": "tiramisu.jpg",
+    "Ingredients": ["Mascarpone 500g", "Espresso", "Ladyfinger biscuits", "Eggs 4", "Sugar 100g", "Cocoa powder"],
+    "Instructions": [
+      "Separate eggs and beat yolks with sugar until creamy.",
+      "Fold in mascarpone cheese.",
+      "Whip egg whites to stiff peaks and fold in.",
+      "Dip ladyfingers briefly in cooled espresso.",
+      "Layer biscuits and cream in a dish.",
+      "Refrigerate 4 hours, dust with cocoa before serving."
+    ],
+    "PrepTimeMinutes": 30,
+    "CookTimeMinutes": 0,
+    "Calories": 390,
+    "Servings": 6,
+    "Difficulty": "Medium"
+  },
+  {
+    "Id": "9",
+    "Name": "Hummus with Pita",
+    "Category": "Fresh",
+    "Description": "Creamy homemade hummus served with warm pita bread.",
+    "ImageUrl": "hummus.jpg",
+    "Ingredients": ["1 can chickpeas", "Tahini 3 tbsp", "Lemon juice", "Garlic 2 cloves", "Olive oil", "Paprika", "Pita bread"],
+    "Instructions": [
+      "Drain and rinse chickpeas.",
+      "Blend chickpeas with tahini, lemon juice, and garlic.",
+      "Add ice water slowly until smooth and creamy.",
+      "Season with salt and spread on a plate.",
+      "Drizzle with olive oil and sprinkle paprika.",
+      "Warm pita bread and cut into triangles."
+    ],
+    "PrepTimeMinutes": 10,
+    "CookTimeMinutes": 0,
+    "Calories": 250,
+    "Servings": 4,
+    "Difficulty": "Easy"
+  },
+  {
+    "Id": "10",
+    "Name": "Fruit Smoothie Bowl",
+    "Category": "Fresh",
+    "Description": "Thick and creamy smoothie bowl topped with fresh fruits and granola.",
+    "ImageUrl": "smoothie_bowl.jpg",
+    "Ingredients": ["Frozen banana", "Frozen berries", "Greek yogurt", "Honey", "Granola", "Chia seeds", "Fresh fruit"],
+    "Instructions": [
+      "Blend frozen banana, berries, and yogurt until thick.",
+      "Pour into a bowl.",
+      "Top with sliced fresh fruit and granola.",
+      "Drizzle with honey and sprinkle chia seeds.",
+      "Serve immediately."
+    ],
+    "PrepTimeMinutes": 5,
+    "CookTimeMinutes": 0,
+    "Calories": 320,
+    "Servings": 1,
+    "Difficulty": "Easy"
+  },
+  {
+    "Id": "11",
+    "Name": "Fresh Lemonade",
+    "Category": "Fresh",
+    "Description": "Homemade zesty lemonade, perfectly refreshing.",
+    "ImageUrl": "lemonade.jpg",
+    "Ingredients": ["4 lemons", "Sugar 100g", "Water 1L", "Ice cubes", "Mint leaves"],
+    "Instructions": [
+      "Juice the lemons.",
+      "Dissolve sugar in a little warm water.",
+      "Combine lemon juice, sugar syrup, and cold water.",
+      "Stir well and add ice cubes.",
+      "Garnish with mint leaves and lemon slices."
+    ],
+    "PrepTimeMinutes": 10,
+    "CookTimeMinutes": 0,
+    "Calories": 120,
+    "Servings": 4,
+    "Difficulty": "Easy"
+  },
+  {
+    "Id": "12",
+    "Name": "Banana Oatmeal",
+    "Category": "Stovetop",
+    "Description": "Warm and comforting oatmeal with caramelised bananas.",
+    "ImageUrl": "oatmeal.png",
+    "Ingredients": ["Rolled oats 1 cup", "Milk 2 cups", "Banana 1", "Honey", "Cinnamon", "Walnuts"],
+    "Instructions": [
+      "Bring milk to a gentle simmer.",
+      "Add oats and cook for 5 minutes, stirring.",
+      "Slice banana and lightly caramelise in a pan.",
+      "Pour oatmeal into bowls.",
+      "Top with banana, walnuts, honey, and cinnamon."
+    ],
+    "PrepTimeMinutes": 5,
+    "CookTimeMinutes": 10,
+    "Calories": 340,
+    "Servings": 2,
+    "Difficulty": "Easy"
+  },
+  {
+    "Id": "13",
+    "Name": "Chicken Fajitas",
+    "Category": "Stovetop",
+    "Description": "Sizzling chicken fajitas with peppers and onions.",
+    "ImageUrl": "fajitas.jpg",
+    "Ingredients": ["Chicken breast", "Bell peppers", "Onion", "Fajita seasoning", "Tortillas", "Sour cream", "Salsa"],
+    "Instructions": [
+      "Slice chicken into strips and coat with seasoning.",
+      "Slice peppers and onion.",
+      "Sear chicken in a hot skillet for 5 minutes.",
+      "Add vegetables and cook until charred.",
+      "Warm tortillas.",
+      "Serve with sour cream and salsa."
+    ],
+    "PrepTimeMinutes": 15,
+    "CookTimeMinutes": 12,
+    "Calories": 480,
+    "Servings": 4,
+    "Difficulty": "Easy"
+  },
+  {
+    "Id": "14",
+    "Name": "Mango Lassi",
+    "Category": "Fresh",
+    "Description": "Creamy Indian yogurt drink blended with sweet mango.",
+    "ImageUrl": "mango_lassi.jpg",
+    "Ingredients": ["Ripe mango 1", "Plain yogurt 1 cup", "Milk 1/2 cup", "Sugar 2 tbsp", "Cardamom powder", "Ice cubes"],
+    "Instructions": [
+      "Peel and chop the mango.",
+      "Add mango, yogurt, milk, and sugar to blender.",
+      "Add a pinch of cardamom powder.",
+      "Blend until smooth.",
+      "Pour over ice and serve."
+    ],
+    "PrepTimeMinutes": 5,
+    "CookTimeMinutes": 0,
+    "Calories": 200,
+    "Servings": 2,
+    "Difficulty": "Easy"
+  },
+  {
+    "Id": "15",
+    "Name": "Vegetable Curry",
+    "Category": "Stovetop",
+    "Description": "Aromatic and hearty vegetable curry with coconut milk.",
+    "ImageUrl": "curry.jpg",
+    "Ingredients": ["Coconut milk", "Sweet potato", "Chickpeas", "Spinach", "Curry paste", "Onion", "Garlic", "Basmati rice"],
+    "Instructions": [
+      "Dice sweet potato and onion, mince garlic.",
+      "Saut onion and garlic until soft.",
+      "Add curry paste and cook for 1 minute.",
+      "Add sweet potato, chickpeas, and coconut milk.",
+      "Simmer for 20 minutes until potatoes are tender.",
+      "Stir in spinach until wilted, serve over rice."
+    ],
+    "PrepTimeMinutes": 15,
+    "CookTimeMinutes": 25,
+    "Calories": 460,
+    "Servings": 4,
+    "Difficulty": "Medium"
+  }
+]

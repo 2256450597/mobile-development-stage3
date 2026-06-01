@@ -1,32 +1,151 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows.Input;
+using TastyMealPlanner.Helpers;
 using TastyMealPlanner.Models;
 using TastyMealPlanner.Services;
 
 namespace TastyMealPlanner.ViewModels;
 
-/// <summary>Weekly meal planner showing 7 days with breakfast/lunch/dinner slots per day.</summary>
 public class MealPlanViewModel : BaseViewModel
 {
-    private readonly IDataService _dataService;
+    private readonly IMealPlanService _mealPlan;
+    private readonly IShoppingListService _shoppingList;
     private readonly IHapticService _haptic;
+    private static readonly CultureInfo EnUs = new("en-US");
 
-    /// <summary>Gets the collection of day-plan groups representing the full weekly meal plan.</summary>
-    public ObservableCollection<DayPlanGroup> WeekPlan { get; } = new();
-
-    /// <summary>Command to remove a meal plan entry after user confirmation.</summary>
-    public ICommand RemoveMealCommand { get; }
-    /// <summary>Command to navigate to the recipe detail page for a meal plan entry.</summary>
-    public ICommand NavigateToDetailCommand { get; }
-    /// <summary>Command to add a meal to a specific day by navigating to the recipes page.</summary>
-    public ICommand AddMealCommand { get; }
-
-    /// <summary>Initialises a new instance of the <see cref="MealPlanViewModel"/> class with data and haptic services, then loads the week plan.</summary>
-    public MealPlanViewModel(IDataService dataService, IHapticService haptic)
+    // === Week navigation ===
+    private DateTime _weekStart;
+    public DateTime WeekStart
     {
-        _dataService = dataService;
+        get => _weekStart;
+        set
+        {
+            if (SetProperty(ref _weekStart, value))
+            {
+                OnPropertyChanged(nameof(WeekLabel));
+                OnPropertyChanged(nameof(IsCurrentWeek));
+                OnPropertyChanged(nameof(ShowBackToCurrent));
+                OnPropertyChanged(nameof(TodayLabel));
+                LoadDayStrip();
+            }
+        }
+    }
+
+    public string WeekLabel
+    {
+        get
+        {
+            var end = _weekStart.AddDays(6);
+            return $"{_weekStart.ToString("MMM d", EnUs)} – {end.ToString("MMM d, yyyy", EnUs)}";
+        }
+    }
+
+    public bool IsCurrentWeek
+    {
+        get
+        {
+            var today = DateTime.Now.Date;
+            var currentMonday = today.AddDays(-(int)today.DayOfWeek + 1);
+            return _weekStart.Date == currentMonday.Date;
+        }
+    }
+
+    public bool ShowBackToCurrent => !IsCurrentWeek;
+
+    public string TodayLabel
+    {
+        get
+        {
+            var today = DateTime.Now.Date;
+            var currentMonday = today.AddDays(-(int)today.DayOfWeek + 1);
+            if (_weekStart.Date < currentMonday.Date) return "Today →";
+            if (_weekStart.Date > currentMonday.Date) return "← Today";
+            return "Today";
+        }
+    }
+
+    // === Day strip ===
+    public ObservableCollection<DayStripItem> DayStrip { get; } = new();
+
+    private DayOfWeek _selectedDay;
+    public DayOfWeek SelectedDay
+    {
+        get => _selectedDay;
+        set
+        {
+            if (SetProperty(ref _selectedDay, value))
+            {
+                LoadSelectedDayMeals();
+                RefreshDayStripSelection();
+            }
+        }
+    }
+
+    public ObservableCollection<MealPlanEntry> SelectedDayMeals { get; } = new();
+
+    // === Header for detail panel ===
+    public string SelectedDayHeader
+    {
+        get
+        {
+            var date = _weekStart.AddDays((int)_selectedDay);
+            var today = DateTime.Now.DayOfWeek == _selectedDay && IsCurrentWeek;
+            var suffix = today ? " · Today" : "";
+            return $"{date.ToString("dddd, MMMM d", EnUs)}{suffix}";
+        }
+    }
+
+    public string MealCountLabel => SelectedDayMeals.Count == 1
+        ? "1 meal" : $"{SelectedDayMeals.Count} meals";
+
+    // === Commands ===
+    public ICommand GoToPreviousWeekCommand { get; }
+    public ICommand GoToNextWeekCommand { get; }
+    public ICommand BackToCurrentWeekCommand { get; }
+    public ICommand SelectDayCommand { get; }
+    public ICommand RemoveMealCommand { get; }
+    public ICommand NavigateToDetailCommand { get; }
+    public ICommand AddMealCommand { get; }
+    public ICommand RefreshCommand { get; }
+
+    public MealPlanViewModel(IMealPlanService mealPlan, IShoppingListService shoppingList, IHapticService haptic)
+    {
+        _mealPlan = mealPlan;
+        _shoppingList = shoppingList;
         _haptic = haptic;
         Title = "Meal Plan";
+
+        var today = DateTime.Now.Date;
+        _weekStart = today.AddDays(-(int)today.DayOfWeek + 1);
+        _selectedDay = today.DayOfWeek;
+
+        GoToPreviousWeekCommand = new Command(() =>
+        {
+            _haptic.PerformClick();
+            WeekStart = _weekStart.AddDays(-7);
+        });
+
+        GoToNextWeekCommand = new Command(() =>
+        {
+            _haptic.PerformClick();
+            WeekStart = _weekStart.AddDays(7);
+        });
+
+        BackToCurrentWeekCommand = new Command(() =>
+        {
+            _haptic.PerformClick();
+            var today2 = DateTime.Now.Date;
+            WeekStart = today2.AddDays(-(int)today2.DayOfWeek + 1);
+            SelectedDay = today2.DayOfWeek;
+        });
+
+        SelectDayCommand = new Command<DayStripItem>(item =>
+        {
+            if (item == null) return;
+            _haptic.PerformClick();
+            SelectedDay = item.Day;
+        });
 
         NavigateToDetailCommand = new Command<MealPlanEntry>(async (entry) =>
         {
@@ -43,59 +162,118 @@ public class MealPlanViewModel : BaseViewModel
                 "Remove Meal", $"Remove {entry.Recipe?.Name} from {entry.MealType}?", "Yes", "No");
             if (confirm)
             {
-                _dataService.RemoveFromMealPlan(entry.Id);
-                LoadWeekPlan();
+                _mealPlan.RemoveFromMealPlan(entry.Id);
+                RegenerateShoppingList();
+                LoadSelectedDayMeals();
+                LoadDayStrip();
             }
         });
 
-        AddMealCommand = new Command<DayPlanGroup>(async (dayGroup) =>
+        AddMealCommand = new Command(async () =>
         {
             _haptic.PerformClick();
-            var day = dayGroup?.Day ?? DateTime.Now.DayOfWeek;
-            // Signal RecipesPage to enter meal-plan selection mode
-            RecipesViewModel.PendingSelectionDay = day;
+            RecipesViewModel.PendingSelectionDay = SelectedDay;
             await Shell.Current.GoToAsync("//recipes");
         });
 
-        LoadWeekPlan();
+        RefreshCommand = new Command(async () =>
+        {
+            _haptic.PerformClick();
+            Reload();
+            await Task.Delay(400);
+            IsBusy = false;
+        });
+
+        LoadDayStrip();
+        LoadSelectedDayMeals();
     }
 
-    /// <summary>Rebuilds the full week plan from the data service. Called on appearing and after modifications.</summary>
-    public void LoadWeekPlan()
+    public void Reload()
     {
-        WeekPlan.Clear();
-        var monday = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek + 1);
-        var index = 0;
+        LoadDayStrip();
+        LoadSelectedDayMeals();
+    }
 
-        foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek)))
+    private void LoadDayStrip()
+    {
+        DayStrip.Clear();
+        var today = DateTime.Now.Date;
+        for (int i = 0; i < 7; i++)
         {
-            var entries = _dataService.GetMealPlanForWeek(monday)
-                .Where(e => e.Day == day)
-                .OrderBy(e => e.MealType)
-                .ToList();
+            var date = _weekStart.AddDays(i);
+            var day = date.DayOfWeek;
+            var meals = _mealPlan.GetMealPlanForWeek(_weekStart)
+                .Count(e => e.Day == day);
 
-            WeekPlan.Add(new DayPlanGroup
+            DayStrip.Add(new DayStripItem
             {
                 Day = day,
-                DayName = day.ToString().Substring(0, 3),
-                Index = index++,
-                Entries = new ObservableCollection<MealPlanEntry>(entries)
+                DayAbbr = day.ToString().Substring(0, 3),
+                DateNumber = date.Day,
+                IsToday = date.Date == today,
+                IsSelected = day == _selectedDay,
+                MealCount = meals
             });
         }
     }
+
+    private void RefreshDayStripSelection()
+    {
+        foreach (var item in DayStrip)
+            item.IsSelected = item.Day == _selectedDay;
+
+        OnPropertyChanged(nameof(SelectedDayHeader));
+        OnPropertyChanged(nameof(MealCountLabel));
+    }
+
+    private void RegenerateShoppingList()
+    {
+        _shoppingList.RemoveAutoGeneratedItems();
+
+        var today = DateTime.Now.DayOfWeek;
+        var todayMeals = _mealPlan.GetMealPlanForWeek(_weekStart)
+            .Where(e => e.Day == today && e.Recipe != null);
+
+        foreach (var meal in todayMeals)
+        {
+            foreach (var ingredient in meal.Recipe!.Ingredients)
+            {
+                var (qty, name) = IngredientParser.Parse(ingredient);
+
+                _shoppingList.AddShoppingItem(new ShoppingItem
+                {
+                    Name = string.IsNullOrEmpty(name) ? "" : char.ToUpper(name[0]) + name[1..],
+                    Quantity = qty,
+                    IsAutoGenerated = true
+                });
+            }
+        }
+    }
+
+    private void LoadSelectedDayMeals()
+    {
+        SelectedDayMeals.Clear();
+        var meals = _mealPlan.GetMealPlanForWeek(_weekStart)
+            .Where(e => e.Day == _selectedDay)
+            .OrderBy(e => e.MealType)
+            .ToList();
+
+        foreach (var m in meals)
+            SelectedDayMeals.Add(m);
+
+        OnPropertyChanged(nameof(MealCountLabel));
+        OnPropertyChanged(nameof(SelectedDayHeader));
+    }
 }
 
-/// <summary>Groups meal plan entries by day of the week for display in the collection view.</summary>
-public class DayPlanGroup
+public class DayStripItem
 {
-    /// <summary>Gets or sets the day of the week for this group.</summary>
     public DayOfWeek Day { get; set; }
-    /// <summary>Gets or sets the abbreviated display name of the day (e.g. "Mon", "Tue").</summary>
-    public string DayName { get; set; } = string.Empty;
-    /// <summary>Gets or sets the zero-based index of this day in the week.</summary>
-    public int Index { get; set; }
-    /// <summary>Gets or sets the collection of meal plan entries assigned to this day.</summary>
-    public ObservableCollection<MealPlanEntry> Entries { get; set; } = new();
-    /// <summary>Gets whether this day has an even index, used for alternating row styling.</summary>
-    public bool IsEven => Index % 2 == 0;
+    public string DayAbbr { get; set; } = string.Empty;
+    public int DateNumber { get; set; }
+    public bool IsToday { get; set; }
+    public bool IsSelected { get; set; }
+    public int MealCount { get; set; }
+    public bool HasMeals => MealCount > 0;
+    public string MealCountText => MealCount == 0 ? "" : MealCount.ToString();
 }

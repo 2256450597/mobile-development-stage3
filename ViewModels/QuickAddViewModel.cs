@@ -10,7 +10,7 @@ namespace TastyMealPlanner.ViewModels;
 [QueryProperty(nameof(PhotoPath), "photo")]
 public class QuickAddViewModel : BaseViewModel
 {
-    private readonly IDataService _dataService;
+    private readonly IRecipeService _recipes;
     private readonly IHapticService _haptic;
 
     /// <summary>File path of the photo captured or picked on the Camera page.</summary>
@@ -30,7 +30,7 @@ public class QuickAddViewModel : BaseViewModel
     }
 
     /// <summary>Food category selected from the picker; defaults to Snack.</summary>
-    private FoodCategory _selectedCategory = FoodCategory.Snack;
+    private FoodCategory _selectedCategory = FoodCategory.Stovetop;
     public FoodCategory SelectedCategory
     {
         get => _selectedCategory;
@@ -102,9 +102,9 @@ public class QuickAddViewModel : BaseViewModel
 
     /// <summary>Initialises the ViewModel with data and haptic services.
     /// Populates the category options from the FoodCategory enum.</summary>
-    public QuickAddViewModel(IDataService dataService, IHapticService haptic)
+    public QuickAddViewModel(IRecipeService recipes, IHapticService haptic)
     {
-        _dataService = dataService;
+        _recipes = recipes;
         _haptic = haptic;
         Title = "Quick Add";
 
@@ -137,18 +137,40 @@ public class QuickAddViewModel : BaseViewModel
             return;
         }
 
+        if (RecipeName.Trim().Length > 50)
+        {
+            await Shell.Current.DisplayAlert("Name Too Long", "Recipe name must be 50 characters or fewer.", "OK");
+            return;
+        }
+
         _haptic.PerformLongPress();
 
         try
         {
+            // Validate numeric fields: parse and check for negative values
+            if (!string.IsNullOrWhiteSpace(CaloriesText) && (!int.TryParse(CaloriesText, out var cal) || cal < 0))
+            {
+                await Shell.Current.DisplayAlert("Invalid Calories", "Please enter a valid non-negative number for calories.", "OK");
+                return;
+            }
             int.TryParse(CaloriesText, out var calories);
-            if (calories <= 0) calories = 0;
+            if (calories < 0) calories = 0;
 
+            if (!string.IsNullOrWhiteSpace(PrepTimeText) && (!int.TryParse(PrepTimeText, out var pt) || pt < 0))
+            {
+                await Shell.Current.DisplayAlert("Invalid Prep Time", "Please enter a valid non-negative number for prep time.", "OK");
+                return;
+            }
             int.TryParse(PrepTimeText, out var prepTime);
-            if (prepTime <= 0) prepTime = 0;
+            if (prepTime < 0) prepTime = 0;
 
+            if (!string.IsNullOrWhiteSpace(ServingsText) && (!int.TryParse(ServingsText, out var sv) || sv < 0))
+            {
+                await Shell.Current.DisplayAlert("Invalid Servings", "Please enter a valid non-negative number for servings.", "OK");
+                return;
+            }
             int.TryParse(ServingsText, out var servings);
-            if (servings <= 0) servings = 0;
+            if (servings < 0) servings = 0;
 
             var recipe = new Recipe
             {
@@ -164,14 +186,14 @@ public class QuickAddViewModel : BaseViewModel
                 Difficulty = SelectedDifficulty
             };
 
-            _dataService.AddRecipe(recipe);
+            _recipes.AddRecipe(recipe);
             await Shell.Current.DisplayAlert("Saved", $"{recipe.Name} has been added to your recipes.", "OK");
             await Shell.Current.GoToAsync("../..");
         }
         catch (Exception ex)
         {
             await Shell.Current.DisplayAlert("Save Failed",
-                $"Could not save the recipe. {ex.Message}", "OK");
+                "Unable to save the recipe. Please try again.", "OK");
         }
     }
 }

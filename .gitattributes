@@ -1,0 +1,25 @@
+# Force LF line endings for all text files to prevent Mac/Windows CRLF conflicts
+* text=auto eol=lf
+
+# XAML files (most frequently conflicted)
+*.xaml text eol=lf
+*.xaml.cs text eol=lf
+
+# C# source
+*.cs text eol=lf
+*.csproj text eol=lf
+*.sln text eol=lf
+
+# Config files
+*.json text eol=lf
+*.xml text eol=lf
+*.config text eol=lf
+
+# Binary files - don't touch
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.ttf binary
+*.otf binary

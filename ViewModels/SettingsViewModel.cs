@@ -20,6 +20,9 @@ public class SettingsViewModel : BaseViewModel
             if (SetProperty(ref _isDarkMode, value))
             {
                 _themeService.SetTheme(value ? AppThemeOption.Dark : AppThemeOption.Light);
+                OnPropertyChanged(nameof(CurrentModeText));
+                OnPropertyChanged(nameof(DarkModeLabel));
+                OnPropertyChanged(nameof(DarkModeIcon));
             }
         }
     }
@@ -40,6 +43,8 @@ public class SettingsViewModel : BaseViewModel
                     _ => FontSizeOption.Medium
                 };
                 _themeService.SetFontSize(option);
+                OnPropertyChanged(nameof(CurrentFontLabel));
+                UpdateFontButtonColors();
             }
         }
     }
@@ -59,11 +64,45 @@ public class SettingsViewModel : BaseViewModel
     /// <summary>Gets the list of available font size display options.</summary>
     public List<string> FontSizeOptions { get; } = new() { "Small", "Medium", "Large" };
 
-    /// <summary>Command to toggle between dark and light theme.</summary>
+    public string CurrentModeText => IsDarkMode ? "Dark" : "Light";
+    public string DarkModeLabel => IsDarkMode ? "Turn Off" : "Turn On";
+    public string DarkModeIcon => IsDarkMode ? "" : "";
+    public string CurrentFontLabel => SelectedFontSize;
+    public string TtsButtonText => _tts.IsSpeaking ? "Stop" : "Test Speech Sample";
+
+    // Font button backgrounds (updated by SelectFontCommand)
+    private Color _fontSmallBg = Color.FromArgb("#A0603F");
+    private Color _fontMediumBg = Color.FromArgb("#F5EBE4");
+    private Color _fontLargeBg = Color.FromArgb("#F5EBE4");
+    private Color _fontSmallText = Color.FromArgb("#FFFFFF");
+    private Color _fontMediumText = Color.FromArgb("#A0603F");
+    private Color _fontLargeText = Color.FromArgb("#A0603F");
+
+    public Color FontSmallBg { get => _fontSmallBg; set => SetProperty(ref _fontSmallBg, value); }
+    public Color FontMediumBg { get => _fontMediumBg; set => SetProperty(ref _fontMediumBg, value); }
+    public Color FontLargeBg { get => _fontLargeBg; set => SetProperty(ref _fontLargeBg, value); }
+    public Color FontSmallText { get => _fontSmallText; set => SetProperty(ref _fontSmallText, value); }
+    public Color FontMediumText { get => _fontMediumText; set => SetProperty(ref _fontMediumText, value); }
+    public Color FontLargeText { get => _fontLargeText; set => SetProperty(ref _fontLargeText, value); }
+
+    private void UpdateFontButtonColors()
+    {
+        var activeBg = Color.FromArgb("#A0603F");
+        var inactiveBg = Color.FromArgb("#F5EBE4");
+        var activeText = Color.FromArgb("#FFFFFF");
+        var inactiveText = Color.FromArgb("#A0603F");
+
+        FontSmallBg = SelectedFontSize == "Small" ? activeBg : inactiveBg;
+        FontSmallText = SelectedFontSize == "Small" ? activeText : inactiveText;
+        FontMediumBg = SelectedFontSize == "Medium" ? activeBg : inactiveBg;
+        FontMediumText = SelectedFontSize == "Medium" ? activeText : inactiveText;
+        FontLargeBg = SelectedFontSize == "Large" ? activeBg : inactiveBg;
+        FontLargeText = SelectedFontSize == "Large" ? activeText : inactiveText;
+    }
+
     public ICommand ToggleDarkModeCommand { get; }
-    /// <summary>Command to display the About dialog with app version and feature information.</summary>
+    public ICommand SelectFontCommand { get; }
     public ICommand AboutCommand { get; }
-    /// <summary>Command to play a test text-to-speech message at the current pitch setting.</summary>
     public ICommand TestTtsCommand { get; }
 
     /// <summary>Initialises a new instance of the <see cref="SettingsViewModel"/> class, loading saved preferences and subscribing to external theme changes.</summary>
@@ -77,12 +116,20 @@ public class SettingsViewModel : BaseViewModel
         // Load saved preferences
         _isDarkMode = _themeService.CurrentTheme == AppThemeOption.Dark;
         _selectedFontSize = _themeService.CurrentFontSize.ToString();
+        UpdateFontButtonColors();
         _ttsPitch = _tts.Pitch;
 
         ToggleDarkModeCommand = new Command(() =>
         {
             _haptic.PerformClick();
             IsDarkMode = !IsDarkMode;
+        });
+
+        SelectFontCommand = new Command<string>(size =>
+        {
+            _haptic.PerformClick();
+            SelectedFontSize = size ?? "Medium";
+            UpdateFontButtonColors();
         });
 
         AboutCommand = new Command(async () =>
@@ -118,6 +165,7 @@ public class SettingsViewModel : BaseViewModel
                 if (_tts.IsSpeaking)
                 {
                     await _tts.StopAsync();
+                    OnPropertyChanged(nameof(TtsButtonText));
                 }
                 else
                 {
@@ -125,12 +173,13 @@ public class SettingsViewModel : BaseViewModel
                         "This is a test of the text-to-speech feature. " +
                         "You can adjust the pitch to change the voice tone.",
                         1.0f, TtsPitch);
+                    OnPropertyChanged(nameof(TtsButtonText));
                 }
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlert("TTS Error",
-                    $"Text-to-speech is unavailable: {ex.Message}", "OK");
+                    "Text-to-speech is currently unavailable. Please check your device's speech settings.", "OK");
             }
         });
 

@@ -10,18 +10,9 @@
     <converters:CategoryToColorConverter x:Key="CategoryToColor" />
     <converters:DifficultyToColorConverter x:Key="DifficultyToColor" />
     <converters:StringNotEmptyConverter x:Key="StringNotEmpty" />
-
-    <!-- ===== Page ===== -->
-    <Style TargetType="Page" ApplyToDerivedTypes="True">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Light_Background}, Dark={StaticResource Dark_Background}}" />
-    </Style>
-
-    <!-- ===== Label (global default) ===== -->
-    <Style TargetType="Label">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
-        <Setter Property="FontSize" Value="15" />
-        <Setter Property="FontFamily" Value="OpenSansRegular" />
-    </Style>
+	<converters:IsNotNullConverter x:Key="IsNotNull" />
+	<converters:IsNullConverter x:Key="IsNull" />
+	<converters:BoolToToggleOffsetConverter x:Key="BoolToToggleOffset" />
 
     <!-- ===== Frame (global default, no shadow) ===== -->
     <Style TargetType="Frame">
@@ -89,15 +80,15 @@
     <!-- ===== Named Label Styles ===== -->
     <Style x:Key="PageTitle" TargetType="Label">
         <Setter Property="FontSize" Value="28" />
-        <Setter Property="FontFamily" Value="OpenSansSemibold" />
+        <Setter Property="FontFamily" Value="PlayfairDisplayBold" />
         <Setter Property="CharacterSpacing" Value="-0.3" />
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
     </Style>
 
     <Style x:Key="SectionTitle" TargetType="Label">
-        <Setter Property="FontSize" Value="13" />
-        <Setter Property="FontFamily" Value="OpenSansSemibold" />
-        <Setter Property="CharacterSpacing" Value="1.5" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="PlayfairDisplayBold" />
+        <Setter Property="CharacterSpacing" Value="0.5" />
         <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="Margin" Value="16,28,0,10" />
     </Style>
@@ -116,13 +107,13 @@
     <!-- Legacy named styles (keep for backward compat) -->
     <Style x:Key="TitleLabel" TargetType="Label">
         <Setter Property="FontSize" Value="24" />
-        <Setter Property="FontFamily" Value="OpenSansSemibold" />
+        <Setter Property="FontFamily" Value="PlayfairDisplayBold" />
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
     </Style>
 
     <Style x:Key="SubtitleLabel" TargetType="Label">
         <Setter Property="FontSize" Value="18" />
-        <Setter Property="FontFamily" Value="OpenSansSemibold" />
+        <Setter Property="FontFamily" Value="PlayfairDisplay" />
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
     </Style>
 
@@ -138,17 +129,17 @@
     </Style>
 
     <Style x:Key="SectionTitleLabel" TargetType="Label">
-        <Setter Property="FontSize" Value="13" />
-        <Setter Property="FontFamily" Value="OpenSansSemibold" />
-        <Setter Property="CharacterSpacing" Value="1.5" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="PlayfairDisplayBold" />
+        <Setter Property="CharacterSpacing" Value="0.5" />
         <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
         <Setter Property="Margin" Value="16,28,0,10" />
     </Style>
 
-    <!-- Vintage section title using Pacifico -->
+    <!-- Section headers with elegant serif -->
     <Style x:Key="VintageTitle" TargetType="Label">
         <Setter Property="FontSize" Value="20" />
-        <Setter Property="FontFamily" Value="Pacifico" />
+        <Setter Property="FontFamily" Value="PlayfairDisplayBold" />
         <Setter Property="TextColor" Value="{StaticResource Accent}" />
         <Setter Property="Margin" Value="16,20,0,6" />
     </Style>

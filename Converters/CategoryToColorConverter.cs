@@ -12,12 +12,9 @@ public class CategoryToColorConverter : IValueConverter
         {
             return category switch
             {
-                FoodCategory.Breakfast => Color.FromArgb("#FF9800"),
-                FoodCategory.Lunch => Color.FromArgb("#4CAF50"),
-                FoodCategory.Dinner => Color.FromArgb("#E91E63"),
-                FoodCategory.Dessert => Color.FromArgb("#9C27B0"),
-                FoodCategory.Snack => Color.FromArgb("#FF5722"),
-                FoodCategory.Drink => Color.FromArgb("#2196F3"),
+                FoodCategory.Fresh => Color.FromArgb("#4CAF50"),
+                FoodCategory.Stovetop => Color.FromArgb("#FF9800"),
+                FoodCategory.Baked => Color.FromArgb("#E91E63"),
                 _ => Color.FromArgb("#757575")
             };
         }

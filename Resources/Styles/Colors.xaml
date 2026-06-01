@@ -10,7 +10,7 @@
     <Color x:Key="OffBlack">#2C2C2C</Color>
     <Color x:Key="White">#FFFFFF</Color>
     <Color x:Key="OffWhite">#FAFAF7</Color>
-    <Color x:Key="WarmCream">#F5F3EE</Color>
+    <Color x:Key="WarmCreamOld">#F5F3EE</Color>
 
     <!-- Single accent: muted terracotta -->
     <Color x:Key="Accent">#A0603F</Color>
@@ -96,5 +96,26 @@
     <Color x:Key="ShellBackground">#FFFFFF</Color>
     <Color x:Key="ShellForeground">#1A1A1A</Color>
     <Color x:Key="ShellUnselected">#A3A3A3</Color>
+
+    <!-- === Bold Appetite Palette (Restaurant Red) === -->
+    <Color x:Key="ChiliRed">#DC2626</Color>
+    <Color x:Key="ChiliRedDark">#B91C1C</Color>
+    <Color x:Key="ChiliRedLight">#FCA5A5</Color>
+    <Color x:Key="ChiliRedBg">#FEF2F2</Color>
+    <Color x:Key="WarmGold">#A16207</Color>
+    <Color x:Key="WarmGoldLight">#FDE68A</Color>
+    <Color x:Key="DeepRedText">#450A0A</Color>
+    <Color x:Key="DeepRedMuted">#991B1B</Color>
+    <Color x:Key="RedBorder">#FECACA</Color>
+    <Color x:Key="RedBorderLight">#FEE2E2</Color>
+    <Color x:Key="AppetiteCard">#FFFFFF</Color>
+    <Color x:Key="AppetiteShadow">#1A000000</Color>
+    <Color x:Key="AppetiteBadge">#FEF2F2</Color>
+
+    <!-- Dark mode -->
+    <Color x:Key="Dark_AppetiteBg">#0B0000</Color>
+    <Color x:Key="Dark_AppetiteCard">#1A0909</Color>
+    <Color x:Key="Dark_AppetiteBorder">#331111</Color>
+    <Color x:Key="Dark_AppetiteText">#FEE2E2</Color>
 
 </ResourceDictionary>

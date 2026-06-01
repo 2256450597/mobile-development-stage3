@@ -1,0 +1,12 @@
+[
+  { "Name": "FreshChoice Market",    "Address": "201 Main Street",  "BaseDistance": 0.3, "LatOffset": 0.002,  "LonOffset": 0.001, "IconGlyph": "◉" },
+  { "Name": "GreenLeaf Organics",    "Address": "58 Elm Avenue",    "BaseDistance": 0.6, "LatOffset": -0.001, "LonOffset": 0.003, "IconGlyph": "◉" },
+  { "Name": "CityMart Express",      "Address": "800 Commerce Blvd","BaseDistance": 1.1, "LatOffset": 0.004,  "LonOffset": -0.002,"IconGlyph": "◉" },
+  { "Name": "Baker's Square",        "Address": "142 Park Road",    "BaseDistance": 0.8, "LatOffset": -0.003, "LonOffset": -0.001,"IconGlyph": "◉" },
+  { "Name": "Pacific Asian Mart",    "Address": "72 Bridge Lane",   "BaseDistance": 1.4, "LatOffset": 0.001,  "LonOffset": -0.004,"IconGlyph": "◉" },
+  { "Name": "DailyFresh Supermarket","Address": "315 Oak Street",   "BaseDistance": 1.8, "LatOffset": -0.005, "LonOffset": 0.002, "IconGlyph": "◆" },
+  { "Name": "Sunrise Health Foods",  "Address": "90 Wellness Way",  "BaseDistance": 2.1, "LatOffset": 0.006,  "LonOffset": -0.003,"IconGlyph": "◆" },
+  { "Name": "Metro Grocers",         "Address": "500 Central Avenue","BaseDistance":2.4, "LatOffset": -0.002, "LonOffset": -0.005,"IconGlyph": "◆" },
+  { "Name": "Cornerstone Deli & Market","Address": "12 High Street","BaseDistance": 0.9, "LatOffset": 0.003,  "LonOffset": 0.004, "IconGlyph": "◆" },
+  { "Name": "Harvest Wholefoods",    "Address": "78 Green Lane",    "BaseDistance": 2.8, "LatOffset": -0.004, "LonOffset": 0.005, "IconGlyph": "◆" }
+]
