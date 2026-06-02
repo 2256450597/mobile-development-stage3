@@ -148,7 +148,7 @@ public class ShoppingListViewModel : BaseViewModel
             ValidationError = null;
             LoadItems();
         }
-        catch (Exception ex)
+        catch
         {
             ValidationError = "Unable to add this item. Please try again.";
         }

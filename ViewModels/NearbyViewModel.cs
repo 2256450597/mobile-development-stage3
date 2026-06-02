@@ -147,7 +147,7 @@ public class NearbyViewModel : BaseViewModel
                 LocationInfo = "Unable to get current location. Try again.";
             }
         }
-        catch (Exception ex)
+        catch
         {
             LocationInfo = "Unable to get your location. Please check that location services are enabled.";
         }

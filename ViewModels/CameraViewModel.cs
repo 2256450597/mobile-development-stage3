@@ -128,7 +128,7 @@ public class CameraViewModel : BaseViewModel
                 _flashlight.Toggle();
                 IsFlashlightOn = _flashlight.IsOn;
             }
-            catch (Exception ex)
+            catch
             {
                 StatusMessage = "Unable to toggle the flashlight. Please try again.";
             }
@@ -220,7 +220,7 @@ public class CameraViewModel : BaseViewModel
             File.Copy(PhotoPath, publicDir, overwrite: true);
             StatusMessage = "Photo saved to Pictures folder.";
         }
-        catch (Exception ex)
+        catch
         {
             StatusMessage = "Unable to save the photo. Please check that the app has storage permission.";
         }

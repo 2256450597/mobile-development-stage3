@@ -253,7 +253,7 @@ public class QuickAddViewModel : BaseViewModel
             }
             await Shell.Current.GoToAsync("../..");
         }
-        catch (Exception ex)
+        catch
         {
             await Shell.Current.DisplayAlert("Save Failed",
                 "Unable to save the recipe. Please try again.", "OK");

@@ -84,6 +84,7 @@ public class HomeViewModel : BaseViewModel
                     break;
                 case "★  Surprise Me":
                     var recipes = _recipes.GetAllRecipes();
+                    if (recipes.Count == 0) return;
                     var r = recipes[new Random().Next(recipes.Count)];
                     await Shell.Current.GoToAsync($"recipedetail?id={r.Id}");
                     break;
@@ -108,9 +109,12 @@ public class HomeViewModel : BaseViewModel
         RandomRecipeCommand = new Command(() =>
         {
             _haptic.PerformClick();
-            try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(450)); } catch { }
-            try { HapticFeedback.Default.Perform(HapticFeedbackType.LongPress); } catch { }
+            try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(450)); }
+            catch { /* Non-critical: vibration unavailable on this device */ }
+            try { HapticFeedback.Default.Perform(HapticFeedbackType.LongPress); }
+            catch { /* Non-critical: haptic feedback unavailable */ }
             var recipes = _recipes.GetAllRecipes();
+            if (recipes.Count == 0) return;
             ShakeResult = recipes[new Random().Next(recipes.Count)];
         });
 
@@ -151,9 +155,10 @@ public class HomeViewModel : BaseViewModel
         ViewShakeResultCommand = new Command(async () =>
         {
             if (ShakeResult == null) return;
-            // NutriBite-style: vibration/haptic on button click runs on UI thread
-            try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(450)); } catch { }
-            try { HapticFeedback.Default.Perform(HapticFeedbackType.LongPress); } catch { }
+            try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(450)); }
+            catch { /* Non-critical: vibration unavailable */ }
+            try { HapticFeedback.Default.Perform(HapticFeedbackType.LongPress); }
+            catch { /* Non-critical: haptic feedback unavailable */ }
             var id = ShakeResult.Id;
             ShakeResult = null;
             await Shell.Current.GoToAsync($"recipedetail?id={id}");
@@ -168,10 +173,13 @@ public class HomeViewModel : BaseViewModel
 
     private void OnShakeDetected(object? sender, EventArgs e)
     {
-        try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(450)); } catch { }
-        try { HapticFeedback.Default.Perform(HapticFeedbackType.LongPress); } catch { }
+        try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(450)); }
+        catch { /* Non-critical: vibration unavailable */ }
+        try { HapticFeedback.Default.Perform(HapticFeedbackType.LongPress); }
+        catch { /* Non-critical: haptic feedback unavailable */ }
 
         var recipes = _recipes.GetAllRecipes();
+        if (recipes.Count == 0) return;
         ShakeResult = recipes[new Random().Next(recipes.Count)];
     }
 
@@ -204,7 +212,7 @@ public class HomeViewModel : BaseViewModel
             Title = "Weekend Indulgence",
             Subtitle = "Baked treats & fresh drinks",
             Recipes = all.Where(r => r.Category is FoodCategory.Baked
-                || (r.Category is FoodCategory.Fresh && r.Name.Contains("Lemonade") || r.Name.Contains("Lassi") || r.Name.Contains("Smoothie"))).Take(8).ToList()
+                || (r.Category is FoodCategory.Fresh && (r.Name.Contains("Lemonade") || r.Name.Contains("Lassi") || r.Name.Contains("Smoothie")))).Take(8).ToList()
         });
         Collections.Add(new CuratedCollection
         {
