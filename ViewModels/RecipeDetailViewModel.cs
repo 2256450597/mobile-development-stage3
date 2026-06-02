@@ -113,6 +113,8 @@ public class RecipeDetailViewModel : BaseViewModel
 
         Recipe = recipe;
         Title = recipe.Name;
+        _favoriteLabel = recipe.IsFavorite ? "♥ Fav" : "Fav";
+        OnPropertyChanged(nameof(FavoriteLabel));
 
         Ingredients.Clear();
         foreach (var ing in recipe.Ingredients)
