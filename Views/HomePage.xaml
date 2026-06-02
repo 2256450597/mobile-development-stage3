@@ -59,12 +59,12 @@
             <!-- App name: left-aligned, split Pacifico -->
             <VerticalStackLayout VerticalOptions="Start" HorizontalOptions="Start"
                                  Padding="24,12,0,0" Spacing="-8">
-                <Label Text="Tasty" FontSize="44" FontFamily="Pacifico"
+                <Label Text="Nosh" FontSize="44" FontFamily="Pacifico"
                        TextColor="White" FontAttributes="Bold" />
-                <Label Text="Meal" FontSize="44" FontFamily="Pacifico"
+                <Label Text="Your" FontSize="44" FontFamily="Pacifico"
                        TextColor="White" FontAttributes="Bold"
                        Margin="16,0,0,0" />
-                <Label Text="Planner" FontSize="44" FontFamily="Pacifico"
+                <Label Text="Nosh" FontSize="44" FontFamily="Pacifico"
                        TextColor="White" FontAttributes="Bold"
                        Margin="32,0,0,0" />
                 <Label.GestureRecognizers>
