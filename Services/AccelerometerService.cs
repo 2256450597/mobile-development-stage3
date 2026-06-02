@@ -25,6 +25,10 @@ public class AccelerometerService : IAccelerometerService
                 Accelerometer.Default.Start(SensorSpeed.UI);
                 _monitoring = true;
             }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Accelerometer not supported on this device.");
+            }
         }
         catch (Exception ex)
         {
@@ -42,10 +46,9 @@ public class AccelerometerService : IAccelerometerService
             Accelerometer.Default.ShakeDetected -= OnShake;
             Accelerometer.Default.Stop();
         }
-        catch
+        catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine("Failed to stop accelerometer monitoring.");
-            throw;
+            System.Diagnostics.Debug.WriteLine($"Failed to stop accelerometer: {ex.Message}");
         }
         finally { _monitoring = false; }
     }
