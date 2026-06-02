@@ -28,7 +28,21 @@ Tasty Meal Planner helps users organise their weekly meals, discover new recipes
 
 ## Screenshots
 
-> Add app screenshots here before final submission. Recommended: home screen, recipe detail, meal planner, shopping list, nearby stores, and settings page. Show both light and dark mode.
+| Home | Recipes |
+|------|---------|
+| ![Home](screenshots/1.JPG) | ![Recipes](screenshots/2.JPG) |
+
+| Recipe Detail | Meal Plan |
+|---------------|-----------|
+| ![Recipe Detail](screenshots/3.JPG) | ![Meal Plan](screenshots/4.JPG) |
+
+| Camera + ML | Nearby + Compass |
+|-------------|------------------|
+| ![Camera](screenshots/6.JPG) | ![Nearby](screenshots/7.JPG) |
+
+| Dark Mode |
+|-----------|
+| ![Dark Mode](screenshots/9.JPG) |
 
 ## Getting Started
 
