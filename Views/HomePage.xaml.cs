@@ -25,6 +25,7 @@ public partial class HomePage : ContentPage
         await Task.Delay(80);
         _viewModel.Reload();
         _theme.ApplyFontScaleToPage(this);
+        _viewModel.StartAccelerometer();
         _carouselPlayer = new CarouselAutoPlayer(HeroCarousel);
     }
 

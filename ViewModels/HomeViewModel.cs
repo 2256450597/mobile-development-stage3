@@ -160,7 +160,6 @@ public class HomeViewModel : BaseViewModel
         });
 
         _accelerometer.ShakeDetected += OnShakeDetected;
-        _accelerometer.StartShakeDetection();
 
         LoadTodayMeals();
         LoadCollections();
@@ -221,6 +220,13 @@ public class HomeViewModel : BaseViewModel
         RecipeGrid.Clear();
         foreach (var recipe in _recipes.GetAllRecipes())
             RecipeGrid.Add(recipe);
+    }
+
+    /// <summary>Starts accelerometer-based shake detection. Call from OnAppearing when page is fully loaded.</summary>
+    public void StartAccelerometer()
+    {
+        try { _accelerometer.StartShakeDetection(); }
+        catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"Shake unavailable: {ex.Message}"); }
     }
 
     /// <summary>Stops shake detection and unsubscribes from sensor events. Call when navigating away.</summary>
