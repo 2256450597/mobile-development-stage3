@@ -29,6 +29,7 @@ public class AccelerometerService : IAccelerometerService
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Accel start error: {ex.Message}");
+            throw;
         }
     }
 
@@ -44,6 +45,7 @@ public class AccelerometerService : IAccelerometerService
         catch
         {
             System.Diagnostics.Debug.WriteLine("Failed to stop accelerometer monitoring.");
+            throw;
         }
         finally { _monitoring = false; }
     }

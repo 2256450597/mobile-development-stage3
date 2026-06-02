@@ -64,6 +64,7 @@ public class CompassService : ICompassService
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Compass start failed: {ex.Message}. Compass may not be available on this device.");
+            throw;
         }
     }
 
@@ -81,6 +82,7 @@ public class CompassService : ICompassService
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Compass stop failed: {ex.Message}. Sensor may have already been released.");
+            throw;
         }
     }
 

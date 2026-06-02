@@ -87,7 +87,8 @@ public class NearbyViewModel : BaseViewModel
             OnPropertyChanged(nameof(HeadingDisplay));
             OnPropertyChanged(nameof(CompassStatus));
         };
-        _compass.Start();
+        try { _compass.Start(); }
+        catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"Compass unavailable: {ex.Message}"); }
 
         GoBackCommand = new Command(async () =>
         {
