@@ -22,11 +22,11 @@ public class ThemeService
     /// <summary>Gets the current font size option (Small, Medium, or Large).</summary>
     public FontSizeOption CurrentFontSize { get; private set; } = FontSizeOption.Medium;
 
-    /// <summary>Returns the numeric scale factor for the current font size: 0.92 for Small, 1.18 for Large, and 1.0 for Medium.</summary>
+    /// <summary>Returns the numeric scale factor for the current font size: 0.6 for Small, 1.2 for Large, and 1.0 for Medium.</summary>
     public double FontScale => CurrentFontSize switch
     {
-        FontSizeOption.Small => 0.92,
-        FontSizeOption.Large => 1.18,
+        FontSizeOption.Small => 0.60,
+        FontSizeOption.Large => 1.20,
         _ => 1.0
     };
 
