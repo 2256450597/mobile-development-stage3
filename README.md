@@ -19,7 +19,7 @@ Tasty Meal Planner helps users organise their weekly meals, discover new recipes
 | Feature | Description |
 |---------|-------------|
 | **Camera** | Capture food photos or pick from gallery with preview |
-| **Flash / Torch** | Control device flashlight via CameraManager (Android) / AVCaptureDevice (iOS) |
+| **Flash / Torch** | Control device flashlight via CameraManager (Android) |
 | **GPS Location** | Get current location and discover nearby grocery stores (5 mock stores with distances) |
 | **Text-to-Speech** | Read recipes aloud with adjustable pitch controls |
 | **Accelerometer / Shake** | Shake the device to get a random recipe suggestion (debounced at 500ms) |
@@ -51,7 +51,7 @@ Tasty Meal Planner helps users organise their weekly meals, discover new recipes
 - **Visual Studio 2022** (Windows) or **Visual Studio for Mac 2022**
 - **.NET 8 SDK** with the .NET MAUI workload
 - For Android: Android SDK with API 21+
-- For iOS (macOS only): Xcode 15+
+
 
 ### Install .NET MAUI Workload
 
@@ -100,7 +100,7 @@ TastyMealPlanner/
 ├── Converters/           # XAML value converters
 ├── Helpers/              # Validation and error handling utilities
 ├── Resources/            # Colors, Styles, AppIcon, Splash screen
-└── Platforms/            # Android, iOS, Windows entry points
+└── Platforms/            # Android and Windows entry points
 ```
 
 ### Navigation
@@ -156,7 +156,7 @@ This app follows **WCAG 2.1** accessibility guidelines with specific principle r
 
 The app targets:
 - **Android** (API 21+) — phone and tablet emulators/physical devices
-- **iOS** (15.0+) — requires macOS with Xcode
+
 - **Windows** (10.0.17763.0+) — desktop deployment
 
 Required permissions:
