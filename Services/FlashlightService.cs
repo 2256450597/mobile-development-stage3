@@ -85,8 +85,9 @@ internal static class AndroidFlashlight
             }
             return false;
         }
-        catch
+        catch (Exception ex)
         {
+            System.Diagnostics.Debug.WriteLine($"Flashlight availability check failed: {ex.Message}");
             return false;
         }
     }

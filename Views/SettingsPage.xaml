@@ -27,7 +27,7 @@
                         <Shadow Brush="#40000000" Offset="0,6" Radius="20" Opacity="0.3" />
                     </Border.Shadow>
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="Tasty Meal Planner" FontSize="12"
+                        <Label Text="Nosh Your Nosh" FontSize="12"
                                TextColor="#D0B8A8" CharacterSpacing="1" />
                         <Label Text="Preferences" FontSize="24" FontAttributes="Bold"
                                TextColor="White" />
@@ -228,7 +228,7 @@
                                    VerticalTextAlignment="Center" />
                         </Border>
                         <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
-                            <Label Text="Tasty Meal Planner" FontSize="14" FontAttributes="Bold"
+                            <Label Text="Nosh Your Nosh" FontSize="14" FontAttributes="Bold"
                                    TextColor="{AppThemeBinding Light={StaticResource Light_TextPrimary}, Dark={StaticResource Dark_TextPrimary_Alt}}" />
                             <Label Text="Version 1.0 · Meal planning &amp; recipe discovery" FontSize="12"
                                    TextColor="{StaticResource TextSecondary}" />

@@ -10,4 +10,6 @@ public interface IRecipeService
     Recipe? GetRecipeById(string id);
     List<Recipe> SearchRecipes(string query);
     void AddRecipe(Recipe recipe);
+    void DeleteRecipe(string id);
+    void UpdateRecipe(Recipe recipe);
 }

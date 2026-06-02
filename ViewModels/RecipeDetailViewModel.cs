@@ -59,6 +59,8 @@ public class RecipeDetailViewModel : BaseViewModel
     public ICommand SpeakRecipeCommand { get; }
     public ICommand StopSpeakingCommand { get; }
     public ICommand GoBackCommand { get; }
+    public ICommand DeleteRecipeCommand { get; }
+    public ICommand EditRecipeCommand { get; }
 
     public RecipeDetailViewModel(IRecipeService recipes,
                                   IMealPlanService mealPlan,
@@ -78,6 +80,28 @@ public class RecipeDetailViewModel : BaseViewModel
         {
             _haptic.PerformClick();
             await Shell.Current.GoToAsync("..");
+        });
+
+        EditRecipeCommand = new Command(async () =>
+        {
+            _haptic.PerformClick();
+            if (Recipe == null) return;
+            // Navigate to QuickAdd with existing recipe data for editing
+            await Shell.Current.GoToAsync($"quickadd?photo={Uri.EscapeDataString(Recipe.ImageUrl)}&editId={Uri.EscapeDataString(Recipe.Id)}");
+        });
+
+        DeleteRecipeCommand = new Command(async () =>
+        {
+            _haptic.PerformLongPress();
+            if (Recipe == null) return;
+            bool confirm = await Shell.Current.DisplayAlert(
+                "Delete Recipe", $"Are you sure you want to delete \"{Recipe.Name}\"? This cannot be undone.", "Delete", "Cancel");
+            if (confirm)
+            {
+                _recipes.DeleteRecipe(Recipe.Id);
+                await Shell.Current.DisplayAlert("Deleted", $"{Recipe.Name} has been removed.", "OK");
+                await Shell.Current.GoToAsync("..");
+            }
         });
     }
 

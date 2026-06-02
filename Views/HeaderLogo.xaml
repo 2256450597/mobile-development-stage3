@@ -6,10 +6,10 @@
         <Grid ColumnDefinitions="*,Auto" Padding="16,14,12,12"
               BackgroundColor="{AppThemeBinding Light=#FEF7F0, Dark=#1E1C18}">
             <VerticalStackLayout Grid.Column="0" Spacing="0">
-                <Label Text="Tasty Meal Planner" FontSize="30"
+                <Label Text="Nosh Your Nosh" FontSize="30"
                        FontFamily="Pacifico"
                        TextColor="{AppThemeBinding Light=#333333, Dark=#EBE8E0}"
-                       SemanticProperties.Description="Tasty Meal Planner home">
+                       SemanticProperties.Description="Nosh Your Nosh home">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnLogoTapped" />
                     </Label.GestureRecognizers>

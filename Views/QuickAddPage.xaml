@@ -21,7 +21,8 @@
                         Stroke="{AppThemeBinding Light={StaticResource Light_Border}, Dark={StaticResource Dark_Border_Alt}}"
                         Padding="0" HeightRequest="200"
                         BackgroundColor="#1A1A2E">
-                    <Image Source="{Binding PhotoPath}" Aspect="AspectFill" />
+                    <Image Source="{Binding PhotoPath}" Aspect="AspectFill"
+                           SemanticProperties.Description="Recipe photo from camera" />
                 </Border>
 
                 <!-- Form card with 12px radius and shadow -->

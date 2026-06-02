@@ -16,10 +16,12 @@ public class ClassificationResult
     public bool Success { get; set; }
     /// <summary>Top-N predictions ordered by confidence descending.</summary>
     public List<ClassificationPrediction> Predictions { get; set; } = new();
+    /// <summary>Error message if classification failed; null if successful.</summary>
+    public string? Error { get; set; }
     /// <summary>Human-readable summary for UI display.</summary>
     public string Summary => Success && Predictions.Count > 0
         ? $"Top prediction: {Predictions[0].Label} ({Predictions[0].Confidence:F1}%)"
-        : "Classification failed or model not available.";
+        : Error ?? "Classification failed or model not available.";
 }
 
 /// <summary>ML-powered food image classifier. Runs an ONNX model exported from

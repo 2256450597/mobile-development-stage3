@@ -127,7 +127,8 @@
                         <VerticalStackLayout>
                             <Grid>
                                 <Image Source="{Binding ImageUrl}" HeightRequest="140"
-                                       Aspect="AspectFill" />
+                                       Aspect="AspectFill"
+                                       SemanticProperties.Description="{Binding Name, StringFormat='Photo of {0}'}" />
                                 <Border StrokeThickness="0" StrokeShape="RoundRectangle 3"
                                         BackgroundColor="{Binding Category, Converter={StaticResource CategoryToColor}}"
                                         Padding="8,3" HorizontalOptions="End" VerticalOptions="End"

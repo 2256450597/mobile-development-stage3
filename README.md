@@ -28,7 +28,21 @@ Tasty Meal Planner helps users organise their weekly meals, discover new recipes
 
 ## Screenshots
 
-> Add app screenshots here before final submission. Recommended: home screen, recipe detail, meal planner, shopping list, nearby stores, and settings page. Show both light and dark mode.
+| Home | Recipes |
+|------|---------|
+| ![Home](screenshots/1.JPG) | ![Recipes](screenshots/2.JPG) |
+
+| Recipe Detail | Meal Plan |
+|---------------|-----------|
+| ![Recipe Detail](screenshots/3.JPG) | ![Meal Plan](screenshots/4.JPG) |
+
+| Camera + ML | Nearby + Compass |
+|-------------|------------------|
+| ![Camera](screenshots/6.JPG) | ![Nearby](screenshots/7.JPG) |
+
+| Dark Mode |
+|-----------|
+| ![Dark Mode](screenshots/9.JPG) |
 
 ## Getting Started
 
@@ -112,7 +126,7 @@ This app follows **WCAG 2.1** accessibility guidelines with specific principle r
 - **1.1.1 Non-text Content** (`SemanticProperties.Description` on all images, buttons, and interactive elements)
 - **1.3.1 Info and Relationships** (`SemanticProperties.HeadingLevel` Level1/Level2 on section headers)
 - **1.4.3 Contrast (Minimum)** — AA compliance: 4.5:1 normal text, 3:1 large text (verified via AppThemeBinding)
-- **1.4.4 Resize Text** — Three font sizes (Small 0.85×, Medium 1.0×, Large 1.3×) via Settings page
+- **1.4.4 Resize Text** — Three font sizes (Small 0.92×, Medium 1.0×, Large 1.18×) via Settings page
 
 **Principle 2 — Operable**
 - **2.4.2 Page Titled** — Every page has a descriptive `Title`
@@ -153,7 +167,7 @@ Required permissions:
 
 ## Author
 
-RongXiao Liu — Built for 6G6Z0014 Mobile Computing, Manchester Metropolitan University (2024/25).
+Kairui Liu — Built for Mobile Computing (6G6Z0045_2526_9FHU), Manchester Metropolitan University.
 
 ## Technologies
 

@@ -26,7 +26,8 @@
                 <!-- === Hero Image with Floating Recipe Name === -->
                 <Grid HeightRequest="240">
                     <Image Source="{Binding Recipe.ImageUrl}"
-                           Aspect="AspectFill" HeightRequest="240" />
+                           Aspect="AspectFill" HeightRequest="240"
+                           SemanticProperties.Description="{Binding Recipe.Name, StringFormat='Photo of {0}'}" />
                     <BoxView HeightRequest="120" VerticalOptions="End">
                         <BoxView.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -168,6 +169,25 @@
                     Padding="20,12" BorderWidth="0"
                     Command="{Binding AddToMealPlanCommand}"
                     SemanticProperties.Description="Add this recipe to your meal plan" />
+
+            <!-- Edit + Delete row -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Button Grid.Column="0"
+                        Text="Edit Recipe"
+                        Style="{StaticResource SecondaryButton}"
+                        Command="{Binding EditRecipeCommand}"
+                        SemanticProperties.Description="Edit this recipe" />
+                <Button Grid.Column="1"
+                        Text="Delete"
+                        BackgroundColor="Transparent"
+                        TextColor="{StaticResource Error}"
+                        FontAttributes="Bold"
+                        CornerRadius="10" Padding="14,10" FontSize="14"
+                        BorderWidth="2"
+                        BorderColor="{StaticResource Error}"
+                        Command="{Binding DeleteRecipeCommand}"
+                        SemanticProperties.Description="Delete this recipe" />
+            </Grid>
 
             <!-- Secondary row: Speak + Fav -->
             <Grid ColumnDefinitions="*,*" ColumnSpacing="10">

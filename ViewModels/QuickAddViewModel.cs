@@ -6,8 +6,10 @@ namespace TastyMealPlanner.ViewModels;
 
 /// <summary>Handles quick recipe creation from a captured or picked photo.
 /// Receives the photo path via the "photo" query parameter and allows the user
-/// to enter a name, category, and optional nutritional details before saving.</summary>
+/// to enter a name, category, and optional nutritional details before saving.
+/// When "editId" is provided, loads existing recipe data for editing.</summary>
 [QueryProperty(nameof(PhotoPath), "photo")]
+[QueryProperty(nameof(EditId), "editId")]
 public class QuickAddViewModel : BaseViewModel
 {
     private readonly IRecipeService _recipes;
@@ -19,6 +21,26 @@ public class QuickAddViewModel : BaseViewModel
     {
         get => _photoPath;
         set => SetProperty(ref _photoPath, value);
+    }
+
+    /// <summary>Existing recipe ID when editing; empty for new recipes.</summary>
+    private string _editId = string.Empty;
+    public string EditId
+    {
+        get => _editId;
+        set
+        {
+            if (SetProperty(ref _editId, value))
+                _ = LoadExistingRecipe(value);
+        }
+    }
+
+    private bool _isEditing;
+    /// <summary>Whether the form is in edit mode (updating an existing recipe).</summary>
+    public bool IsEditing
+    {
+        get => _isEditing;
+        set => SetProperty(ref _isEditing, value);
     }
 
     /// <summary>User-entered recipe name (required before saving).</summary>
@@ -127,8 +149,29 @@ public class QuickAddViewModel : BaseViewModel
         });
     }
 
+    /// <summary>Loads an existing recipe's data into the form fields when editing.</summary>
+    private async Task LoadExistingRecipe(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id)) return;
+        // Small delay to ensure all properties are bound before loading
+        await Task.Delay(50);
+        var existing = _recipes.GetRecipeById(id);
+        if (existing == null) return;
+
+        IsEditing = true;
+        Title = "Edit Recipe";
+        RecipeName = existing.Name;
+        SelectedCategory = existing.Category;
+        PhotoPath = existing.ImageUrl;
+        CaloriesText = existing.Calories > 0 ? existing.Calories.ToString() : string.Empty;
+        PrepTimeText = existing.PrepTimeMinutes > 0 ? existing.PrepTimeMinutes.ToString() : string.Empty;
+        ServingsText = existing.Servings > 0 ? existing.Servings.ToString() : string.Empty;
+        SelectedDifficulty = existing.Difficulty;
+    }
+
     /// <summary>Validates required fields, builds a Recipe object, persists it via
-    /// the data service, and navigates back. Shows an error alert if saving fails.</summary>
+    /// the data service, and navigates back. Shows an error alert if saving fails.
+    /// In edit mode, updates the existing recipe instead of creating a new one.</summary>
     private async Task OnSave()
     {
         if (string.IsNullOrWhiteSpace(RecipeName))
@@ -172,22 +215,42 @@ public class QuickAddViewModel : BaseViewModel
             int.TryParse(ServingsText, out var servings);
             if (servings < 0) servings = 0;
 
-            var recipe = new Recipe
+            if (IsEditing)
             {
-                Name = RecipeName.Trim(),
-                Category = SelectedCategory,
-                ImageUrl = PhotoPath,
-                Description = "Added from camera capture.",
-                Ingredients = new List<string> { "Add ingredients later" },
-                Instructions = new List<string> { "Add instructions later" },
-                Calories = calories,
-                PrepTimeMinutes = prepTime,
-                Servings = servings,
-                Difficulty = SelectedDifficulty
-            };
+                // Update existing recipe
+                var existing = _recipes.GetRecipeById(EditId);
+                if (existing != null)
+                {
+                    existing.Name = RecipeName.Trim();
+                    existing.Category = SelectedCategory;
+                    existing.ImageUrl = PhotoPath;
+                    existing.Calories = calories;
+                    existing.PrepTimeMinutes = prepTime;
+                    existing.Servings = servings;
+                    existing.Difficulty = SelectedDifficulty;
+                    _recipes.UpdateRecipe(existing);
+                }
+                await Shell.Current.DisplayAlert("Updated", $"{RecipeName.Trim()} has been updated.", "OK");
+            }
+            else
+            {
+                var recipe = new Recipe
+                {
+                    Name = RecipeName.Trim(),
+                    Category = SelectedCategory,
+                    ImageUrl = PhotoPath,
+                    Description = "Added from camera capture.",
+                    Ingredients = new List<string> { "Add ingredients later" },
+                    Instructions = new List<string> { "Add instructions later" },
+                    Calories = calories,
+                    PrepTimeMinutes = prepTime,
+                    Servings = servings,
+                    Difficulty = SelectedDifficulty
+                };
 
-            _recipes.AddRecipe(recipe);
-            await Shell.Current.DisplayAlert("Saved", $"{recipe.Name} has been added to your recipes.", "OK");
+                _recipes.AddRecipe(recipe);
+                await Shell.Current.DisplayAlert("Saved", $"{recipe.Name} has been added to your recipes.", "OK");
+            }
             await Shell.Current.GoToAsync("../..");
         }
         catch (Exception ex)

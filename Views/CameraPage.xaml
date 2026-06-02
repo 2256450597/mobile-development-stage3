@@ -35,7 +35,8 @@
 
                 <!-- Photo captured -->
                 <Image Source="{Binding PhotoPath}" Aspect="AspectFill"
-                       IsVisible="{Binding HasPhoto}" />
+                       IsVisible="{Binding HasPhoto}"
+                       SemanticProperties.Description="Captured food photo preview" />
 
                 <!-- ML classification chip -->
                 <Border VerticalOptions="Start" HorizontalOptions="Center"
