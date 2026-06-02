@@ -239,7 +239,12 @@ public class RecipesViewModel : BaseViewModel
         Recipes.Clear();
         List<Recipe> results;
 
-        if (!string.IsNullOrWhiteSpace(SearchText))
+        if (!string.IsNullOrWhiteSpace(SearchText) && SelectedCategory.HasValue)
+            results = _recipes.GetRecipesByCategory(SelectedCategory.Value)
+                .Where(r => r.Name.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())
+                         || r.Ingredients.Any(i => i.ToLowerInvariant().Contains(SearchText.ToLowerInvariant())))
+                .ToList();
+        else if (!string.IsNullOrWhiteSpace(SearchText))
             results = _recipes.SearchRecipes(SearchText);
         else if (SelectedCategory.HasValue)
             results = _recipes.GetRecipesByCategory(SelectedCategory.Value);
