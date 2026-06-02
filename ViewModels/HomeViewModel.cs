@@ -160,8 +160,7 @@ public class HomeViewModel : BaseViewModel
         });
 
         _accelerometer.ShakeDetected += OnShakeDetected;
-        try { _accelerometer.StartShakeDetection(); }
-        catch (Exception ex) { System.Diagnostics.Debug.WriteLine($"Shake detection unavailable: {ex.Message}"); }
+        _accelerometer.StartShakeDetection();
 
         LoadTodayMeals();
         LoadCollections();

@@ -33,7 +33,6 @@ public class AccelerometerService : IAccelerometerService
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Accel start error: {ex.Message}");
-            throw;
         }
     }
 
