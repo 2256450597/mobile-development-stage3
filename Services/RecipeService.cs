@@ -37,6 +37,20 @@ public class RecipeService : IRecipeService
 
     public void AddRecipe(Recipe recipe) => _recipes.Add(recipe);
 
+    public void DeleteRecipe(string id)
+    {
+        var recipe = _recipes.FirstOrDefault(r => r.Id == id);
+        if (recipe != null)
+            _recipes.Remove(recipe);
+    }
+
+    public void UpdateRecipe(Recipe updated)
+    {
+        var index = _recipes.FindIndex(r => r.Id == updated.Id);
+        if (index >= 0)
+            _recipes[index] = updated;
+    }
+
     private static List<Recipe> LoadFromJson()
     {
         try
@@ -52,7 +66,7 @@ public class RecipeService : IRecipeService
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Failed to load recipes.json: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"Failed to load recipes.json: {ex.Message}. Using empty recipe list.");
             return new();
         }
     }

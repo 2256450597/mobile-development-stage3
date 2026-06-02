@@ -25,7 +25,8 @@
                                 BackgroundColor="{AppThemeBinding Light=#FFF, Dark=#1A1A1A}">
                             <Grid>
                                 <Image Source="{Binding Recipes[0].ImageUrl}"
-                                       Aspect="AspectFill" HeightRequest="320" />
+                                       Aspect="AspectFill" HeightRequest="320"
+                                       SemanticProperties.Description="Featured recipe collection image" />
                                 <!-- Full gradient: dark at top for title, dark at bottom for text -->
                                 <BoxView HeightRequest="320" VerticalOptions="Fill">
                                     <BoxView.Background>
@@ -202,7 +203,8 @@
                                         </Border.Shadow>
                                         <Grid>
                                             <Image Source="{Binding Recipe.ImageUrl}"
-                                                   HeightRequest="175" Aspect="AspectFill" />
+                                                   HeightRequest="175" Aspect="AspectFill"
+                                                   SemanticProperties.Description="{Binding Recipe.Name, StringFormat='Photo of {0}'}" />
                                             <Label Text="&#xe87d;" FontSize="26"
                                                    FontFamily="MaterialIcons"
                                                    TextColor="#E53935"
@@ -318,7 +320,8 @@
                                                 <VerticalStackLayout>
                                                     <Grid>
                                                         <Image Source="{Binding ImageUrl}"
-                                                               HeightRequest="175" Aspect="AspectFill" />
+                                                               HeightRequest="175" Aspect="AspectFill"
+                                                               SemanticProperties.Description="{Binding Name, StringFormat='Photo of {0}'}" />
                                                         <Label Text="&#xe87d;" FontSize="24"
                                                                FontFamily="MaterialIcons"
                                                                TextColor="#E53935"
@@ -457,7 +460,8 @@
                 </Border.Shadow>
                 <VerticalStackLayout>
                     <Image Source="{Binding ShakeResult.ImageUrl}"
-                           HeightRequest="180" Aspect="AspectFill" />
+                           HeightRequest="180" Aspect="AspectFill"
+                           SemanticProperties.Description="{Binding ShakeResult.Name, StringFormat='Random recipe: {0}'}" />
                     <Grid ColumnDefinitions="*,Auto" Padding="16,12">
                         <Label Text="{Binding ShakeResult.Name}" FontSize="18"
                                FontAttributes="Bold" VerticalTextAlignment="Center"

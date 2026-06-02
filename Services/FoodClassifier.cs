@@ -18,6 +18,9 @@ public class FoodClassifier : IFoodClassifier
     /// <inheritdoc />
     public bool IsModelLoaded => _session != null && _labels.Count > 0;
 
+    /// <summary>Gets the last error message if model loading or classification failed.</summary>
+    public string? LastError { get; private set; }
+
     /// <summary>Loads the ONNX model and label file from app resources.
     /// Copies from the app package to app data directory on first launch
     /// because ONNX Runtime needs a file-system path (not a stream).</summary>
@@ -34,39 +37,75 @@ public class FoodClassifier : IFoodClassifier
             if (!File.Exists(labelsPath))
                 CopyFromPackage(LabelsFileName, labelsPath);
 
-            if (File.Exists(modelPath) && File.Exists(labelsPath))
+            if (!File.Exists(modelPath))
             {
-                _session = new InferenceSession(modelPath);
-                _labels = File.ReadAllLines(labelsPath)
-                    .Select(l => l.Trim())
-                    .Where(l => !string.IsNullOrEmpty(l))
-                    .ToList();
+                LastError = $"Model file '{ModelFileName}' not found. Add it to Resources/Raw.";
+                return;
+            }
+            if (!File.Exists(labelsPath))
+            {
+                LastError = $"Labels file '{LabelsFileName}' not found. Add it to Resources/Raw.";
+                return;
+            }
+
+            _session = new InferenceSession(modelPath);
+            _labels = File.ReadAllLines(labelsPath)
+                .Select(l => l.Trim())
+                .Where(l => !string.IsNullOrEmpty(l))
+                .ToList();
+
+            if (_labels.Count == 0)
+            {
+                LastError = "Labels file is empty. Ensure food_labels.txt contains at least one label.";
             }
         }
         catch (Exception ex)
         {
+            LastError = $"Model loading failed: {ex.Message}";
             System.Diagnostics.Debug.WriteLine($"Food classifier init failed: {ex.Message}");
         }
     }
 
     private static void CopyFromPackage(string filename, string destPath)
     {
-        using var stream = FileSystem.OpenAppPackageFileAsync(filename).Result;
-        using var file = File.Create(destPath);
-        stream.CopyTo(file);
+        try
+        {
+            using var stream = FileSystem.OpenAppPackageFileAsync(filename).Result;
+            using var file = File.Create(destPath);
+            stream.CopyTo(file);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Failed to copy {filename} from package: {ex.Message}");
+        }
     }
 
     /// <inheritdoc />
     public Task<ClassificationResult> ClassifyAsync(string imagePath)
     {
         if (!IsModelLoaded)
-            return Task.FromResult(new ClassificationResult { Success = false });
+            return Task.FromResult(new ClassificationResult
+            {
+                Success = false,
+                Error = LastError ?? "ML model is not loaded. Ensure food_model.onnx and food_labels.txt are in Resources/Raw."
+            });
+
+        if (!File.Exists(imagePath))
+            return Task.FromResult(new ClassificationResult
+            {
+                Success = false,
+                Error = $"Image file not found: {imagePath}. Please capture a new photo."
+            });
 
         try
         {
             using var bitmap = LoadAndPreprocess(imagePath);
             if (bitmap == null)
-                return Task.FromResult(new ClassificationResult { Success = false });
+                return Task.FromResult(new ClassificationResult
+                {
+                    Success = false,
+                    Error = "Unable to load or resize the image. The file may be corrupted or in an unsupported format."
+                });
 
             // Build input tensor: [1, 3, 224, 224] NCHW format (channels first)
             var inputData = new float[1 * 3 * ImageSize * ImageSize];
@@ -111,8 +150,13 @@ public class FoodClassifier : IFoodClassifier
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Classification failed: {ex.Message}");
-            return Task.FromResult(new ClassificationResult { Success = false });
+            var errorMsg = $"Classification error: {ex.Message}";
+            System.Diagnostics.Debug.WriteLine(errorMsg);
+            return Task.FromResult(new ClassificationResult
+            {
+                Success = false,
+                Error = $"Image classification failed. {ex.Message}. Please try with a clearer photo."
+            });
         }
     }
 

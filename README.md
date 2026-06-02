@@ -112,7 +112,7 @@ This app follows **WCAG 2.1** accessibility guidelines with specific principle r
 - **1.1.1 Non-text Content** (`SemanticProperties.Description` on all images, buttons, and interactive elements)
 - **1.3.1 Info and Relationships** (`SemanticProperties.HeadingLevel` Level1/Level2 on section headers)
 - **1.4.3 Contrast (Minimum)** — AA compliance: 4.5:1 normal text, 3:1 large text (verified via AppThemeBinding)
-- **1.4.4 Resize Text** — Three font sizes (Small 0.85×, Medium 1.0×, Large 1.3×) via Settings page
+- **1.4.4 Resize Text** — Three font sizes (Small 0.92×, Medium 1.0×, Large 1.18×) via Settings page
 
 **Principle 2 — Operable**
 - **2.4.2 Page Titled** — Every page has a descriptive `Title`

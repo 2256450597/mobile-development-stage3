@@ -154,7 +154,7 @@ public class CameraViewModel : BaseViewModel
             }
             else
             {
-                StatusMessage = "Classification failed. Try a clearer photo.";
+                StatusMessage = result.Error ?? "Classification failed. Try a clearer photo.";
                 ClassificationResult = null;
                 OnPropertyChanged(nameof(HasClassification));
             }
@@ -193,8 +193,9 @@ public class CameraViewModel : BaseViewModel
                 StatusMessage = "Camera was closed without capturing a photo.";
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            System.Diagnostics.Debug.WriteLine($"Camera capture failed: {ex.Message}");
             StatusMessage = "Unable to take a photo. Please check that camera permission is granted.";
         }
     }
@@ -245,8 +246,9 @@ public class CameraViewModel : BaseViewModel
                 StatusMessage = "No photo was selected.";
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            System.Diagnostics.Debug.WriteLine($"Gallery pick failed: {ex.Message}");
             StatusMessage = "Unable to open the photo gallery. Please check that storage permission is granted.";
         }
     }

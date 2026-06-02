@@ -41,7 +41,10 @@ public class AccelerometerService : IAccelerometerService
             Accelerometer.Default.ShakeDetected -= OnShake;
             Accelerometer.Default.Stop();
         }
-        catch { }
+        catch
+        {
+            System.Diagnostics.Debug.WriteLine("Failed to stop accelerometer monitoring.");
+        }
         finally { _monitoring = false; }
     }
 
