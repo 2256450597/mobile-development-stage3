@@ -13,7 +13,6 @@
        Shell.TabBarUnselectedColor="{AppThemeBinding Light=#B0ADB0, Dark=#6B6770}"
        Shell.TabBarTitleColor="#E8784A">
 
-    <!-- Floating capsule tab bar effect via padding/margin -->
     <Shell.Resources>
         <Style TargetType="TabBar">
             <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light=#F8F6F2, Dark=#141412}" />
@@ -25,7 +24,7 @@
                       ContentTemplate="{DataTemplate views:HomePage}"
                       Route="home">
             <ShellContent.Icon>
-                <FontImageSource Glyph="&#x2302;" Size="20"
+                <FontImageSource Glyph="&#xe88a;" Size="20" FontFamily="MaterialIcons"
                                  Color="{AppThemeBinding Light=#B0ADB0, Dark=#6B6770}" />
             </ShellContent.Icon>
         </ShellContent>
@@ -34,7 +33,7 @@
                       ContentTemplate="{DataTemplate views:RecipesPage}"
                       Route="recipes">
             <ShellContent.Icon>
-                <FontImageSource Glyph="&#x2630;" Size="18"
+                <FontImageSource Glyph="&#xe561;" Size="18" FontFamily="MaterialIcons"
                                  Color="{AppThemeBinding Light=#B0ADB0, Dark=#6B6770}" />
             </ShellContent.Icon>
         </ShellContent>
@@ -43,7 +42,7 @@
                       ContentTemplate="{DataTemplate views:MealPlanPage}"
                       Route="mealplan">
             <ShellContent.Icon>
-                <FontImageSource Glyph="&#x25F7;" Size="18"
+                <FontImageSource Glyph="&#xe616;" Size="18" FontFamily="MaterialIcons"
                                  Color="{AppThemeBinding Light=#B0ADB0, Dark=#6B6770}" />
             </ShellContent.Icon>
         </ShellContent>
@@ -52,7 +51,7 @@
                       ContentTemplate="{DataTemplate views:ShoppingListPage}"
                       Route="shopping">
             <ShellContent.Icon>
-                <FontImageSource Glyph="&#x2611;" Size="18"
+                <FontImageSource Glyph="&#xf1af;" Size="18" FontFamily="MaterialIcons"
                                  Color="{AppThemeBinding Light=#B0ADB0, Dark=#6B6770}" />
             </ShellContent.Icon>
         </ShellContent>
@@ -61,7 +60,7 @@
                       ContentTemplate="{DataTemplate views:SettingsPage}"
                       Route="settings">
             <ShellContent.Icon>
-                <FontImageSource Glyph="&#x2699;" Size="20"
+                <FontImageSource Glyph="&#xe8b8;" Size="20" FontFamily="MaterialIcons"
                                  Color="{AppThemeBinding Light=#B0ADB0, Dark=#6B6770}" />
             </ShellContent.Icon>
         </ShellContent>
