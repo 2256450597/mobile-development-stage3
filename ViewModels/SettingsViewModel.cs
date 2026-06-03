@@ -176,7 +176,7 @@ public class SettingsViewModel : BaseViewModel
                     OnPropertyChanged(nameof(TtsButtonText));
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 await Shell.Current.DisplayAlert("TTS Error",
                     "Text-to-speech is currently unavailable. Please check your device's speech settings.", "OK");

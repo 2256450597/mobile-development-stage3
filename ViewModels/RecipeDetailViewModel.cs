@@ -179,7 +179,7 @@ public class RecipeDetailViewModel : BaseViewModel
 
             await _tts.SpeakAsync(text, 1.0f, TtsPitch);
         }
-        catch (Exception ex)
+        catch
         {
             await Shell.Current.DisplayAlert("TTS Error",
                 "Unable to read the recipe aloud. Please check your device's text-to-speech settings.", "OK");
