@@ -140,12 +140,19 @@ public class SettingsViewModel : BaseViewModel
                 "Version 1.0\n\nA meal planning app to help you organise your weekly meals, " +
                 "discover new recipes, and manage your shopping list.\n\n" +
                 "Built with .NET MAUI for 6G6Z0014 Mobile Computing.\n\n" +
-                "Accessibility:\n" +
-                "• WCAG 2.1 AA compliant colour contrast\n" +
-                "• Dark mode support\n" +
-                "• Adjustable font sizes\n" +
-                "• Screen reader semantic descriptions\n" +
-                "• Touch targets ≥ 44pt\n\n" +
+                "Accessibility (WCAG 2.1):\n" +
+                "1.1.1 Non-text Content — semantic descriptions on all images\n" +
+                "1.3.1 Info & Relationships — HeadingLevel semantics\n" +
+                "1.4.3 Contrast (Minimum) — AA-compliant colour contrast\n" +
+                "1.4.4 Resize Text — adjustable font sizes (S/M/L)\n" +
+                "2.2.2 Pause, Stop, Hide — TTS Stop button\n" +
+                "2.4.2 Page Titled — every page has a descriptive title\n" +
+                "2.5.5 Target Size — touch targets ≥ 44pt\n" +
+                "3.2.3 Consistent Navigation — Shell tab bar\n" +
+                "3.3.1 Error Identification — clear validation errors\n" +
+                "3.3.2 Labels or Instructions — input guidance labels\n" +
+                "4.1.2 Name, Role, Value — full semantic property coverage\n" +
+                "Dark Mode — full light/dark theme support\n\n" +
                 "Hardware Features (7):\n" +
                 "• Camera + Flash - capture food photos with torch control\n" +
                 "• GPS Location - find nearby stores\n" +
